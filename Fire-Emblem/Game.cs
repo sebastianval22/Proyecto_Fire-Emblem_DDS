@@ -15,6 +15,16 @@ public class Game
 
     public void Play()
     {
-        throw new NotImplementedException();
+        var teamSetup = new TeamSetup(_view, _teamsFolder);
+        teamSetup.SetupTeams();
+        if (teamSetup.TeamsValid)
+        {
+            // Juego 
+        }
+        else
+        {
+            _view.WriteLine("Archivo de equipos no válido");
+        }
     }
+
 }

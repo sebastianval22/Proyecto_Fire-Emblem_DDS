@@ -15,3 +15,4 @@
 /Users/sebastianvalencia/Desktop/Diseño Detallado de Software/Proyecto/Fire-Emblem/Fire-Emblem.Tests/obj/Debug/net8.0/Fire-Emblem.Tests.dll
 /Users/sebastianvalencia/Desktop/Diseño Detallado de Software/Proyecto/Fire-Emblem/Fire-Emblem.Tests/obj/Debug/net8.0/refint/Fire-Emblem.Tests.dll
 /Users/sebastianvalencia/Desktop/Diseño Detallado de Software/Proyecto/Fire-Emblem/Fire-Emblem.Tests/obj/Debug/net8.0/Fire-Emblem.Tests.pdb
+/Users/sebastianvalencia/Desktop/Diseño Detallado de Software/Proyecto/Fire-Emblem/Fire-Emblem.Tests/obj/Debug/net8.0/Fire-Emblem.Tests.sourcelink.json
