@@ -1,6 +1,0 @@
-Player 1 Team
-Chrom
-Camilla
-Ike
-Player 2 Team
-Tiki

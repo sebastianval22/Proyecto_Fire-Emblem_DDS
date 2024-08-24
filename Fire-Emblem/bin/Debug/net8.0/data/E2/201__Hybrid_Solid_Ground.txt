@@ -1,8 +1,0 @@
-Player 1 Team
-Eliwood (Solid Ground)
-Corrin (Solid Ground)
-Roy (Solid Ground)
-Player 2 Team
-Eirika (Solid Ground)
-Robin (Solid Ground)
-Seliph

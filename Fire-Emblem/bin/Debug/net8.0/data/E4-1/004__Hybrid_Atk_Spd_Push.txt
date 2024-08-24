@@ -1,8 +1,0 @@
-Player 1 Team
-Camilla (Atk/Spd Push)
-Chrom
-Shez (Atk/Spd Push)
-Player 2 Team
-Claude
-Edelgard (Atk/Spd Push)
-Ephraim

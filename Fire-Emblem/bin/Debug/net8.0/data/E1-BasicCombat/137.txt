@@ -1,7 +1,0 @@
-Player 1 Team
-Ephraim
-Sigurd
-Player 2 Team
-Shez
-Chrom
-Soren

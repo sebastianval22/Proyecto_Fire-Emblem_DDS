@@ -1,7 +1,0 @@
-Player 1 Team
-Alm
-Lucina
-Ike
-Player 2 Team
-Sigurd
-Tiki

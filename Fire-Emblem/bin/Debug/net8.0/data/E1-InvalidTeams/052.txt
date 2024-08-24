@@ -1,5 +1,0 @@
-Player 1 Team
-Chrom (Atk/Res Push)
-Player 2 Team
-Ike (Bracing Stance,Charmer,Wily Fighter)
-Robin (Atk/Res Push)

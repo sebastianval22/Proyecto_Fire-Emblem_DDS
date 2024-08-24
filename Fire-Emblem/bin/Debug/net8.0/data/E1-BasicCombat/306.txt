@@ -1,7 +1,0 @@
-Player 1 Team
-Veronica
-Leif
-Player 2 Team
-Celica
-Ephraim
-Eliwood

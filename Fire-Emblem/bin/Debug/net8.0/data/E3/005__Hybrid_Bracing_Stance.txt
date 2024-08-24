@@ -1,8 +1,0 @@
-Player 1 Team
-Ike
-Soren
-Edelgard (Bracing Stance)
-Player 2 Team
-Camilla (Bracing Stance)
-Micaiah (Bracing Stance)
-Marth

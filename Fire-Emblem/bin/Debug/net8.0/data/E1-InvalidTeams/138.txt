@@ -1,7 +1,0 @@
-Player 1 Team
-Soren (Bushido,Bushido)
-Chrom (Wyvern Flight)
-Celica (Guard Bearing)
-Player 2 Team
-Claude (New Divinity)
-Seliph (Poetic Justice)

@@ -1,8 +1,0 @@
-Player 1 Team
-Lucina
-Marth
-Leif
-Player 2 Team
-Shez
-Ike
-Micaiah

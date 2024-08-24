@@ -1,8 +1,0 @@
-Player 1 Team
-Claude
-Alm
-Corrin
-Player 2 Team
-Soren
-Veronica
-Shez

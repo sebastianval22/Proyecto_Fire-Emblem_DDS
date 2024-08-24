@@ -1,7 +1,0 @@
-Player 1 Team
-Chrom
-Leif
-Player 2 Team
-Soren
-Ephraim
-Camilla

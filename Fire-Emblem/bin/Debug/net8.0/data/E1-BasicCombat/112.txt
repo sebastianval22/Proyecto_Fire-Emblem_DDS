@@ -1,7 +1,0 @@
-Player 1 Team
-Marth
-Sigurd
-Player 2 Team
-Dimitri
-Eirika
-Lucina

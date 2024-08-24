@@ -1,7 +1,0 @@
-Player 1 Team
-Camilla
-Roy
-Sigurd
-Player 2 Team
-Ike
-Ephraim

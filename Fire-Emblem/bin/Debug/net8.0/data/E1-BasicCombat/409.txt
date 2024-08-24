@@ -1,6 +1,0 @@
-Player 1 Team
-Edelgard
-Soren
-Player 2 Team
-Tiki
-Soren

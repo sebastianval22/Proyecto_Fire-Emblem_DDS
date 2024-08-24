@@ -1,7 +1,0 @@
-Player 1 Team
-Claude (Disarming Sigh,Sword Agility)
-Marth (Swift Strike)
-Edelgard (Flow Feather)
-Player 2 Team
-Corrin (Solid Ground)
-Dimitri (Aegis Shield,Hliðskjálf)

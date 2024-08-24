@@ -1,8 +1,0 @@
-Player 1 Team
-Micaiah
-Ephraim
-Alear
-Player 2 Team
-Alear
-Lucina
-Marth

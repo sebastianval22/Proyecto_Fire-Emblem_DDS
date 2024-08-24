@@ -1,7 +1,0 @@
-Player 1 Team
-Celica
-Robin
-Roy
-Player 2 Team
-Chrom
-Leif

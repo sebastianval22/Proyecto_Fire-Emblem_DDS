@@ -1,8 +1,0 @@
-Player 1 Team
-Seliph
-Alear
-Eliwood
-Player 2 Team
-Hector
-Tiki
-Ike

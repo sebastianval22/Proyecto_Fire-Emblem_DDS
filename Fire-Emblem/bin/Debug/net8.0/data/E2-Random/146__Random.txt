@@ -1,5 +1,0 @@
-Player 1 Team
-Robin (Spd/Res +5)
-Player 2 Team
-Eliwood (Bracing Blow)
-Micaiah (Fair Fight)

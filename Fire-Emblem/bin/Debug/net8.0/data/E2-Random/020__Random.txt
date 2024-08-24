@@ -1,4 +1,0 @@
-Player 1 Team
-Robin (Brazen Spd/Res,Resistance +5)
-Player 2 Team
-Alm (Beorc's Blessing,Resistance +5)

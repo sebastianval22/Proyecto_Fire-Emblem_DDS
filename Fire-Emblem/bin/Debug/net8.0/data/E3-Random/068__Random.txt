@@ -1,7 +1,0 @@
-Player 1 Team
-Marth (Gentility)
-Sigurd
-Player 2 Team
-Alear (Steady Posture)
-Camilla (Steady Stance)
-Alm

@@ -1,7 +1,0 @@
-Player 1 Team
-Claude (Phys. Null Follow)
-Celica
-Player 2 Team
-Shez (Flow Flight)
-Roy
-Ephraim

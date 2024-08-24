@@ -1,8 +1,0 @@
-Player 1 Team
-Ike
-Soren
-Edelgard (Warding Stance)
-Player 2 Team
-Camilla (Warding Stance)
-Micaiah (Warding Stance)
-Marth

@@ -1,8 +1,0 @@
-Player 1 Team
-Chrom
-Ephraim
-Micaiah
-Player 2 Team
-Alm
-Soren
-Lyn

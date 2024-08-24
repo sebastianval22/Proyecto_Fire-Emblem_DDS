@@ -1,8 +1,0 @@
-Player 1 Team
-Ike
-Micaiah
-Lyn
-Player 2 Team
-Sigurd
-Leif
-Hector

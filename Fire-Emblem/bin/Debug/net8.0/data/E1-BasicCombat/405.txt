@@ -1,7 +1,0 @@
-Player 1 Team
-Robin
-Claude
-Player 2 Team
-Alear
-Celica
-Marth

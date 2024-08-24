@@ -1,6 +1,0 @@
-Player 1 Team
-Alm
-Player 2 Team
-Hector
-Roy
-Celica

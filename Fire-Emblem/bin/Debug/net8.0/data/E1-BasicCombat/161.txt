@@ -1,8 +1,0 @@
-Player 1 Team
-Ike
-Veronica
-Eliwood
-Player 2 Team
-Seliph
-Leif
-Robin

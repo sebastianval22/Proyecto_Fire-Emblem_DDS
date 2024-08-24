@@ -1,8 +1,0 @@
-Player 1 Team
-Veronica
-Dimitri (Nosferatu)
-Leif
-Player 2 Team
-Soren (Atk/Def Push,Spd/Def Push)
-Hector (Atk/Res Push)
-Veronica

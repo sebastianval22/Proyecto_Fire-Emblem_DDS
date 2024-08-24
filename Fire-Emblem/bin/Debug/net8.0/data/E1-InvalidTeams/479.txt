@@ -1,7 +1,0 @@
-Player 1 Team
-Byleth (Brazen Def/Res)
-Tiki (Poetic Justice)
-Byleth (Bracing Blow)
-Player 2 Team
-Claude (Divine Recreation)
-Edelgard (Brazen Spd/Def)

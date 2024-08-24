@@ -1,8 +1,0 @@
-Player 1 Team
-Byleth
-Sigurd
-Soren
-Player 2 Team
-Shez
-Seliph
-Camilla

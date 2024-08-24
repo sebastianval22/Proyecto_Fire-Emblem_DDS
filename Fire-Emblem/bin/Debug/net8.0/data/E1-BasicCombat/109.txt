@@ -1,7 +1,0 @@
-Player 1 Team
-Eirika
-Marth
-Player 2 Team
-Chrom
-Dimitri
-Edelgard

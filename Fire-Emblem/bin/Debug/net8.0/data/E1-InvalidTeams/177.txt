@@ -1,4 +1,0 @@
-Player 1 Team
-Player 2 Team
-Robin (Atk/Def +5)
-Claude (Spd Preempt)

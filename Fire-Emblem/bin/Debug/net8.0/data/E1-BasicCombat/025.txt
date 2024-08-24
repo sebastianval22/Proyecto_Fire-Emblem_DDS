@@ -1,7 +1,0 @@
-Player 1 Team
-Eirika
-Camilla
-Player 2 Team
-Soren
-Dimitri
-Veronica

@@ -1,8 +1,0 @@
-Player 1 Team
-Ike
-Byleth
-Eirika
-Player 2 Team
-Dimitri
-Ike
-Shez
