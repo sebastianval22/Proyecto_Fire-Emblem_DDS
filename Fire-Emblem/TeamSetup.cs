@@ -29,6 +29,7 @@ public class TeamSetup
         {
             string teamFile = files[index];
             List<List<Unit>> teams_info = ObtainTeams(teamFile);
+            
             CheckTeams(teams_info);
         }
         else
