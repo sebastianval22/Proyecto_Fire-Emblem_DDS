@@ -1,7 +1,0 @@
-Player 1 Team
-Alear (Magic Guard)
-Shez (Mirror Stance)
-Robin (Bow Focus)
-Player 2 Team
-Lyn (Poetic Justice)
-Lyn (HP +15)

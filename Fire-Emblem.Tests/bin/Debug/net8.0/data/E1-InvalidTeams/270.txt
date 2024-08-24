@@ -1,7 +1,0 @@
-Player 1 Team
-Edelgard (Swift Stance,Swift Stance)
-Camilla (Bow Focus)
-Ike (Brash Assault)
-Player 2 Team
-Robin (Death Blow)
-Hector (Nosferatu)

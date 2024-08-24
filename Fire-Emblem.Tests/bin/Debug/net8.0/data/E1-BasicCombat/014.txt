@@ -1,7 +1,0 @@
-Player 1 Team
-Robin
-Chrom
-Hector
-Player 2 Team
-Ephraim
-Chrom

@@ -1,6 +1,0 @@
-Player 1 Team
-Celica
-Player 2 Team
-Roy
-Veronica
-Leif

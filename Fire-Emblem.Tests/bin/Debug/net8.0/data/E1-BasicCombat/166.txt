@@ -1,7 +1,0 @@
-Player 1 Team
-Claude
-Ike
-Player 2 Team
-Eirika
-Micaiah
-Chrom

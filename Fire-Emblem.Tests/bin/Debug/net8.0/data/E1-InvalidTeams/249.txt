@@ -1,8 +1,0 @@
-Player 1 Team
-Eirika (Swift Sparrow)
-Player 2 Team
-Corrin (Wind Boost)
-Sigurd (Luna)
-Shez (Magic Guard)
-Leif (Brash Assault)
-Camilla (Fair Fight)

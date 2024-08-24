@@ -1,7 +1,0 @@
-Player 1 Team
-Alm
-Edelgard
-Player 2 Team
-Hector
-Eliwood
-Sigurd

@@ -1,6 +1,0 @@
-Player 1 Team
-Robin
-Alear
-Claude
-Player 2 Team
-Marth (Windsweep,Atk/Def Push)

@@ -1,7 +1,0 @@
-Player 1 Team
-Sigurd
-Marth
-Edelgard
-Player 2 Team
-Ike
-Chrom

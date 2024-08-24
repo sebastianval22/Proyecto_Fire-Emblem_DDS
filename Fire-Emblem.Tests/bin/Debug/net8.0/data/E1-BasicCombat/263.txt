@@ -1,7 +1,0 @@
-Player 1 Team
-Alear
-Camilla
-Leif
-Player 2 Team
-Sigurd
-Robin

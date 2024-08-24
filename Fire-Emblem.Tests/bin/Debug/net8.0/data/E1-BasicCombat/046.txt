@@ -1,7 +1,0 @@
-Player 1 Team
-Roy
-Claude
-Marth
-Player 2 Team
-Byleth
-Leif

@@ -1,8 +1,0 @@
-Player 1 Team
-Lyn (Bracing Blow)
-Sigurd (Sword Agility,Resolve)
-Ike
-Player 2 Team
-Hector
-Byleth (Warding Blow)
-Chrom (Bow Guard)

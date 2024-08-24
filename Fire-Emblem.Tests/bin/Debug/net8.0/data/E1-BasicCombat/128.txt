@@ -1,8 +1,0 @@
-Player 1 Team
-Dimitri
-Chrom
-Sigurd
-Player 2 Team
-Celica
-Veronica
-Edelgard

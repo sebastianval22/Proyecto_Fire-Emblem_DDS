@@ -1,4 +1,0 @@
-Player 1 Team
-Hector (Lull Atk/Spd)
-Player 2 Team
-Celica (HP +15)

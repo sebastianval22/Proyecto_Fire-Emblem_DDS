@@ -1,8 +1,0 @@
-Player 1 Team
-Lyn (Bewitching Tome)
-Chrom (Bewitching Tome)
-Ike
-Player 2 Team
-Celica (Bewitching Tome)
-Tiki
-Lyn

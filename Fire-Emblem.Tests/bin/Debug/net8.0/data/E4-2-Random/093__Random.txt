@@ -1,6 +1,0 @@
-Player 1 Team
-Hector
-Eliwood
-Marth (Brash Assault,Range Breaker)
-Player 2 Team
-Roy (Null Follow-Up)

@@ -1,7 +1,0 @@
-Player 1 Team
-Tiki
-Soren
-Player 2 Team
-Dimitri
-Celica
-Seliph

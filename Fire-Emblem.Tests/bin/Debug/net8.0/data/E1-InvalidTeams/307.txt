@@ -1,4 +1,0 @@
-Player 1 Team
-Player 2 Team
-Claude (Fort. Def/Res)
-Alear (Lull Atk/Def)

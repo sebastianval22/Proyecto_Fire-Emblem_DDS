@@ -1,6 +1,0 @@
-Player 1 Team
-Tiki
-Lucina
-Player 2 Team
-Alm
-Shez

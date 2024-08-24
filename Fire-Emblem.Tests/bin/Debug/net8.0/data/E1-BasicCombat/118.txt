@@ -1,6 +1,0 @@
-Player 1 Team
-Ephraim
-Soren
-Player 2 Team
-Eliwood
-Celica

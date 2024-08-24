@@ -1,7 +1,0 @@
-Player 1 Team
-Lyn
-Hector
-Player 2 Team
-Robin
-Shez
-Tiki

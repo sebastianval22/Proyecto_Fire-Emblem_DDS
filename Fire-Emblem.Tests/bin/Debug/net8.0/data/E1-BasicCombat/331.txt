@@ -1,7 +1,0 @@
-Player 1 Team
-Ike
-Chrom
-Player 2 Team
-Chrom
-Lyn
-Lucina

@@ -1,6 +1,0 @@
-Player 1 Team
-Soren
-Marth (Spd/Res +5)
-Lyn
-Player 2 Team
-Soren

@@ -1,7 +1,0 @@
-Player 1 Team
-Byleth (Bravery,Sympathetic)
-Sigurd
-Celica
-Player 2 Team
-Roy (Bravery)
-Corrin

@@ -1,8 +1,0 @@
-Player 1 Team
-Robin
-Claude
-Leif
-Player 2 Team
-Soren
-Robin
-Camilla

@@ -1,7 +1,0 @@
-Player 1 Team
-Seliph (Nosferatu,Bewitching Tome)
-Roy (Resonance)
-Player 2 Team
-Lucina (Surprise Attack)
-Chrom (Sol)
-Soren (Spd/Res Push)

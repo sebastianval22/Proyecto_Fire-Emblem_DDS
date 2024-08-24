@@ -1,7 +1,0 @@
-Player 1 Team
-Ephraim (Sol)
-Chrom (Sol)
-Seliph (Sol)
-Player 2 Team
-Shez (Sol)
-Hector (Sol)

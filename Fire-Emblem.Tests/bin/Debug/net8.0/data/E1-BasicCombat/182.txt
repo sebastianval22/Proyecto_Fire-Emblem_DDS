@@ -1,6 +1,0 @@
-Player 1 Team
-Claude
-Player 2 Team
-Corrin
-Shez
-Chrom

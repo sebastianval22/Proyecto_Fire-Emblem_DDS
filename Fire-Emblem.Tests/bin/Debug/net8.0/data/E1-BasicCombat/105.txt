@@ -1,8 +1,0 @@
-Player 1 Team
-Sigurd
-Marth
-Lucina
-Player 2 Team
-Robin
-Celica
-Edelgard

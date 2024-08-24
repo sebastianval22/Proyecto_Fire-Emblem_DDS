@@ -1,7 +1,0 @@
-Player 1 Team
-Marth
-Byleth (Remote Sturdy)
-Eirika (Mirror Strike,Flow Flight)
-Player 2 Team
-Ike (Sturdy Stance)
-Claude (Swift Stance)

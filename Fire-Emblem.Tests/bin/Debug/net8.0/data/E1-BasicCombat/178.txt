@@ -1,8 +1,0 @@
-Player 1 Team
-Alm
-Leif
-Eirika
-Player 2 Team
-Veronica
-Claude
-Corrin

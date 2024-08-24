@@ -1,6 +1,0 @@
-Player 1 Team
-Hector (Pegasus Flight)
-Player 2 Team
-Marth (Quick Riposte)
-Ephraim (Quick Riposte,Sturdy Impact)
-Lyn

@@ -1,7 +1,0 @@
-Player 1 Team
-Celica
-Lyn
-Player 2 Team
-Chrom
-Claude
-Roy

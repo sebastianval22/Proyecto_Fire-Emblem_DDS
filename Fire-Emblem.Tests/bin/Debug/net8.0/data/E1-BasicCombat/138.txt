@@ -1,8 +1,0 @@
-Player 1 Team
-Marth
-Celica
-Eirika
-Player 2 Team
-Ike
-Robin
-Leif
