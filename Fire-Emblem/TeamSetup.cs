@@ -7,6 +7,7 @@ public class TeamSetup
     private string _teamsFolder;
     private View _view;
     private bool _teamsValid = true;
+    private string _teamFile;
     
     public TeamSetup(View view, string teamsFolder)
     {
@@ -25,10 +26,10 @@ public class TeamSetup
             _view.WriteLine($"{i}: {Path.GetFileName(files[i])}");
         }
         string option_chosen_team = _view.ReadLine();
-        if (int.TryParse(option_chosen_team, out int index) && index > 0 && index <= files.Length)
+        if (int.TryParse(option_chosen_team, out int index) && index <= files.Length)
         {
-            string teamFile = files[index];
-            List<List<Unit>> teams_info = ObtainTeams(teamFile);
+            _teamFile = files[index];
+            List<List<Unit>> teams_info = ObtainTeams();
             
             CheckTeams(teams_info);
         }
@@ -50,6 +51,7 @@ public class TeamSetup
             if (team.Count > 3 || team.Count < 1)
             {
                 _teamsValid = false;
+                _view.WriteLine("UNITCOUNT");
                 return;
             }
         }
@@ -59,9 +61,12 @@ public class TeamSetup
             List<string> teamUnits = new List<string>();
             foreach (Unit unit in team)
             {
+                _view.WriteLine(unit.DeathQuote);
                 if (teamUnits.Contains(unit.Name))
                 {
+                    _view.WriteLine("UNITREPEATED");
                     _teamsValid = false;
+                    
                     return;
                 }
                 teamUnits.Add(unit.Name);
@@ -75,6 +80,7 @@ public class TeamSetup
                 if (unit.Abilities.Count > 2)
                 {
                     _teamsValid = false;
+                    _view.WriteLine("ABILITYREPEATED");
                     return;
                 }
             }
@@ -90,6 +96,7 @@ public class TeamSetup
                     if (abilities.Contains(ability))
                     {
                         _teamsValid = false;
+                        _view.WriteLine("HABABABREPEATED");
                         return;
                     }
                     abilities.Add(ability);
@@ -97,9 +104,9 @@ public class TeamSetup
             }
         }
     }
-    public List<List<Unit>> ObtainTeams(string teamFile)
+    public List<List<Unit>> ObtainTeams()
     {
-        string[] team_file_lines = File.ReadAllLines(teamFile);
+        string[] team_file_lines = File.ReadAllLines(_teamFile);
         List<List<Unit>> teams_info = new List<List<Unit>>();
         List<Unit> currentTeam = null;
 
