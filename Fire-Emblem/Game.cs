@@ -19,7 +19,7 @@ public class Game
         teamSetup.SetupTeams();
         if (teamSetup.TeamsValid)
         {
-            // Juego 
+            // Juego f 
         }
         else
         {
