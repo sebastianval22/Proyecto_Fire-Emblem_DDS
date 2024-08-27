@@ -21,4 +21,17 @@ public class Unit
         var unitData = new UnitData();
         unitData.InitializeUnit(this);
     }
+
+    public void UpdateHPStatus(int damage)
+    {
+        Current_HP -= damage;
+        if (Current_HP <= 0)
+        {
+            Current_HP = 0;
+        }
+    }
+    public bool IsUnitAlive()
+    {
+        return Current_HP > 0;
+    }
 }

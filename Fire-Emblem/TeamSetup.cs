@@ -51,7 +51,6 @@ public class TeamSetup
             if (team.Count > 3 || team.Count < 1)
             {
                 _teamsValid = false;
-                _view.WriteLine("UNITCOUNT");
                 return;
             }
         }
@@ -61,10 +60,8 @@ public class TeamSetup
             List<string> teamUnits = new List<string>();
             foreach (Unit unit in team)
             {
-                _view.WriteLine(unit.DeathQuote);
                 if (teamUnits.Contains(unit.Name))
                 {
-                    _view.WriteLine("UNITREPEATED");
                     _teamsValid = false;
                     
                     return;
@@ -80,7 +77,6 @@ public class TeamSetup
                 if (unit.Abilities.Count > 2)
                 {
                     _teamsValid = false;
-                    _view.WriteLine("ABILITYREPEATED");
                     return;
                 }
             }
@@ -96,7 +92,6 @@ public class TeamSetup
                     if (abilities.Contains(ability))
                     {
                         _teamsValid = false;
-                        _view.WriteLine("HABABABREPEATED");
                         return;
                     }
                     abilities.Add(ability);
