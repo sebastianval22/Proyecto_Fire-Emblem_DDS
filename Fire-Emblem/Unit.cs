@@ -6,8 +6,8 @@ public class Unit
     public string Weapon { get; set; }
     public string Gender { get; set; }
     public string DeathQuote { get; set; }
-    public int Max_HP { get; set; }
-    public int Current_HP { get; set; }
+    public int MaxHP { get; set; }
+    public int CurrentHP { get; set; }
     public int Attack { get; set; }
     public int Speed { get; set; }
     public int Defence { get; set; }
@@ -24,14 +24,14 @@ public class Unit
 
     public void UpdateHPStatus(int damage)
     {
-        Current_HP -= damage;
-        if (Current_HP <= 0)
+        CurrentHP -= damage;
+        if (CurrentHP <= 0)
         {
-            Current_HP = 0;
+            CurrentHP = 0;
         }
     }
     public bool IsUnitAlive()
     {
-        return Current_HP > 0;
+        return CurrentHP > 0;
     }
 }

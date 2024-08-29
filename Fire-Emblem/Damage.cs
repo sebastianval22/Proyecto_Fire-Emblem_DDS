@@ -19,89 +19,62 @@ public class Damage
         _attacker = attacker;
         _defender = defender;
         _advantageFactor = DetermineAdvantageFactor();
-        var defense_points = DetermineDefensePoints();
-        var attack_points = (int)Math.Truncate(_attacker.Attack * _advantageFactor);
-        return (Math.Max(attack_points-defense_points, 0));
+        var defensePoints = DetermineDefensePoints();
+        var attackPoints = (int)Math.Truncate(_attacker.Attack * _advantageFactor);
+        return (Math.Max(attackPoints-defensePoints, 0));
     }
 
     private int DetermineDefensePoints()
     {
-        switch (_attacker.Weapon)
+        return _attacker.Weapon switch
         {
-            case "Magic":
-                return _defender.Resistence;
-            default:
-                return _defender.Defence;
-        }
+            "Magic" => _defender.Resistence,
+            _ => _defender.Defence
+        };
     }
-    private float DetermineAdvantageFactor()
-    {
-        switch (_attacker.Weapon)
+    
+    private float DetermineAdvantageFactor() =>
+        _attacker.Weapon switch
         {
-            case "Sword":
-                return DetermineAdvantageFactorSword();
-            case "Lance":
-                return DetermineAdvantageFactorLance();
-            case "Axe":
-                return DetermineAdvantageFactorAxe();
-            default:
-                return 1;
-        }
-    }
+            "Sword" => DetermineAdvantageFactorSword(),
+            "Lance" => DetermineAdvantageFactorLance(),
+            "Axe" => DetermineAdvantageFactorAxe(),
+            _ => 1
+        };
+    
+    
+    private float DetermineAdvantageFactorSword() =>
+        _defender.Weapon switch
+        {
+            "Lance" => 0.8f,
+            "Axe" => 1.2f,
+            _ => 1.0f
+        };
 
-    private float DetermineAdvantageFactorSword()
-    {
-        switch (_defender.Weapon)
+    private float DetermineAdvantageFactorLance() =>
+        _defender.Weapon switch
         {
-            case "Lance":
-                return 0.8f;
-            case "Axe":
-                return 1.2f;
-            default:
-                return 1.0f;
-        }
-    }
+            "Axe" => 0.8f,
+            "Sword" => 1.2f,
+            _ => 1.0f
+        };
 
-    private float DetermineAdvantageFactorLance()
-    {
-        switch (_defender.Weapon)
+    private float DetermineAdvantageFactorAxe() =>
+        _defender.Weapon switch
         {
-            case "Axe":
-                return 0.8f;
-            case "Sword":
-                return 1.2f;
-            default:
-                return 1.0f;
-        }
-    }
-
-    private float DetermineAdvantageFactorAxe()
-    {
-        switch (_defender.Weapon)
-        {
-            case "Sword":
-                return 0.8f;
-            case "Lance":
-                return 1.2f;
-            default:
-                return 1.0f;
-        }
-    }
+            "Sword" => 0.8f,
+            "Lance" => 1.2f,
+            _ => 1.0f
+        };
 
     public void ShowAdvantageMessage()
     {
-        if (_advantageFactor > 1)
+        string message = _advantageFactor switch
         {
-            _view.WriteLine($"{_attacker.Name} ({_attacker.Weapon}) tiene ventaja con respecto a {_defender.Name} ({_defender.Weapon})");
-        }
-        else if (_advantageFactor < 1)
-        {
-            _view.WriteLine($"{_defender.Name} ({_defender.Weapon}) tiene ventaja con respecto a {_attacker.Name} ({_attacker.Weapon})");
-        }
-        else
-        {
-            _view.WriteLine("Ninguna unidad tiene ventaja con respecto a la otra");
-        }
-        
+            > 1 => $"{_attacker.Name} ({_attacker.Weapon}) tiene ventaja con respecto a {_defender.Name} ({_defender.Weapon})",
+            < 1 => $"{_defender.Name} ({_defender.Weapon}) tiene ventaja con respecto a {_attacker.Name} ({_attacker.Weapon})",
+            _ => "Ninguna unidad tiene ventaja con respecto a la otra"
+        };
+        _view.WriteLine(message);
     }
 }

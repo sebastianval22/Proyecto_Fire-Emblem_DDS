@@ -27,8 +27,8 @@ public class UnitData
                 unit.Weapon = unitData.Weapon.Trim();
                 unit.Gender = unitData.Gender.Trim();
                 unit.DeathQuote = unitData.DeathQuote.Trim();
-                unit.Max_HP = int.Parse(unitData.HP.Trim());
-                unit.Current_HP = unit.Max_HP;
+                unit.MaxHP = int.Parse(unitData.HP.Trim());
+                unit.CurrentHP = unit.MaxHP;
                 unit.Attack = int.Parse(unitData.Atk.Trim());
                 unit.Speed = int.Parse(unitData.Spd.Trim());
                 unit.Defence = int.Parse(unitData.Def.Trim());

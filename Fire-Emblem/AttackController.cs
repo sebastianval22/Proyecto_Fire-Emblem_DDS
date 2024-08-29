@@ -14,25 +14,25 @@ public class AttackController
         _damage = new Damage(view);
     }
     
-    private void ExecuteAttack(Unit attacking_unit, Unit defending_unit, bool showAdvantage)
+    private void ExecuteAttack(Unit attackingUnit, Unit defendingUnit, bool showAdvantage)
     {
-        int damage_attack = _damage.CalculateDamage(attacking_unit, defending_unit);
+        int damageAttack = _damage.CalculateDamage(attackingUnit, defendingUnit);
         if (showAdvantage)
         {
             _damage.ShowAdvantageMessage();
         }
-        _view.WriteLine($"{attacking_unit.Name} ataca a {defending_unit.Name} con {damage_attack} de daño");
-        defending_unit.UpdateHPStatus(damage_attack);
+        _view.WriteLine($"{attackingUnit.Name} ataca a {defendingUnit.Name} con {damageAttack} de daño");
+        defendingUnit.UpdateHPStatus(damageAttack);
     }
 
-    public void Attack(Unit attacking_unit, Unit defending_unit)
+    public void Attack(Unit attackingUnit, Unit defendingUnit)
     {
-        ExecuteAttack(attacking_unit, defending_unit, false);
+        ExecuteAttack(attackingUnit, defendingUnit, false);
     }
 
-    public void FirstAttack(Unit attacking_unit, Unit defending_unit)
+    public void FirstAttack(Unit attackingUnit, Unit defendingUnit)
     {
-        ExecuteAttack(attacking_unit, defending_unit, true);
+        ExecuteAttack(attackingUnit, defendingUnit, true);
     }
 
 }

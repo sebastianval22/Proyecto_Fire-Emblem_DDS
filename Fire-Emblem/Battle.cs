@@ -6,11 +6,11 @@ public class Battle
 {
     private List<List<Unit>> _teams;
     private View _view;
-    private int _attacking_player_number = 1;
-    private int _defending_player_number = 2;
+    private int _attackingPlayerNumber = 1;
+    private int _defendingPlayerNumber = 2;
     private int _round = 1;
-    private Unit _attacking_unit;
-    private Unit _defending_unit;
+    private Unit _attackingUnit;
+    private Unit _defendingUnit;
     private AttackController _attackController;
     
     public Battle(View view, List<List<Unit>> teams)
@@ -24,16 +24,16 @@ public class Battle
     {
         while (_teams[0].Count > 0 && _teams[1].Count > 0)
         {   
-            _attacking_unit = ChooseUnit(_attacking_player_number);
-            _defending_unit = ChooseUnit(_defending_player_number);
-            _view.WriteLine($"Round {_round}: {_attacking_unit.Name} (Player {_attacking_player_number}) comienza");
-            _attackController.FirstAttack(_attacking_unit, _defending_unit);
+            _attackingUnit = ChooseUnit(_attackingPlayerNumber);
+            _defendingUnit = ChooseUnit(_defendingPlayerNumber);
+            _view.WriteLine($"Round {_round}: {_attackingUnit.Name} (Player {_attackingPlayerNumber}) comienza");
+            _attackController.FirstAttack(_attackingUnit, _defendingUnit);
             CounterAttack();
-            FollowUp();
+            FollowUpAttack();
             UpdateTeams();
-            _view.WriteLine($"{_attacking_unit.Name} ({_attacking_unit.Current_HP}) : {_defending_unit.Name} ({_defending_unit.Current_HP})");
+            _view.WriteLine($"{_attackingUnit.Name} ({_attackingUnit.CurrentHP}) : {_defendingUnit.Name} ({_defendingUnit.CurrentHP})");
             _round++;
-            (_attacking_player_number, _defending_player_number) = (_defending_player_number, _attacking_player_number);
+            (_attackingPlayerNumber, _defendingPlayerNumber) = (_defendingPlayerNumber, _attackingPlayerNumber);
 
         }
         if (_teams[0].Count == 0)
@@ -46,7 +46,7 @@ public class Battle
         }
     }                           
     
-    public void UpdateTeams()
+    private void UpdateTeams()
     {
         for (int i = 0; i < _teams.Count; i++)
         {
@@ -54,43 +54,42 @@ public class Battle
         }
     }
     
-    public void CounterAttack()
+    private void CounterAttack()
     {
         if (AreBothUnitsAlive())
         {
-            
-            _attackController.Attack(_defending_unit, _attacking_unit);
+            _attackController.Attack(_defendingUnit, _attackingUnit);
         }
         
     }
 
     private bool AreBothUnitsAlive()
     {
-        return (_attacking_unit.IsUnitAlive() && _defending_unit.IsUnitAlive());
+        return (_attackingUnit.IsUnitAlive() && _defendingUnit.IsUnitAlive());
     }
 
-    public void FollowUp()
+    private void FollowUpAttack()
     {
-        int difference_speed = _attacking_unit.Speed - _defending_unit.Speed;
+        var differenceSpeed = _attackingUnit.Speed - _defendingUnit.Speed;
         if (AreBothUnitsAlive())
         {
-            if (difference_speed >= 5)
+            switch (differenceSpeed)
             {
-                _attackController.Attack(_attacking_unit, _defending_unit);
+                case >= 5:
+                    _attackController.Attack(_attackingUnit, _defendingUnit);
+                    break;
+                case <= -5:
+                    _attackController.Attack(_defendingUnit, _attackingUnit);
+                    break;
+                default:
+                    _view.WriteLine("Ninguna unidad puede hacer un follow up");
+                    break;
             }
-            else if (difference_speed <= -5)
-
-            {
-                _attackController.Attack(_defending_unit, _attacking_unit);
-            }
-            else
-            {
-                _view.WriteLine("Ninguna unidad puede hacer un follow up");
-            }
-        }
         
+        }
     }
-    public Unit ChooseUnit(int player_number)
+    
+    private Unit ChooseUnit(int player_number)
     {
         List<Unit> team = _teams[player_number - 1];
         _view.WriteLine($"Player {player_number} selecciona una opción");

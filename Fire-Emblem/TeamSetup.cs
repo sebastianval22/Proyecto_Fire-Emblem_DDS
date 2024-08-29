@@ -7,46 +7,52 @@ public class TeamSetup
     private string _teamsFolder;
     private View _view;
     private bool _teamsValid = true;
-    private string _teamFile;
-    
+    private string _chosenTeamFile;
+    private Array _teamFiles;
+    public List<List<Unit>> ChosenTeamInfo = new List<List<Unit>>();
+
     public TeamSetup(View view, string teamsFolder)
     {
         _teamsFolder = teamsFolder;
         _view = view;
     }
 
-    public void ChooseTeam()
+    public bool IsTeamsValid()
+    {
+        return _teamsValid;
+    }
+
+    private string ShowTeamOptions()
     {
         _view.WriteLine("Elige un archivo para cargar los equipos");
         string[] files = Directory.GetFiles(_teamsFolder, "*.txt");
         Array.Sort(files);
-
+        _teamFiles = files;
         for (int i = 0; i < files.Length; i++)
         {
             _view.WriteLine($"{i}: {Path.GetFileName(files[i])}");
         }
-        string option_chosen_team = _view.ReadLine();
-        if (int.TryParse(option_chosen_team, out int index) && index <= files.Length)
+
+        string nameChosenTeam = _view.ReadLine();
+        return nameChosenTeam;
+    }
+
+    private void ChooseTeam(string nameChosenTeam)
+    {
+
+        if (int.TryParse(nameChosenTeam, out int index) && index <= _teamFiles.Length)
         {
-            _teamFile = files[index];
-            List<List<Unit>> teams_info = ObtainTeams();
-            
-            CheckTeams(teams_info);
+            _chosenTeamFile = _teamFiles.GetValue(index).ToString();
         }
         else
         {
             _teamsValid = false;
         }
     }
-    
-    public void CheckTeams(List<List<Unit>> teams_info)
+
+    private void CheckMaxUnits()
     {
-        if (teams_info.Count != 2)
-        {
-            _teamsValid = false;
-            return;
-        }
-        foreach (List<Unit> team in teams_info) // Check if each team has at most 3 units and at least 1
+        foreach (List<Unit> team in ChosenTeamInfo) // Check if each team has at most 3 units and at least 1
         {
             if (team.Count > 3 || team.Count < 1)
             {
@@ -54,8 +60,12 @@ public class TeamSetup
                 return;
             }
         }
+    }
+
+    private void CheckRepeatedUnits()
+    {
         // If a unit is repeated in the same team the teams are invalid
-        foreach (List<Unit> team in teams_info)
+        foreach (List<Unit> team in ChosenTeamInfo)
         {
             List<string> teamUnits = new List<string>();
             foreach (Unit unit in team)
@@ -69,8 +79,12 @@ public class TeamSetup
                 teamUnits.Add(unit.Name);
             }
         }
+    }
+
+    private void CheckMaxAbilitiesPerUnit()
+    {
         // If a unit has more than 2 abilities the teams are invalid
-        foreach (List<Unit> team in teams_info)
+        foreach (List<Unit> team in ChosenTeamInfo)
         {
             foreach (Unit unit in team)
             {
@@ -81,8 +95,12 @@ public class TeamSetup
                 }
             }
         }
+    }
+
+    private void CheckRepeatedAbilitiesPerUnit()
+    {
         // If an ability is repeated in a unit of the team the teams are invalid
-        foreach (List<Unit> team in teams_info)
+        foreach (List<Unit> team in ChosenTeamInfo)
         {
             foreach (Unit unit in team)
             {
@@ -99,10 +117,16 @@ public class TeamSetup
             }
         }
     }
-    public List<List<Unit>> ObtainTeams()
+    private void CheckTeams()
     {
-        string[] team_file_lines = File.ReadAllLines(_teamFile);
-        List<List<Unit>> teams_info = new List<List<Unit>>();
+        CheckMaxUnits();
+        CheckRepeatedUnits();
+        CheckMaxAbilitiesPerUnit();
+        CheckRepeatedAbilitiesPerUnit();
+    }
+    private void InitializeChosenTeamInfo()
+    {
+        string[] team_file_lines = File.ReadAllLines(_chosenTeamFile);
         List<Unit> currentTeam = null;
 
         foreach (string line in team_file_lines)
@@ -111,39 +135,38 @@ public class TeamSetup
             {
                 if (currentTeam != null)
                 {
-                    teams_info.Add(currentTeam);
+                    ChosenTeamInfo.Add(currentTeam);
                 }
                 currentTeam = new List<Unit>();
             }
             else if (currentTeam != null)
             {
-                string[] parts = line.Split('(', 2); // Split into name and abilities (if there are any)
-                string unitName = parts[0].Trim();
-                List<string> abilities = new List<string>();
-                if (parts.Length > 1)
-                {
-                    string abilitiesPart = parts[1].TrimEnd(')');
-                    abilities = abilitiesPart.Split(',').Select(a => a.Trim()).ToList();
-                }
-
-                currentTeam.Add(new Unit(unitName, abilities));
+                currentTeam.Add(CreateUnit(line));
             }
         }
         if (currentTeam != null)
         {
-            teams_info.Add(currentTeam);
+            ChosenTeamInfo.Add(currentTeam);
+        }
+    }
+
+    private Unit CreateUnit(string unitInfo)
+    {
+        string[] parts = unitInfo.Split('(', 2); // Split into name and abilities (if there are any)
+        string unitName = parts[0].Trim();
+        List<string> abilities = new List<string>();
+        if (parts.Length > 1)
+        {
+            string abilitiesPart = parts[1].TrimEnd(')');
+            abilities = abilitiesPart.Split(',').Select(a => a.Trim()).ToList();
         }
 
-        return teams_info;
-    }
-    public bool TeamsValid
-    {
-        get { return _teamsValid; }
-        private set { _teamsValid = value; }
+        return new Unit(unitName, abilities);
     }
     public void SetupTeams()
     {
-        ChooseTeam();
-        
+        ChooseTeam(ShowTeamOptions());
+        InitializeChosenTeamInfo();
+        CheckTeams();
     }
 }

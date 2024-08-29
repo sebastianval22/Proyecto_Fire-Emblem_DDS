@@ -17,10 +17,9 @@ public class Game
     {
         var teamSetup = new TeamSetup(_view, _teamsFolder);
         teamSetup.SetupTeams();
-        if (teamSetup.TeamsValid)
+        if (teamSetup.IsTeamsValid())
         {
-            List<List<Unit>> teams = teamSetup.ObtainTeams();
-            var battle = new Battle(_view, teams);
+            var battle = new Battle(_view, teamSetup.ChosenTeamInfo);
             battle.Start();
         }
         else
