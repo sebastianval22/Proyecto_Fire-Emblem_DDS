@@ -12,12 +12,12 @@ public class Unit
     public int Speed { get; set; }
     public int Defence { get; set; }
     public int Resistence { get; set; }
-    public List<string> Abilities { get; set; }
+    public List<string> Skills { get; set; }
 
-    public Unit(string name, List<string> abilities)
+    public Unit(string name, List<string> skills)
     {
         Name = name;
-        Abilities = abilities;
+        Skills = skills;
         var unitData = new UnitData();
         unitData.InitializeUnit(this);
     }

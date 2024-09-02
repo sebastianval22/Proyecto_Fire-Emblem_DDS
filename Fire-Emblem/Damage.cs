@@ -1,4 +1,5 @@
 using Fire_Emblem_View;
+using Fire_Emblem.AdvantageWeapons;
 
 namespace Fire_Emblem;
 
@@ -33,39 +34,17 @@ public class Damage
         };
     }
     
-    private float DetermineAdvantageFactor() =>
-        _attacker.Weapon switch
+    private float DetermineAdvantageFactor()
+    {
+        IWeaponAdvantage advantage = _attacker.Weapon switch
         {
-            "Sword" => DetermineAdvantageFactorSword(),
-            "Lance" => DetermineAdvantageFactorLance(),
-            "Axe" => DetermineAdvantageFactorAxe(),
-            _ => 1
+            "Sword" => new SwordAdvantage(),
+            "Lance" => new LanceAdvantage(),
+            "Axe" => new AxeAdvantage(),
+            _ => null
         };
-    
-    
-    private float DetermineAdvantageFactorSword() =>
-        _defender.Weapon switch
-        {
-            "Lance" => 0.8f,
-            "Axe" => 1.2f,
-            _ => 1.0f
-        };
-
-    private float DetermineAdvantageFactorLance() =>
-        _defender.Weapon switch
-        {
-            "Axe" => 0.8f,
-            "Sword" => 1.2f,
-            _ => 1.0f
-        };
-
-    private float DetermineAdvantageFactorAxe() =>
-        _defender.Weapon switch
-        {
-            "Sword" => 0.8f,
-            "Lance" => 1.2f,
-            _ => 1.0f
-        };
+        return advantage?.DetermineAdvantageFactor(_defender) ?? 1;
+    }
 
     public void ShowAdvantageMessage()
     {
