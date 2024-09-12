@@ -1,4 +1,5 @@
 using Fire_Emblem_View;
+using Fire_Emblem.Skills;
 
 namespace Fire_Emblem;
 
@@ -11,25 +12,24 @@ public class Battle
     private int _round = 1;
     private Unit _attackingUnit;
     private Unit _defendingUnit;
-    private AttackController _attackController;
+    private RoundFight _roundFightController;
     
     public Battle(View view, List<List<Unit>> teams)
     {
         _view = view;
         _teams = teams;
-        _attackController = new AttackController(view);
+        _roundFightController = new RoundFight(_view);
     }
     
     public void Start()
     {
+        AddAlterationBaseStats();
         while (_teams[0].Count > 0 && _teams[1].Count > 0)
         {   
             _attackingUnit = ChooseUnit(_attackingPlayerNumber);
             _defendingUnit = ChooseUnit(_defendingPlayerNumber);
             _view.WriteLine($"Round {_round}: {_attackingUnit.Name} (Player {_attackingPlayerNumber}) comienza");
-            _attackController.FirstAttack(_attackingUnit, _defendingUnit);
-            CounterAttack();
-            FollowUpAttack();
+            _roundFightController.Fight(_attackingUnit, _defendingUnit);
             UpdateTeams();
             _view.WriteLine($"{_attackingUnit.Name} ({_attackingUnit.CurrentHP}) : {_defendingUnit.Name} ({_defendingUnit.CurrentHP})");
             _round++;
@@ -54,41 +54,6 @@ public class Battle
         }
     }
     
-    private void CounterAttack()
-    {
-        if (AreBothUnitsAlive())
-        {
-            _attackController.Attack(_defendingUnit, _attackingUnit);
-        }
-        
-    }
-
-    private bool AreBothUnitsAlive()
-    {
-        return (_attackingUnit.IsUnitAlive() && _defendingUnit.IsUnitAlive());
-    }
-
-    private void FollowUpAttack()
-    {
-        var differenceSpeed = _attackingUnit.Speed - _defendingUnit.Speed;
-        if (AreBothUnitsAlive())
-        {
-            switch (differenceSpeed)
-            {
-                case >= 5:
-                    _attackController.Attack(_attackingUnit, _defendingUnit);
-                    break;
-                case <= -5:
-                    _attackController.Attack(_defendingUnit, _attackingUnit);
-                    break;
-                default:
-                    _view.WriteLine("Ninguna unidad puede hacer un follow up");
-                    break;
-            }
-        
-        }
-    }
-    
     private Unit ChooseUnit(int player_number)
     {
         List<Unit> team = _teams[player_number - 1];
@@ -108,5 +73,20 @@ public class Battle
             return ChooseUnit(player_number); // Recursively call the method to prompt again
         }
     }
-    
+    private void AddAlterationBaseStats()
+    {
+        foreach (List<Unit> team in _teams)
+        {
+            foreach (Unit unit in team)
+            {
+                foreach (Skill skill in unit.Skills)
+                {
+                    if (skill.SkillType == "Base Stats")
+                    {
+                        skill.ApplyEffects(unit, _roundFightController);
+                    }
+                }
+            }
+        }
+    }
 }

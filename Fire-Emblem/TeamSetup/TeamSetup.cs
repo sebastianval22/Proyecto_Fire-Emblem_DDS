@@ -1,7 +1,8 @@
 using Fire_Emblem_View;
 using Fire_Emblem.TeamChecks;
+using Fire_Emblem.Skills;
 
-namespace Fire_Emblem;
+namespace Fire_Emblem.TeamSetup;
 
 public class TeamSetup
 {
@@ -9,7 +10,6 @@ public class TeamSetup
     private View _view;
     private bool _teamsValid = true;
     private string _chosenTeamFile;
-    private Array _teamFiles;
     public List<List<Unit>> ChosenTeamInfo = new List<List<Unit>>();
     private List<ITeamCheck> _teamChecks;
 
@@ -29,34 +29,6 @@ public class TeamSetup
     public bool IsTeamsValid()
     {
         return _teamsValid;
-    }
-
-    private string ShowTeamOptions()
-    {
-        _view.WriteLine("Elige un archivo para cargar los equipos");
-        string[] files = Directory.GetFiles(_teamsFolder, "*.txt");
-        Array.Sort(files);
-        _teamFiles = files;
-        for (int i = 0; i < files.Length; i++)
-        {
-            _view.WriteLine($"{i}: {Path.GetFileName(files[i])}");
-        }
-
-        string nameChosenTeam = _view.ReadLine();
-        return nameChosenTeam;
-    }
-
-    private void ChooseTeam(string nameChosenTeam)
-    {
-
-        if (int.TryParse(nameChosenTeam, out int index) && index <= _teamFiles.Length)
-        {
-            _chosenTeamFile = _teamFiles.GetValue(index).ToString();
-        }
-        else
-        {
-            _teamsValid = false;
-        }
     }
     
     private void CheckTeams()
@@ -100,18 +72,20 @@ public class TeamSetup
     {
         string[] parts = unitInfo.Split('(', 2); // Split into name and Skills (if there are any)
         string unitName = parts[0].Trim();
-        List<string> Skills = new List<string>();
+        List<string> skillNames = new List<string>();
         if (parts.Length > 1)
         {
             string skillsPart = parts[1].TrimEnd(')');
-            Skills = skillsPart.Split(',').Select(a => a.Trim()).ToList();
+            skillNames = skillsPart.Split(',').Select(a => a.Trim()).ToList();
         }
+
+        List<Skill> Skills = SkillFactory.InitiateSkills(skillNames);
 
         return new Unit(unitName, Skills);
     }
     public void SetupTeams()
     {
-        ChooseTeam(ShowTeamOptions());
+        _chosenTeamFile = TeamOptions.ChooseTeam(_view, _teamsFolder);
         InitializeChosenTeamInfo();
         CheckTeams();
     }

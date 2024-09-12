@@ -2,15 +2,17 @@ namespace Fire_Emblem.Skills.Conditions;
 
 public class HealthBelowCondition : Condition
 {
-    private readonly int _threshold;
+    private readonly double _thresholdPercentage;
 
-    public HealthBelowCondition(int threshold)
+    public HealthBelowCondition(double thresholdPercentage)
     {
-        _threshold = threshold;
+        _thresholdPercentage = thresholdPercentage;
     }
 
-    public override bool IsMet(Unit unit)
+    public override bool IsMet(Unit unit, RoundFight roundFight)
     {
-        return unit.CurrentHP < _threshold;
+        double thresholdHP = unit.MaxHP * (_thresholdPercentage / 100);
+        int truncatedThresholdHP = Convert.ToInt32(Math.Floor(thresholdHP));
+        return unit.CurrentHP <= truncatedThresholdHP;
     }
 }

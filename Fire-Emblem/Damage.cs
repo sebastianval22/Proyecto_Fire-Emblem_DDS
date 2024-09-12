@@ -19,8 +19,8 @@ public class Damage
     {
         _attacker = attacker;
         _defender = defender;
-        _advantageFactor = DetermineAdvantageFactor();
         var defensePoints = DetermineDefensePoints();
+        Console.WriteLine($"{_attacker.Attack}{_advantageFactor}");
         var attackPoints = (int)Math.Truncate(_attacker.Attack * _advantageFactor);
         return (Math.Max(attackPoints-defensePoints, 0));
     }
@@ -34,7 +34,7 @@ public class Damage
         };
     }
     
-    private float DetermineAdvantageFactor()
+    private void DetermineAdvantageFactor()
     {
         IWeaponAdvantage advantage = _attacker.Weapon switch
         {
@@ -43,11 +43,14 @@ public class Damage
             "Axe" => new AxeAdvantage(),
             _ => null
         };
-        return advantage?.DetermineAdvantageFactor(_defender) ?? 1;
+        _advantageFactor = advantage?.DetermineAdvantageFactor(_defender) ?? 1;
     }
 
-    public void ShowAdvantageMessage()
+    public void ShowAdvantageMessage(Unit attacker, Unit defender)
     {
+        _attacker = attacker;
+        _defender = defender;
+        DetermineAdvantageFactor();
         string message = _advantageFactor switch
         {
             > 1 => $"{_attacker.Name} ({_attacker.Weapon}) tiene ventaja con respecto a {_defender.Name} ({_defender.Weapon})",

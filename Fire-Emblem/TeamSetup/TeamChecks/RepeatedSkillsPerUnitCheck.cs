@@ -1,3 +1,5 @@
+using Fire_Emblem.Skills;
+
 namespace Fire_Emblem.TeamChecks;
 
 public class RepeatedSkillsPerUnitCheck : ITeamCheck
@@ -8,14 +10,14 @@ public class RepeatedSkillsPerUnitCheck : ITeamCheck
         {
             foreach (Unit unit in team)
             {
-                List<string> skills = new List<string>();
-                foreach (string skill in unit.Skills)
+                List<string> skillNames = new List<string>();
+                foreach (Skill skill in unit.Skills)
                 {
-                    if (skills.Contains(skill))
+                    if (skillNames.Contains(skill.Name))
                     {
                         return false;
                     }
-                    skills.Add(skill);
+                    skillNames.Add(skill.Name);
                 }
             }
         }

@@ -1,17 +1,17 @@
 namespace Fire_Emblem.Skills.Effects;
 
-public class AttackBonusEffect : Effect
+public class SpeedBonusEffect : Effect
 {
     private readonly int _bonus;
 
-    public AttackBonusEffect(int bonus)
+    public SpeedBonusEffect(int bonus)
     {
         _bonus = bonus;
     }
 
     public override void Apply(Unit unit)
     {
-        unit.Attack += _bonus;
-        ShowEffect($"{unit.Name} obtiene Atk+{_bonus}");
+        unit.Speed += _bonus;
+        ShowEffect($"{unit.Name} obtiene Spd+{_bonus}");
     } 
 }

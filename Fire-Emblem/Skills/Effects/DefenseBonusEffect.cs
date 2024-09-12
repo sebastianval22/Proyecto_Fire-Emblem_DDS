@@ -12,5 +12,6 @@ public class DefenseBonusEffect : Effect
     public override void Apply(Unit unit)
     {
         unit.Defence += _bonus;
+        ShowEffect($"{unit.Name} obtiene Def+{_bonus}");
     }
 }

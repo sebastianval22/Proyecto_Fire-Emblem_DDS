@@ -1,4 +1,7 @@
+using Fire_Emblem.Skills;
+
 namespace Fire_Emblem;
+
 
 public class Unit
 {
@@ -12,9 +15,15 @@ public class Unit
     public int Speed { get; set; }
     public int Defence { get; set; }
     public int Resistence { get; set; }
-    public List<string> Skills { get; set; }
+    public List<Skill> Skills { get; set; }
+    
+    // Backup attributes
+    private int _backupAttack;
+    private int _backupSpeed;
+    private int _backupDefence;
+    private int _backupResistence;
 
-    public Unit(string name, List<string> skills)
+    public Unit(string name, List<Skill> skills)
     {
         Name = name;
         Skills = skills;
@@ -33,5 +42,22 @@ public class Unit
     public bool IsUnitAlive()
     {
         return CurrentHP > 0;
+    }
+    // Save current attributes
+    public void SaveAttributes()
+    {
+        _backupAttack = Attack;
+        _backupSpeed = Speed;
+        _backupDefence = Defence;
+        _backupResistence = Resistence;
+    }
+
+    // Restore saved attributes
+    public void RestoreAttributes()
+    {
+        Attack = _backupAttack;
+        Speed = _backupSpeed;
+        Defence = _backupDefence;
+        Resistence = _backupResistence;
     }
 }
