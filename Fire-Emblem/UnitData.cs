@@ -32,7 +32,7 @@ public class UnitData
                 unit.Attack = int.Parse(unitData.Atk.Trim());
                 unit.Speed = int.Parse(unitData.Spd.Trim());
                 unit.Defence = int.Parse(unitData.Def.Trim());
-                unit.Resistence = int.Parse(unitData.Res.Trim());
+                unit.Resistance = int.Parse(unitData.Res.Trim());
                 break;
             }
         }

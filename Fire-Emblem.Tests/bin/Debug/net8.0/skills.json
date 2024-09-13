@@ -387,11 +387,7 @@
     "Name": "Darting Blow",
     "Description": "Si la unidad inicia el combate, otorga Spd+8 durante el combate."
   },
-  {
-    "Name": "Armored Blow",
-    "Description": "Si la unidad inicia el combate, otorga Def+8 durante el combate."
-  },
-  {
+	
     "Name": "Warding Blow",
     "Description": "Si la unidad inicia el combate, otorga Res+8 durante el combate."
   },

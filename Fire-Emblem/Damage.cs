@@ -19,8 +19,8 @@ public class Damage
     {
         _attacker = attacker;
         _defender = defender;
+        DetermineAdvantageFactor();
         var defensePoints = DetermineDefensePoints();
-        Console.WriteLine($"{_attacker.Attack}{_advantageFactor}");
         var attackPoints = (int)Math.Truncate(_attacker.Attack * _advantageFactor);
         return (Math.Max(attackPoints-defensePoints, 0));
     }
@@ -29,7 +29,7 @@ public class Damage
     {
         return _attacker.Weapon switch
         {
-            "Magic" => _defender.Resistence,
+            "Magic" => _defender.Resistance,
             _ => _defender.Defence
         };
     }

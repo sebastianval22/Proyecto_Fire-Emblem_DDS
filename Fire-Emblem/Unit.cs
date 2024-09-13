@@ -14,14 +14,17 @@ public class Unit
     public int Attack { get; set; }
     public int Speed { get; set; }
     public int Defence { get; set; }
-    public int Resistence { get; set; }
+    public int Resistance { get; set; }
     public List<Skill> Skills { get; set; }
+    public Unit RecentOpponent { get; set; } 
+    public bool HasFirstAttackSkill { get; set; }
+    
     
     // Backup attributes
     private int _backupAttack;
     private int _backupSpeed;
     private int _backupDefence;
-    private int _backupResistence;
+    private int _backupResistance;
 
     public Unit(string name, List<Skill> skills)
     {
@@ -39,6 +42,7 @@ public class Unit
             CurrentHP = 0;
         }
     }
+
     public bool IsUnitAlive()
     {
         return CurrentHP > 0;
@@ -49,15 +53,45 @@ public class Unit
         _backupAttack = Attack;
         _backupSpeed = Speed;
         _backupDefence = Defence;
-        _backupResistence = Resistence;
+        _backupResistance = Resistance;
     }
 
     // Restore saved attributes
-    public void RestoreAttributes()
+    public void RestoreBackupAttributes()
     {
         Attack = _backupAttack;
         Speed = _backupSpeed;
         Defence = _backupDefence;
-        Resistence = _backupResistence;
+        Resistance = _backupResistance;
+    }
+    public Dictionary<string, int> ObtainAttributes()
+    {
+        return new Dictionary<string, int>
+        {
+            { "Attack", Attack },
+            { "Speed", Speed },
+            { "Defence", Defence },
+            { "Resistance", Resistance }
+        };
+    }
+
+    // Restore saved attributes
+    public void RestoreSpecificAttributes(Dictionary<string, int> attributes)
+    {
+        if (attributes.ContainsKey("Attack")) Attack = attributes["Attack"];
+        if (attributes.ContainsKey("Speed")) Speed = attributes["Speed"];
+        if (attributes.ContainsKey("Defence")) Defence = attributes["Defence"];
+        if (attributes.ContainsKey("Resistance")) Resistance = attributes["Resistance"];
+    }
+    public void ApplySkills(RoundFight roundFight)
+
+    {
+        foreach (Skill unitSkill in this.Skills.Reverse<Skill>())
+        {
+            if (unitSkill.SkillType == "Bonus")
+            {
+                unitSkill.ApplyEffects(this, roundFight);
+            }
+        }
     }
 }

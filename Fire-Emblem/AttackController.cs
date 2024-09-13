@@ -1,5 +1,6 @@
 using Fire_Emblem_View;
 using Fire_Emblem.Skills;
+using Fire_Emblem.Skills.Effects;
 
 namespace Fire_Emblem;
 
@@ -17,27 +18,9 @@ public class AttackController
         _roundFight = roundFight;
     }
     
-    private void ExecuteAttack(Unit attackingUnit, Unit defendingUnit, bool showAdvantage)
+    private void ExecuteAttack(Unit attackingUnit, Unit defendingUnit)
     {
-        if (showAdvantage)
-        {
-            _damage.ShowAdvantageMessage(attackingUnit, defendingUnit);
-            foreach (Skill attackingUnitSkill in attackingUnit.Skills.Reverse<Skill>())
-            {
-                if (attackingUnitSkill.SkillType != "Base Stats")
-                {
-                    attackingUnitSkill.ApplyEffects(attackingUnit, _roundFight);
-                }
-            }
-            foreach (Skill defendingUnitSkill in defendingUnit.Skills.Reverse<Skill>())
-            {
-                if (defendingUnitSkill.SkillType != "Base Stats")
-                {
-                    defendingUnitSkill.ApplyEffects(defendingUnit, _roundFight);
-                }
-            }
-            
-        }
+        
         int damageAttack = _damage.CalculateDamage(attackingUnit, defendingUnit);
         _view.WriteLine($"{attackingUnit.Name} ataca a {defendingUnit.Name} con {damageAttack} de daño");
         defendingUnit.UpdateHPStatus(damageAttack);
@@ -45,12 +28,53 @@ public class AttackController
 
     public void Attack(Unit attackingUnit, Unit defendingUnit)
     {
-        ExecuteAttack(attackingUnit, defendingUnit, false);
+        ExecuteAttack(attackingUnit, defendingUnit);
     }
 
-    public void FirstAttack(Unit attackingUnit, Unit defendingUnit)
+    public void InitialAttack(Unit attackingUnit, Unit defendingUnit)
     {
-        ExecuteAttack(attackingUnit, defendingUnit, true);
+        InitializeSkills(attackingUnit, defendingUnit);
+        FirstUnitAttack(attackingUnit, defendingUnit);
+        
     }
 
+    private void InitializeSkills(Unit attackingUnit, Unit defendingUnit)
+    {
+        _damage.ShowAdvantageMessage(attackingUnit, defendingUnit);
+        attackingUnit.ApplySkills(_roundFight);
+        defendingUnit.ApplySkills(_roundFight);
+        ApplyFirstAttackBonus(attackingUnit);
+        ApplyFirstAttackBonus(defendingUnit);
+    }
+
+    public void FirstUnitAttack(Unit attackingUnit, Unit defendingUnit)
+    {
+        ExecuteAttack(attackingUnit, defendingUnit);
+        if (attackingUnit.HasFirstAttackSkill)
+
+        {
+            attackingUnit.RestoreBackupAttributes();
+            attackingUnit.HasFirstAttackSkill = false;
+        }
+        
+    }
+    
+    private void ApplyFirstAttackBonus(Unit attackingUnit)
+    {
+        foreach (var skill in attackingUnit.Skills)
+        {
+            if (skill.Conditions.All(condition => condition.IsMet(attackingUnit, _roundFight)));
+            {
+                foreach (var effect in skill.Effects)
+                {
+                    if (effect is FirstAttackBonusEffect firstAttackBonusEffect) 
+                    {
+                        firstAttackBonusEffect.Apply(attackingUnit);
+                        attackingUnit.HasFirstAttackSkill = true;
+                    }
+                }
+            }
+        
+        }
+    }
 }

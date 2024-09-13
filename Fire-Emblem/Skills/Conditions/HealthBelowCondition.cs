@@ -7,6 +7,7 @@ public class HealthBelowCondition : Condition
     public HealthBelowCondition(double thresholdPercentage)
     {
         _thresholdPercentage = thresholdPercentage;
+
     }
 
     public override bool IsMet(Unit unit, RoundFight roundFight)

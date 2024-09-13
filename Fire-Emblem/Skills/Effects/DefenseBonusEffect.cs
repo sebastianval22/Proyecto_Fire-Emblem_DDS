@@ -1,17 +1,17 @@
 namespace Fire_Emblem.Skills.Effects;
 
-public class DefenseBonusEffect : Effect
+public class DefenseBonusEffect : Effect, IBonusEffect
 {
-    private readonly int _bonus;
+    public int Bonus { get; }
 
     public DefenseBonusEffect(int bonus)
     {
-        _bonus = bonus;
+        Bonus = bonus;
     }
+    
 
     public override void Apply(Unit unit)
     {
-        unit.Defence += _bonus;
-        ShowEffect($"{unit.Name} obtiene Def+{_bonus}");
+        
     }
 }
