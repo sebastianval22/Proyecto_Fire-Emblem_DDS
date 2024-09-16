@@ -83,7 +83,7 @@ public class Battle
                 {
                     if (skill.SkillType == "Base Stats")
                     {
-                        skill.ApplyEffects(unit, _roundFightController);
+                        skill.ObtainEffects(unit, _roundFightController);
                     }
                 }
             }

@@ -18,6 +18,7 @@ public class Unit
     public List<Skill> Skills { get; set; }
     public Unit RecentOpponent { get; set; } 
     public bool HasFirstAttackSkill { get; set; }
+    public Dictionary<string, int> ActiveSkills { get; set; }
     
     
     // Backup attributes
@@ -25,6 +26,7 @@ public class Unit
     private int _backupSpeed;
     private int _backupDefence;
     private int _backupResistance;
+    
 
     public Unit(string name, List<Skill> skills)
     {
@@ -32,6 +34,23 @@ public class Unit
         Skills = skills;
         var unitData = new UnitData();
         unitData.InitializeUnit(this);
+        ActiveSkills = new Dictionary<string, int>
+        {
+            {"AttackBonus", 0},
+            {"DefenseBonus", 0},
+            {"SpeedBonus", 0},
+            {"ResistanceBonus", 0},
+            {"AttackPenalty", 0},
+            {"DefensePenalty", 0},
+            {"SpeedPenalty", 0},
+            {"ResistancePenalty", 0},
+            {"FirstAttackAttackBonus", 0},
+            {"FirstAttackDefenseBonus", 0},
+            {"FirstAttackResistanceBonus", 0},
+            {"FirstAttackAttackPenalty", 0},
+            {"FirstAttackDefensePenalty", 0},
+            {"FirstAttackResistancePenalty", 0}
+        };
     }
 
     public void UpdateHPStatus(int damage)
@@ -83,15 +102,38 @@ public class Unit
         if (attributes.ContainsKey("Defence")) Defence = attributes["Defence"];
         if (attributes.ContainsKey("Resistance")) Resistance = attributes["Resistance"];
     }
-    public void ApplySkills(RoundFight roundFight)
-
+    public void ApplyEffects()
     {
-        foreach (Skill unitSkill in this.Skills.Reverse<Skill>())
+        Attack += ActiveSkills["AttackBonus"];
+        Defence += ActiveSkills["DefenseBonus"];
+        Speed += ActiveSkills["SpeedBonus"];
+        Resistance += ActiveSkills["ResistanceBonus"];
+        Attack += ActiveSkills["AttackPenalty"];
+        Defence += ActiveSkills["DefensePenalty"];
+        Speed += ActiveSkills["SpeedPenalty"];
+        Resistance += ActiveSkills["ResistancePenalty"];
+        if (ActiveSkills.Any(kv => kv.Key.Contains("FirstAttack") && kv.Value != 0))
         {
-            if (unitSkill.SkillType == "Bonus")
-            {
-                unitSkill.ApplyEffects(this, roundFight);
-            }
+            SaveAttributes();
+            ApplyFirstAttackEffects();
+            HasFirstAttackSkill = true;
+        }
+    }
+    private void ApplyFirstAttackEffects()
+    {
+        Attack += ActiveSkills["FirstAttackAttackBonus"];
+        Defence += ActiveSkills["FirstAttackDefenseBonus"];
+        Resistance += ActiveSkills["FirstAttackResistanceBonus"];
+        Attack += ActiveSkills["FirstAttackAttackPenalty"];
+        Defence += ActiveSkills["FirstAttackDefensePenalty"];
+        Resistance += ActiveSkills["FirstAttackResistancePenalty"];
+    }
+    public void ResetActiveSkills()
+    {
+        var keys = ActiveSkills.Keys.ToList();
+        foreach (var key in keys)
+        {
+            ActiveSkills[key] = 0;
         }
     }
 }

@@ -57,7 +57,7 @@ public static class SkillFactory
                     Effects = new List<Effect> { new AttackBonusEffect(8) }
                 };
             case "Ignis":
-                return new Skill("Ignis", "First Attack Bonus")
+                return new Skill("Ignis", "First Attack")
                 {
                     Effects = new List<Effect> { new FirstAttackBonusEffect(50) }
                 };
@@ -225,6 +225,65 @@ public static class SkillFactory
                 {
                     Effects = new List<Effect> { new AttackBonusEffect(6) },
                     Conditions = new List<Condition> { new HealthAboveRivalCondition(3) }
+                };
+            case  "Wind Boost":
+                return new Skill("Wind Boost", "Bonus")
+                {
+                    Effects = new List<Effect> { new SpeedBonusEffect(6) },
+                    Conditions = new List<Condition> { new HealthAboveRivalCondition(3) }
+                };
+            case  "Earth Boost":
+                return new Skill("Earth Boost", "Bonus")
+                {
+                    Effects = new List<Effect> { new DefenseBonusEffect(6) },
+                    Conditions = new List<Condition> { new HealthAboveRivalCondition(3) }
+                };
+            case "Water Boost":
+                return new Skill("Water Boost", "Bonus")
+                {
+                    Effects = new List<Effect> { new ResistanceBonusEffect(6) },
+                    Conditions = new List<Condition> { new HealthAboveRivalCondition(3) }
+                };
+            case "Chaos Style":
+                return new Skill("Chaos Style", "Bonus")
+                {
+                    Effects = new List<Effect> { new SpeedBonusEffect(3) },
+                    Conditions = new List<Condition> {new InitiatesCombatCondition(), new WeaponVsMagicCondition() }
+                };
+            case "Blinding Flash":
+                return new Skill("Blinding Flash", "Penalty")
+                {
+                    Effects = new List<Effect> { new SpeedBonusEffect(4) },
+                    Conditions = new List<Condition> {new InitiatesCombatCondition() }
+                };
+            case "Not *Quite*":
+                return new Skill("Not *Quite*", "Penalty")
+                {
+                    Effects = new List<Effect> { new AttackPenaltyEffect(4) },
+                    Conditions = new List<Condition> {new OpponentInitiatesCombatCondition() }
+                };
+            case "Stunning Smile":
+                return new Skill("Stunning Smile", "Penalty")
+                {
+                    Effects = new List<Effect> { new SpeedPenaltyEffect(8) },
+                    Conditions = new List<Condition> {new OpponentGenderCondition("Male") }
+                };
+            case "Disarming Sight":
+                return new Skill("Disarming Sight", "Penalty")
+                {
+                    Effects = new List<Effect> { new AttackPenaltyEffect(8) },
+                    Conditions = new List<Condition> { new OpponentGenderCondition("Male") }
+                };
+            case "Charmer":
+                return new Skill("Charmer", "Penalty")
+                {
+                    Effects = new List<Effect> { new SpeedPenaltyEffect(3), new AttackPenaltyEffect(3) },
+                    Conditions = new List<Condition> { new RecentOpponentCondition()}
+                };
+            case "Luna":
+                return new Skill("Luna", "First Attack")
+                {
+                    Effects = new List<Effect> { new DefensePenaltyMinusHalfEffect(0), new ResistancePenaltyMinusHalfEffect(0) }
                 };
             default:
                 return null;

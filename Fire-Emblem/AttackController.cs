@@ -33,18 +33,21 @@ public class AttackController
 
     public void InitialAttack(Unit attackingUnit, Unit defendingUnit)
     {
+        _damage.ShowAdvantageMessage(attackingUnit, defendingUnit);
         InitializeSkills(attackingUnit, defendingUnit);
-        FirstUnitAttack(attackingUnit, defendingUnit);
+        Attack(attackingUnit, defendingUnit);
         
     }
 
     private void InitializeSkills(Unit attackingUnit, Unit defendingUnit)
     {
-        _damage.ShowAdvantageMessage(attackingUnit, defendingUnit);
-        attackingUnit.ApplySkills(_roundFight);
-        defendingUnit.ApplySkills(_roundFight);
-        ApplyFirstAttackBonus(attackingUnit);
-        ApplyFirstAttackBonus(defendingUnit);
+        ApplySkills(attackingUnit);
+        ApplySkills(defendingUnit);
+        ArrangePenaltyEffects(attackingUnit, defendingUnit);
+        attackingUnit.ApplyEffects();
+        defendingUnit.ApplyEffects();
+        EffectLogger.ShowUnitEffects(attackingUnit);
+        EffectLogger.ShowUnitEffects(defendingUnit);
     }
 
     public void FirstUnitAttack(Unit attackingUnit, Unit defendingUnit)
@@ -56,25 +59,34 @@ public class AttackController
             attackingUnit.RestoreBackupAttributes();
             attackingUnit.HasFirstAttackSkill = false;
         }
+        if (defendingUnit.HasFirstAttackSkill)
+        {
+            defendingUnit.RestoreBackupAttributes();
+            defendingUnit.HasFirstAttackSkill = false;
+        }
         
     }
-    
-    private void ApplyFirstAttackBonus(Unit attackingUnit)
+    private void ApplySkills( Unit attackingUnit)
     {
-        foreach (var skill in attackingUnit.Skills)
+        foreach (Skill unitSkill in attackingUnit.Skills.Reverse<Skill>())
         {
-            if (skill.Conditions.All(condition => condition.IsMet(attackingUnit, _roundFight)));
+            var effects = unitSkill.ObtainEffects(attackingUnit, _roundFight);
+            foreach (var effect in effects)
             {
-                foreach (var effect in skill.Effects)
-                {
-                    if (effect is FirstAttackBonusEffect firstAttackBonusEffect) 
-                    {
-                        firstAttackBonusEffect.Apply(attackingUnit);
-                        attackingUnit.HasFirstAttackSkill = true;
-                    }
-                }
+                attackingUnit.ActiveSkills[effect.Key] += effect.Value;
             }
-        
+        }
+    }
+    private void ArrangePenaltyEffects(Unit attackingUnit, Unit defendingUnit)
+    {
+        foreach (var key in attackingUnit.ActiveSkills.Keys)
+        {
+            if (key.Contains("Penalty"))
+            {
+                (attackingUnit.ActiveSkills[key], defendingUnit.ActiveSkills[key]) = 
+                    (defendingUnit.ActiveSkills[key], attackingUnit.ActiveSkills[key]);
+            }
         }
     }
 }
+    

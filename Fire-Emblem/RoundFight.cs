@@ -31,6 +31,8 @@ public class RoundFight
         // Restore attributes after the fight
         attackingUnit.RestoreSpecificAttributes(_attackingUnitAtributesBeforeFight);
         defendingUnit.RestoreSpecificAttributes(_defendingUnitAtributesBeforeFight);
+        attackingUnit.ResetActiveSkills();
+        defendingUnit.ResetActiveSkills();
         attackingUnit.RecentOpponent = defendingUnit;
         defendingUnit.RecentOpponent = attackingUnit;
     }
@@ -51,7 +53,6 @@ public class RoundFight
     private void FollowUpAttack()
     {
         var differenceSpeed = attackingUnit.Speed - defendingUnit.Speed;
-        Console.WriteLine($"La diferencia de velocidad es de {differenceSpeed}, {attackingUnit.Name} tiene {attackingUnit.Speed} y {defendingUnit.Name} tiene {defendingUnit.Speed}");
         if (AreBothUnitsAlive())
         {
             switch (differenceSpeed)

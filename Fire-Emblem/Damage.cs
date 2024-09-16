@@ -21,7 +21,10 @@ public class Damage
         _defender = defender;
         DetermineAdvantageFactor();
         var defensePoints = DetermineDefensePoints();
+        Console.WriteLine("Defense points: " + defensePoints);
+        Console.WriteLine("Attack points: " + _attacker.Attack);
         var attackPoints = (int)Math.Truncate(_attacker.Attack * _advantageFactor);
+        
         return (Math.Max(attackPoints-defensePoints, 0));
     }
 
