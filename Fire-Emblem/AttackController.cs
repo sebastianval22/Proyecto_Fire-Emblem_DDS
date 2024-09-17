@@ -26,8 +26,10 @@ public class AttackController
         defendingUnit.UpdateHPStatus(damageAttack);
     }
 
-    public void Attack(Unit attackingUnit, Unit defendingUnit)
+    public void FollowUpAttack(Unit attackingUnit, Unit defendingUnit)
     {
+        attackingUnit.ApplyFollowUpAttackEffects();
+        defendingUnit.ApplyFollowUpAttackEffects();
         ExecuteAttack(attackingUnit, defendingUnit);
     }
 
@@ -35,7 +37,7 @@ public class AttackController
     {
         _damage.ShowAdvantageMessage(attackingUnit, defendingUnit);
         InitializeSkills(attackingUnit, defendingUnit);
-        Attack(attackingUnit, defendingUnit);
+        ExecuteAttack(attackingUnit, defendingUnit);
         
     }
 
@@ -43,14 +45,13 @@ public class AttackController
     {
         ApplySkills(attackingUnit);
         ApplySkills(defendingUnit);
-        ArrangePenaltyEffects(attackingUnit, defendingUnit);
         attackingUnit.ApplyEffects();
         defendingUnit.ApplyEffects();
         EffectLogger.ShowUnitEffects(attackingUnit);
         EffectLogger.ShowUnitEffects(defendingUnit);
     }
 
-    public void FirstUnitAttack(Unit attackingUnit, Unit defendingUnit)
+    public void CounterAttack(Unit attackingUnit, Unit defendingUnit)
     {
         ExecuteAttack(attackingUnit, defendingUnit);
         if (attackingUnit.HasFirstAttackSkill)
@@ -73,16 +74,7 @@ public class AttackController
              unitSkill.UpdateActiveSkillEffects(attackingUnit, _roundFight);
         }
     }
-    private void ArrangePenaltyEffects(Unit attackingUnit, Unit defendingUnit)
-    {
-        foreach (var key in attackingUnit.ActiveSkillsEffects.Keys)
-        {
-            if (key.Contains("Penalty"))
-            {
-                (attackingUnit.ActiveSkillsEffects[key], defendingUnit.ActiveSkillsEffects[key]) = 
-                    (defendingUnit.ActiveSkillsEffects[key], attackingUnit.ActiveSkillsEffects[key]);
-            }
-        }
-    }
+    
+    
 }
     

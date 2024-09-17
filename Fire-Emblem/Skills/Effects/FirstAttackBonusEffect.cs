@@ -14,6 +14,7 @@ public class FirstAttackBonusEffect : AttackBonusEffect
     {
         unit.SaveAttributes();
         Bonus = Convert.ToInt32(Math.Floor(unit.Attack * (this._bonusPercentage/100)));
+        unit.ActiveSkillsEffects["FirstAttackAttackBonus"] += Bonus;
     }
     
 }

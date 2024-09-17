@@ -25,6 +25,6 @@ public class AttackBonusPerHPLostEffect : AttackBonusEffect
         {
             Bonus = int.Min(_baseBonus + additionalBonus, _max);
         }
-        
+        unit.ActiveSkillsEffects["AttackBonus"] += Bonus;
     }
 }

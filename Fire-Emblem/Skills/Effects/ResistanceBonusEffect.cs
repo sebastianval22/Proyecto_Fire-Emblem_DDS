@@ -12,6 +12,6 @@ public class ResistanceBonusEffect : Effect, IBonusEffect
 
     public override void Apply(Unit unit)
     {
-        
+        unit.ActiveSkillsEffects["ResistanceBonus"] += Bonus;
     }
 }

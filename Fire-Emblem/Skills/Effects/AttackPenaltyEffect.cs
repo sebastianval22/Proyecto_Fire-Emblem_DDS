@@ -9,8 +9,8 @@ public class AttackPenaltyEffect : Effect, IPenaltyEffect
     }
 
 
-    public override void Apply(Unit unit)
+    public override void Apply(Unit rival)
     {
-        
+        rival. ActiveSkillsEffects["AttackPenalty"] -= Penalty;
     }
 }

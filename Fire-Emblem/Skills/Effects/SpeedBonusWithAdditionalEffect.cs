@@ -15,5 +15,6 @@ public class SpeedBonusWithAdditionalEffect : SpeedBonusEffect
     {
         int additionalBonus = (unit.Speed / (_additionalBonusPerSpeed["Bonus"] * _additionalBonusPerSpeed["Per Speed"]));
         Bonus = _baseBonus + additionalBonus;
+        unit.ActiveSkillsEffects["SpeedBonus"] += Bonus;
     }
 }

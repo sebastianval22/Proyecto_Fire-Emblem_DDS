@@ -8,8 +8,8 @@ public class ResistancePenaltyEffect : Effect, IPenaltyEffect
         Penalty = penalty;
     }
 
-    public override void Apply(Unit unit)
+    public override void Apply(Unit rival)
     {
-        
+        rival.ActiveSkillsEffects["ResistancePenalty"] -= Penalty;
     }
 }

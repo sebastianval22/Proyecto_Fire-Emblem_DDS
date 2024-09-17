@@ -26,8 +26,8 @@ public class RoundFight
         _attackingUnitAtributesBeforeFight = attackingUnit.ObtainAttributes();
         _defendingUnitAtributesBeforeFight = defendingUnit.ObtainAttributes();
         _attackController.InitialAttack(attackingUnit, defendingUnit);
-        CounterAttack();
-        FollowUpAttack();
+        Counter();
+        FollowUp();
         // Restore attributes after the fight
         attackingUnit.RestoreSpecificAttributes(_attackingUnitAtributesBeforeFight);
         defendingUnit.RestoreSpecificAttributes(_defendingUnitAtributesBeforeFight);
@@ -36,11 +36,11 @@ public class RoundFight
         attackingUnit.RecentOpponent = defendingUnit;
         defendingUnit.RecentOpponent = attackingUnit;
     }
-    private void CounterAttack()
+    private void Counter()
     {
         if (AreBothUnitsAlive())
         {
-            _attackController.FirstUnitAttack(defendingUnit, attackingUnit);
+            _attackController.CounterAttack(defendingUnit, attackingUnit);
         }
         
     }
@@ -50,7 +50,7 @@ public class RoundFight
         return (attackingUnit.IsUnitAlive() && defendingUnit.IsUnitAlive());
     }
 
-    private void FollowUpAttack()
+    private void FollowUp()
     {
         var differenceSpeed = attackingUnit.Speed - defendingUnit.Speed;
         if (AreBothUnitsAlive())
@@ -58,10 +58,10 @@ public class RoundFight
             switch (differenceSpeed)
             {
                 case >= 5:
-                    _attackController.Attack(attackingUnit, defendingUnit);
+                    _attackController.FollowUpAttack(attackingUnit, defendingUnit);
                     break;
                 case <= -5:
-                    _attackController.Attack(defendingUnit, attackingUnit);
+                    _attackController.FollowUpAttack(defendingUnit, attackingUnit);
                     break;
                 default:
                     _view.WriteLine("Ninguna unidad puede hacer un follow up");

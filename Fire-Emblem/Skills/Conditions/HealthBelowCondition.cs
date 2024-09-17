@@ -12,7 +12,7 @@ public class HealthBelowCondition : Condition
 
     public override bool IsMet(Unit unit, RoundFight roundFight)
     {
-        double thresholdHP = unit.MaxHP * (_thresholdPercentage / 100);
+        var thresholdHP = unit.MaxHP * (_thresholdPercentage / 100);
         int truncatedThresholdHP = Convert.ToInt32(Math.Floor(thresholdHP));
         return unit.CurrentHP <= truncatedThresholdHP;
     }

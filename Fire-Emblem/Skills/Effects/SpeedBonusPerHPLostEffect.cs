@@ -25,6 +25,7 @@ public class SpeedBonusPerHPLostEffect : SpeedBonusEffect
         {
             Bonus = int.Min(_baseBonus + additionalBonus, _max);
         }
+        unit.ActiveSkillsEffects["SpeedBonus"] += Bonus;
         
     }
 }

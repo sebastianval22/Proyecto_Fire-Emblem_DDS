@@ -11,6 +11,6 @@ public class AttackBonusEffect : Effect, IBonusEffect
 
     public override void Apply(Unit unit)
     {
-        
+        unit.ActiveSkillsEffects["AttackBonus"] += Bonus;
     }
 }

@@ -13,6 +13,6 @@ public class SpeedBonusEffect : Effect, IBonusEffect
 
     public override void Apply(Unit unit)
     {
-
+        unit.ActiveSkillsEffects["SpeedBonus"] += Bonus;
     }
 }

@@ -1,18 +1,17 @@
-namespace Fire_Emblem.Skills.Conditions;
-
-public class OrCondition : Condition
+namespace Fire_Emblem.Skills.Conditions
 {
-    private readonly Condition _condition1;
-    private readonly Condition _condition2;
-
-    public OrCondition(Condition condition1, Condition condition2)
+    public class OrCondition : Condition
     {
-        _condition1 = condition1;
-        _condition2 = condition2;
-    }
+        private readonly List<Condition> _conditions;
 
-    public override bool IsMet(Unit unit, RoundFight roundFight)
-    {
-        return _condition1.IsMet(unit, roundFight) || _condition2.IsMet(unit, roundFight);
+        public OrCondition(List<Condition> conditions)
+        {
+            _conditions = conditions;
+        }
+
+        public override bool IsMet(Unit unit, RoundFight roundFight)
+        {
+            return _conditions.Any(condition => condition.IsMet(unit, roundFight));
+        }
     }
 }

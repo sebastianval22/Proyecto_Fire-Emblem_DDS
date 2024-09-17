@@ -48,6 +48,21 @@ public static class EffectLogger
         {
             ShowEffect($"{unit.Name} obtiene Res+{unit.ActiveSkillsEffects["FirstAttackResistanceBonus"]} en su primer ataque");
         }
+        
+        // Show FollowUpAttackBonus effects
+        if (unit.ActiveSkillsEffects["FollowUpAttackAttackBonus"] > 0)
+        {
+            ShowEffect($"{unit.Name} obtiene Atk+{unit.ActiveSkillsEffects["FollowUpAttackAttackBonus"]} en su Follow-Up");
+        }
+        if (unit.ActiveSkillsEffects["FollowUpAttackDefenseBonus"] > 0)
+        {
+            ShowEffect($"{unit.Name} obtiene Def+{unit.ActiveSkillsEffects["FollowUpAttackDefenseBonus"]} en su Follow-Up");
+        }
+        if (unit.ActiveSkillsEffects["FollowUpAttackResistanceBonus"] > 0)
+        {
+            ShowEffect($"{unit.Name} obtiene Res+{unit.ActiveSkillsEffects["FollowUpAttackResistanceBonus"]} en su Follow-Up");
+        }
+        
 
         // Show Penalty effects
         if (unit.ActiveSkillsEffects["AttackPenalty"] < 0)
@@ -81,22 +96,55 @@ public static class EffectLogger
             ShowEffect($"{unit.Name} obtiene Res{unit.ActiveSkillsEffects["FirstAttackResistancePenalty"]} en su primer ataque");
         }
         
-        // Show Bonus Neutralization effects
-        if (unit.BonusesHaveBeenNeutralized)
+        // Show FollowUpAttackPenalty effects
+        if (unit.ActiveSkillsEffects["FollowUpAttackAttackPenalty"] < 0)
         {
-            ShowEffect($"Los bonus de Atk de {unit.Name} fueron neutralizados");
-            ShowEffect($"Los bonus de Spd de {unit.Name} fueron neutralizados");
-            ShowEffect($"Los bonus de Def de {unit.Name} fueron neutralizados");
-            ShowEffect($"Los bonus de Res de {unit.Name} fueron neutralizados");
+            ShowEffect($"{unit.Name} obtiene Atk{unit.ActiveSkillsEffects["FollowUpAttackAttackPenalty"]} en su Follow-Up");
+        }
+        if (unit.ActiveSkillsEffects["FollowUpAttackDefensePenalty"] < 0)
+        {
+            ShowEffect($"{unit.Name} obtiene Def{unit.ActiveSkillsEffects["FollowUpAttackDefensePenalty"]} en su Follow-Up");
+        }
+        if (unit.ActiveSkillsEffects["FollowUpAttackResistancePenalty"] < 0)
+        {
+            ShowEffect($"{unit.Name} obtiene Res{unit.ActiveSkillsEffects["FollowUpAttackResistancePenalty"]} en su Follow-Up");
         }
         
-        // Show Penalty Neutralization effects
-        if (unit.PenaltyHasBeenNeutralized)
+        // Show Bonus Neutralization effects
+        if (unit.AttackBonusNeutralized)
+        {
+            ShowEffect($"Los bonus de Atk de {unit.Name} fueron neutralizados");
+        }
+        if (unit.SpeedBonusNeutralized)
+        {
+            ShowEffect($"Los bonus de Spd de {unit.Name} fueron neutralizados");
+        }
+        if (unit.DefenseBonusNeutralized)
+        {
+            ShowEffect($"Los bonus de Def de {unit.Name} fueron neutralizados");
+        }
+        if (unit.ResistanceBonusNeutralized)
+        {
+            ShowEffect($"Los bonus de Res de {unit.Name} fueron neutralizados");
+        }
+
+// Show Penalty Neutralization effects
+        if (unit.AttackPenaltyNeutralized)
         {
             ShowEffect($"Los penalty de Atk de {unit.Name} fueron neutralizados");
+        }
+        if (unit.SpeedPenaltyNeutralized)
+        {
             ShowEffect($"Los penalty de Spd de {unit.Name} fueron neutralizados");
+        }
+        if (unit.DefensePenaltyNeutralized)
+        {
             ShowEffect($"Los penalty de Def de {unit.Name} fueron neutralizados");
+        }
+        if (unit.ResistancePenaltyNeutralized)
+        {
             ShowEffect($"Los penalty de Res de {unit.Name} fueron neutralizados");
         }
+        
     }
 }
