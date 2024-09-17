@@ -29,6 +29,7 @@ public class Battle
             _attackingUnit = ChooseUnit(_attackingPlayerNumber);
             _defendingUnit = ChooseUnit(_defendingPlayerNumber);
             _view.WriteLine($"Round {_round}: {_attackingUnit.Name} (Player {_attackingPlayerNumber}) comienza");
+            Console.WriteLine($"attacking unit:{ _attackingUnit.Name} health: {_attackingUnit.CurrentHP} defending unit: {_defendingUnit.Name} health: {_defendingUnit.CurrentHP}");
             _roundFightController.Fight(_attackingUnit, _defendingUnit);
             UpdateTeams();
             _view.WriteLine($"{_attackingUnit.Name} ({_attackingUnit.CurrentHP}) : {_defendingUnit.Name} ({_defendingUnit.CurrentHP})");
@@ -83,7 +84,7 @@ public class Battle
                 {
                     if (skill.SkillType == "Base Stats")
                     {
-                        skill.ObtainEffects(unit, _roundFightController);
+                        skill.ActivateBaseStatsSkillEffects(unit);
                     }
                 }
             }

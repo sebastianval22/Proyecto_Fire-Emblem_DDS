@@ -70,21 +70,17 @@ public class AttackController
     {
         foreach (Skill unitSkill in attackingUnit.Skills.Reverse<Skill>())
         {
-            var effects = unitSkill.ObtainEffects(attackingUnit, _roundFight);
-            foreach (var effect in effects)
-            {
-                attackingUnit.ActiveSkills[effect.Key] += effect.Value;
-            }
+             unitSkill.UpdateActiveSkillEffects(attackingUnit, _roundFight);
         }
     }
     private void ArrangePenaltyEffects(Unit attackingUnit, Unit defendingUnit)
     {
-        foreach (var key in attackingUnit.ActiveSkills.Keys)
+        foreach (var key in attackingUnit.ActiveSkillsEffects.Keys)
         {
             if (key.Contains("Penalty"))
             {
-                (attackingUnit.ActiveSkills[key], defendingUnit.ActiveSkills[key]) = 
-                    (defendingUnit.ActiveSkills[key], attackingUnit.ActiveSkills[key]);
+                (attackingUnit.ActiveSkillsEffects[key], defendingUnit.ActiveSkillsEffects[key]) = 
+                    (defendingUnit.ActiveSkillsEffects[key], attackingUnit.ActiveSkillsEffects[key]);
             }
         }
     }

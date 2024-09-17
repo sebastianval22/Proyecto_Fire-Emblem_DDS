@@ -3,9 +3,9 @@ namespace Fire_Emblem.Skills.Effects;
 public abstract class Effect
 {
     public abstract void Apply(Unit unit);
-    
-    protected void ShowEffect(string message)
+    public virtual void ApplySpecificEffect(Unit unit, RoundFight roundFight)
     {
-        EffectLogger.ShowEffect(message);
+        // Default implementation (can be empty or throw an exception)
     }
+
 }

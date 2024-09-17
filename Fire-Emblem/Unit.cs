@@ -18,8 +18,10 @@ public class Unit
     public List<Skill> Skills { get; set; }
     public Unit RecentOpponent { get; set; } 
     public bool HasFirstAttackSkill { get; set; }
-    public Dictionary<string, int> ActiveSkills { get; set; }
+    public Dictionary<string, int> ActiveSkillsEffects{ get; set; }
     
+    public bool BonusesHaveBeenNeutralized { get; set; }
+    public bool PenaltyHasBeenNeutralized { get; set; }
     
     // Backup attributes
     private int _backupAttack;
@@ -34,7 +36,7 @@ public class Unit
         Skills = skills;
         var unitData = new UnitData();
         unitData.InitializeUnit(this);
-        ActiveSkills = new Dictionary<string, int>
+        ActiveSkillsEffects= new Dictionary<string, int>
         {
             {"AttackBonus", 0},
             {"DefenseBonus", 0},
@@ -51,6 +53,8 @@ public class Unit
             {"FirstAttackDefensePenalty", 0},
             {"FirstAttackResistancePenalty", 0}
         };
+        BonusesHaveBeenNeutralized = false;
+        PenaltyHasBeenNeutralized = false;
     }
 
     public void UpdateHPStatus(int damage)
@@ -104,15 +108,21 @@ public class Unit
     }
     public void ApplyEffects()
     {
-        Attack += ActiveSkills["AttackBonus"];
-        Defence += ActiveSkills["DefenseBonus"];
-        Speed += ActiveSkills["SpeedBonus"];
-        Resistance += ActiveSkills["ResistanceBonus"];
-        Attack += ActiveSkills["AttackPenalty"];
-        Defence += ActiveSkills["DefensePenalty"];
-        Speed += ActiveSkills["SpeedPenalty"];
-        Resistance += ActiveSkills["ResistancePenalty"];
-        if (ActiveSkills.Any(kv => kv.Key.Contains("FirstAttack") && kv.Value != 0))
+        if (!BonusesHaveBeenNeutralized)
+        {
+            Attack += ActiveSkillsEffects["AttackBonus"];
+            Defence += ActiveSkillsEffects["DefenseBonus"];
+            Speed += ActiveSkillsEffects["SpeedBonus"];
+            Resistance += ActiveSkillsEffects["ResistanceBonus"];
+        }
+        if (!PenaltyHasBeenNeutralized)
+        {
+            Attack += ActiveSkillsEffects["AttackPenalty"];
+            Defence += ActiveSkillsEffects["DefensePenalty"];
+            Speed += ActiveSkillsEffects["SpeedPenalty"];
+            Resistance += ActiveSkillsEffects["ResistancePenalty"];
+        }
+        if (ActiveSkillsEffects.Any(kv => kv.Key.Contains("FirstAttack") && kv.Value != 0))
         {
             SaveAttributes();
             ApplyFirstAttackEffects();
@@ -121,19 +131,27 @@ public class Unit
     }
     private void ApplyFirstAttackEffects()
     {
-        Attack += ActiveSkills["FirstAttackAttackBonus"];
-        Defence += ActiveSkills["FirstAttackDefenseBonus"];
-        Resistance += ActiveSkills["FirstAttackResistanceBonus"];
-        Attack += ActiveSkills["FirstAttackAttackPenalty"];
-        Defence += ActiveSkills["FirstAttackDefensePenalty"];
-        Resistance += ActiveSkills["FirstAttackResistancePenalty"];
+        if (!BonusesHaveBeenNeutralized)
+        {
+            Attack += ActiveSkillsEffects["FirstAttackAttackBonus"];
+            Defence += ActiveSkillsEffects["FirstAttackDefenseBonus"];
+            Resistance += ActiveSkillsEffects["FirstAttackResistanceBonus"]; 
+        }
+        if (!PenaltyHasBeenNeutralized)
+        {
+            Attack += ActiveSkillsEffects["FirstAttackAttackPenalty"];
+            Defence += ActiveSkillsEffects["FirstAttackDefensePenalty"];
+            Resistance += ActiveSkillsEffects["FirstAttackResistancePenalty"];
+        }
     }
-    public void ResetActiveSkills()
+    public void ResetActiveSkillsEffects()
     {
-        var keys = ActiveSkills.Keys.ToList();
+        var keys = ActiveSkillsEffects.Keys.ToList();
         foreach (var key in keys)
         {
-            ActiveSkills[key] = 0;
+            ActiveSkillsEffects[key] = 0;
+            BonusesHaveBeenNeutralized = false;
+            PenaltyHasBeenNeutralized = false;
         }
     }
 }

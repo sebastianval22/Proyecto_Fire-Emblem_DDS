@@ -19,7 +19,8 @@ public static class SkillFactory
                     },
                     Effects = new List<Effect>
                     {
-                        new AttackBonusEffect(6)
+                        new AttackBonusEffect(6),
+                        new AttackBonusOpponentEffect(6)
                     }
                 };
             case "HP +15":
@@ -104,7 +105,7 @@ public static class SkillFactory
                     Effects = new List<Effect> { new AttackBonusPerHPLostEffect(0, additionalAttackBonusPerHPLost,30), 
                         new SpeedBonusPerHPLostEffect(0, additionalSpeedBonusPerHP, 30) },
                 };
-            case "Resistance":
+            case "Resistance +5":
                 return new Skill("Resistance", "Bonus")
                 {
                     Effects = new List<Effect> { new ResistanceBonusEffect(5) }
@@ -190,7 +191,7 @@ public static class SkillFactory
                     Effects = new List<Effect> { new AttackBonusEffect(10), new SpeedBonusEffect(10) },
                     Conditions = new List<Condition> { new HealthBelowCondition(80) }
                 };
-            case "Brazem Atk/Def":
+            case "Brazen Atk/Def":
                 return new Skill("Brazen Atk/Def", "Bonus")
                 {
                     Effects = new List<Effect> { new AttackBonusEffect(10), new DefenseBonusEffect(10) },
@@ -253,7 +254,7 @@ public static class SkillFactory
             case "Blinding Flash":
                 return new Skill("Blinding Flash", "Penalty")
                 {
-                    Effects = new List<Effect> { new SpeedBonusEffect(4) },
+                    Effects = new List<Effect> { new SpeedPenaltyEffect(4) },
                     Conditions = new List<Condition> {new InitiatesCombatCondition() }
                 };
             case "Not *Quite*":
@@ -268,8 +269,8 @@ public static class SkillFactory
                     Effects = new List<Effect> { new SpeedPenaltyEffect(8) },
                     Conditions = new List<Condition> {new OpponentGenderCondition("Male") }
                 };
-            case "Disarming Sight":
-                return new Skill("Disarming Sight", "Penalty")
+            case "Disarming Sigh":
+                return new Skill("Disarming Sigh", "Penalty")
                 {
                     Effects = new List<Effect> { new AttackPenaltyEffect(8) },
                     Conditions = new List<Condition> { new OpponentGenderCondition("Male") }
@@ -285,8 +286,25 @@ public static class SkillFactory
                 {
                     Effects = new List<Effect> { new DefensePenaltyMinusHalfEffect(0), new ResistancePenaltyMinusHalfEffect(0) }
                 };
+            case "Belief in Love":
+                return new Skill("Belief in Love", "Penalty")
+                {
+                    Effects = new List<Effect> { new AttackPenaltyEffect(5), new DefensePenaltyEffect(5) },
+                    Conditions = new List<Condition> { new OrCondition(new RivalInitiatesCombatCondition(), new OpponentHP100Condition()) }
+                };
+            case "Beorc's Blessing":
+                return new Skill("Beorc's Blessing", "Neutralization")
+                {
+                    Effects = new List<Effect> { new NeutralizeBonusEffect() },
+                };
+            case "Agnea's Arrow":
+                return new Skill("Agnea's Arrow", "Neutralization")
+                {
+                    Effects = new List<Effect> { new NeutralizePenaltyEffect() },
+                };
+
             default:
-                return null;
+                return new Skill(skillName, "Unknown");
         }
     }
 

@@ -31,8 +31,8 @@ public class RoundFight
         // Restore attributes after the fight
         attackingUnit.RestoreSpecificAttributes(_attackingUnitAtributesBeforeFight);
         defendingUnit.RestoreSpecificAttributes(_defendingUnitAtributesBeforeFight);
-        attackingUnit.ResetActiveSkills();
-        defendingUnit.ResetActiveSkills();
+        attackingUnit.ResetActiveSkillsEffects();
+        defendingUnit.ResetActiveSkillsEffects();
         attackingUnit.RecentOpponent = defendingUnit;
         defendingUnit.RecentOpponent = attackingUnit;
     }

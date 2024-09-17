@@ -18,67 +18,85 @@ public static class EffectLogger
     public static void ShowUnitEffects(Unit unit)
     {
         // Show Bonus effects
-        if (unit.ActiveSkills["AttackBonus"] > 0)
+        if (unit.ActiveSkillsEffects["AttackBonus"] > 0)
         {
-            ShowEffect($"{unit.Name} obtiene Atk+{unit.ActiveSkills["AttackBonus"]}");
+            ShowEffect($"{unit.Name} obtiene Atk+{unit.ActiveSkillsEffects["AttackBonus"]}");
         }
-        if (unit.ActiveSkills["DefenseBonus"] > 0)
+        if (unit.ActiveSkillsEffects["SpeedBonus"] > 0)
         {
-            ShowEffect($"{unit.Name} obtiene Def+{unit.ActiveSkills["DefenseBonus"]}");
+            ShowEffect($"{unit.Name} obtiene Spd+{unit.ActiveSkillsEffects["SpeedBonus"]}");
         }
-        if (unit.ActiveSkills["SpeedBonus"] > 0)
+        if (unit.ActiveSkillsEffects["DefenseBonus"] > 0)
         {
-            ShowEffect($"{unit.Name} obtiene Spd+{unit.ActiveSkills["SpeedBonus"]}");
+            ShowEffect($"{unit.Name} obtiene Def+{unit.ActiveSkillsEffects["DefenseBonus"]}");
         }
-        if (unit.ActiveSkills["ResistanceBonus"] > 0)
+        if (unit.ActiveSkillsEffects["ResistanceBonus"] > 0)
         {
-            ShowEffect($"{unit.Name} obtiene Res+{unit.ActiveSkills["ResistanceBonus"]}");
+            ShowEffect($"{unit.Name} obtiene Res+{unit.ActiveSkillsEffects["ResistanceBonus"]}");
         }
 
         // Show FirstAttackBonus effects
-        if (unit.ActiveSkills["FirstAttackAttackBonus"] > 0)
+        if (unit.ActiveSkillsEffects["FirstAttackAttackBonus"] > 0)
         {
-            ShowEffect($"{unit.Name} obtiene Atk+{unit.ActiveSkills["FirstAttackAttackBonus"]} en su primer ataque");
+            ShowEffect($"{unit.Name} obtiene Atk+{unit.ActiveSkillsEffects["FirstAttackAttackBonus"]} en su primer ataque");
         }
-        if (unit.ActiveSkills["FirstAttackDefenseBonus"] > 0)
+        if (unit.ActiveSkillsEffects["FirstAttackDefenseBonus"] > 0)
         {
-            ShowEffect($"{unit.Name} obtiene Def+{unit.ActiveSkills["FirstAttackDefenseBonus"]} en su primer ataque");
+            ShowEffect($"{unit.Name} obtiene Def+{unit.ActiveSkillsEffects["FirstAttackDefenseBonus"]} en su primer ataque");
         }
-        if (unit.ActiveSkills["FirstAttackResistanceBonus"] > 0)
+        if (unit.ActiveSkillsEffects["FirstAttackResistanceBonus"] > 0)
         {
-            ShowEffect($"{unit.Name} obtiene Res+{unit.ActiveSkills["FirstAttackResistanceBonus"]} en su primer ataque");
+            ShowEffect($"{unit.Name} obtiene Res+{unit.ActiveSkillsEffects["FirstAttackResistanceBonus"]} en su primer ataque");
         }
 
         // Show Penalty effects
-        if (unit.ActiveSkills["AttackPenalty"] < 0)
+        if (unit.ActiveSkillsEffects["AttackPenalty"] < 0)
         {
-            ShowEffect($"{unit.Name} obtiene Atk{unit.ActiveSkills["AttackPenalty"]}");
+            ShowEffect($"{unit.Name} obtiene Atk{unit.ActiveSkillsEffects["AttackPenalty"]}");
         }
-        if (unit.ActiveSkills["DefensePenalty"] < 0)
+        if (unit.ActiveSkillsEffects["SpeedPenalty"] < 0)
         {
-            ShowEffect($"{unit.Name} obtiene Def{unit.ActiveSkills["DefensePenalty"]}");
+            ShowEffect($"{unit.Name} obtiene Spd{unit.ActiveSkillsEffects["SpeedPenalty"]}");
         }
-        if (unit.ActiveSkills["SpeedPenalty"] < 0)
+        if (unit.ActiveSkillsEffects["DefensePenalty"] < 0)
         {
-            ShowEffect($"{unit.Name} obtiene Spd{unit.ActiveSkills["SpeedPenalty"]}");
+            ShowEffect($"{unit.Name} obtiene Def{unit.ActiveSkillsEffects["DefensePenalty"]}");
         }
-        if (unit.ActiveSkills["ResistancePenalty"] < 0)
+        if (unit.ActiveSkillsEffects["ResistancePenalty"] < 0)
         {
-            ShowEffect($"{unit.Name} obtiene Res{unit.ActiveSkills["ResistancePenalty"]}");
+            ShowEffect($"{unit.Name} obtiene Res{unit.ActiveSkillsEffects["ResistancePenalty"]}");
         }
 
         // Show FirstAttackPenalty effects
-        if (unit.ActiveSkills["FirstAttackAttackPenalty"] < 0)
+        if (unit.ActiveSkillsEffects["FirstAttackAttackPenalty"] < 0)
         {
-            ShowEffect($"{unit.Name} obtiene Atk{unit.ActiveSkills["FirstAttackAttackPenalty"]} en su primer ataque");
+            ShowEffect($"{unit.Name} obtiene Atk{unit.ActiveSkillsEffects["FirstAttackAttackPenalty"]} en su primer ataque");
         }
-        if (unit.ActiveSkills["FirstAttackDefensePenalty"] < 0)
+        if (unit.ActiveSkillsEffects["FirstAttackDefensePenalty"] < 0)
         {
-            ShowEffect($"{unit.Name} obtiene Def{unit.ActiveSkills["FirstAttackDefensePenalty"]} en su primer ataque");
+            ShowEffect($"{unit.Name} obtiene Def{unit.ActiveSkillsEffects["FirstAttackDefensePenalty"]} en su primer ataque");
         }
-        if (unit.ActiveSkills["FirstAttackResistancePenalty"] < 0)
+        if (unit.ActiveSkillsEffects["FirstAttackResistancePenalty"] < 0)
         {
-            ShowEffect($"{unit.Name} obtiene Res{unit.ActiveSkills["FirstAttackResistancePenalty"]} en su primer ataque");
+            ShowEffect($"{unit.Name} obtiene Res{unit.ActiveSkillsEffects["FirstAttackResistancePenalty"]} en su primer ataque");
+        }
+        
+        // Show Bonus Neutralization effects
+        if (unit.BonusesHaveBeenNeutralized)
+        {
+            ShowEffect($"Los bonus de Atk de {unit.Name} fueron neutralizados");
+            ShowEffect($"Los bonus de Spd de {unit.Name} fueron neutralizados");
+            ShowEffect($"Los bonus de Def de {unit.Name} fueron neutralizados");
+            ShowEffect($"Los bonus de Res de {unit.Name} fueron neutralizados");
+        }
+        
+        // Show Penalty Neutralization effects
+        if (unit.PenaltyHasBeenNeutralized)
+        {
+            ShowEffect($"Los penalty de Atk de {unit.Name} fueron neutralizados");
+            ShowEffect($"Los penalty de Spd de {unit.Name} fueron neutralizados");
+            ShowEffect($"Los penalty de Def de {unit.Name} fueron neutralizados");
+            ShowEffect($"Los penalty de Res de {unit.Name} fueron neutralizados");
         }
     }
 }

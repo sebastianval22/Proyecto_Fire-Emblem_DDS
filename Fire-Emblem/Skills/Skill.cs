@@ -10,150 +10,123 @@ public class Skill
     public List<Condition> Conditions { get; set; } = new List<Condition>();
     public List<Effect> Effects { get; set; } = new List<Effect>();
 
+    private Unit _rival;
+
     public Skill(string name, string skillType)
     {
         Name = name;
         SkillType = skillType;
     }
-
-    public void AddCondition(Condition condition)
+    public void ActivateBaseStatsSkillEffects(Unit unit)
     {
-        Conditions.Add(condition);
+        foreach (var effect in Effects)
+        {
+            effect.Apply(unit);
+        }
     }
-
-    public void AddEffect(Effect effect)
+    public void UpdateActiveSkillEffects(Unit unit, RoundFight roundFight)
     {
-        Effects.Add(effect);
-    }
-
-    public Dictionary<string, int> ObtainEffects(Unit unit, RoundFight roundFight)
-    {
-        var attackBonus = 0;
-        var defenseBonus = 0;
-        var speedBonus = 0;
-        var resistanceBonus = 0;
-        var attackPenalty = 0;
-        var defensePenalty = 0;
-        var speedPenalty = 0;
-        var resistancePenalty = 0;
-        var firstAttackAttackBonus = 0;
-        var firstAttackDefenseBonus = 0;
-        var firstAttackResistanceBonus = 0;
-        var firstAttackAttackPenalty = 0;
-        var firstAttackDefensePenalty = 0;
-        var firstAttackResistancePenalty = 0;
-        Unit rival = unit == roundFight.attackingUnit ? roundFight.defendingUnit : roundFight.attackingUnit;
+        _rival = unit == roundFight.attackingUnit ? roundFight.defendingUnit : roundFight.attackingUnit;
         if (Conditions.All(condition => condition.IsMet(unit, roundFight)))
         {
-            
             foreach (var effect in Effects)
             {
                 if (SkillType == "First Attack")
                 {
-                    if (effect is IBonusEffect bonusEffect)
-                    {
-                        effect.Apply(unit);
-                        if (effect is AttackBonusEffect)
-                        {
-                            firstAttackAttackBonus += bonusEffect.Bonus;
-                        }
-                        else if (effect is DefenseBonusEffect)
-                        {
-                            firstAttackDefenseBonus += bonusEffect.Bonus;
-                        }
-                        else if (effect is ResistanceBonusEffect)
-                        {
-                            firstAttackResistanceBonus += bonusEffect.Bonus;
-                        }
-                    }
-                    else if (effect is IPenaltyEffect penaltyEffect)
-                    {
-                        effect.Apply(rival);
-                        if (effect is AttackPenaltyEffect)
-                        {
-                            firstAttackAttackPenalty -= penaltyEffect.Penalty;
-                        }
-                        else if (effect is DefensePenaltyEffect)
-                        {
-                            firstAttackDefensePenalty -= penaltyEffect.Penalty;
-                        }
-                        else if (effect is ResistancePenaltyEffect)
-                        {
-                            firstAttackResistancePenalty -= penaltyEffect.Penalty;
-                        }
-                    }
+                    ApplyFirstAttackEffect(effect, unit);
                 }
                 else if (SkillType == "Bonus" || SkillType == "Penalty")
                 {
-                    if (effect is IBonusEffect bonusEffect)
-                    {
-                        effect.Apply(unit);
-                        if (effect is AttackBonusEffect)
-                        {
-                            attackBonus += bonusEffect.Bonus;
-                        }
-                        else if (effect is DefenseBonusEffect)
-                        {
-                            defenseBonus += bonusEffect.Bonus;
-                        }
-                        else if (effect is SpeedBonusEffect)
-                        {
-                            speedBonus += bonusEffect.Bonus;
-                        }
-                        else if (effect is ResistanceBonusEffect)
-                        {
-                            resistanceBonus += bonusEffect.Bonus;
-                        }
-                    }
-                    else if (effect is IPenaltyEffect penaltyEffect)
-                    {
-                        effect.Apply(rival);
-                        if (effect is AttackPenaltyEffect)
-                        {
-                            attackPenalty -= penaltyEffect.Penalty;
-                        }
-                        else if (effect is DefensePenaltyEffect)
-                        {
-                            defensePenalty -= penaltyEffect.Penalty;
-                        }
-                        else if (effect is SpeedPenaltyEffect)
-                        {
-                            speedPenalty -= penaltyEffect.Penalty;
-                        }
-                        else if (effect is ResistancePenaltyEffect)
-                        {
-                            resistancePenalty -= penaltyEffect.Penalty;
-                        }
-                    }
+                    ApplyRegularEffect(effect, unit);
+                    effect.ApplySpecificEffect(unit, roundFight);  // If the Bonus/Penalty effect has a specific effect, apply it
                 }
-                
-                else 
+                else  if (SkillType != "Base Stats")
                 {
                     effect.Apply(unit);
+                    effect.ApplySpecificEffect(unit, roundFight);
                 }
             }
-            
         }
-        Console.WriteLine($"{Name} has been applied to {unit.Name} with the following effects: {attackPenalty}, {firstAttackDefensePenalty}, {resistancePenalty}");
-        return new Dictionary<string, int>
+    }
+
+    private void ApplyFirstAttackEffect(Effect effect, Unit unit)
+    {
+        if (effect is IBonusEffect bonusEffect)
+        {
+            effect.Apply(unit);
+            if (effect is AttackBonusEffect)
             {
-                {"AttackBonus", attackBonus},
-                {"DefenseBonus", defenseBonus},
-                {"SpeedBonus", speedBonus},
-                {"ResistanceBonus", resistanceBonus},
-                {"AttackPenalty", attackPenalty},
-                {"DefensePenalty", defensePenalty},
-                {"SpeedPenalty", speedPenalty},
-                {"ResistancePenalty", resistancePenalty},
-                {"FirstAttackAttackBonus", firstAttackAttackBonus},
-                {"FirstAttackDefenseBonus", firstAttackDefenseBonus},
-                {"FirstAttackResistanceBonus", firstAttackResistanceBonus},
-                {"FirstAttackAttackPenalty", firstAttackAttackPenalty},
-                {"FirstAttackDefensePenalty", firstAttackDefensePenalty},
-                {"FirstAttackResistancePenalty", firstAttackResistancePenalty}
-            };
+                unit.ActiveSkillsEffects["FirstAttackAttackBonus"] += bonusEffect.Bonus;
+            }
+            else if (effect is DefenseBonusEffect)
+            {
+                unit.ActiveSkillsEffects["FirstAttackDefenseBonus"] += bonusEffect.Bonus;
+            }
+            else if (effect is ResistanceBonusEffect)
+            {
+                unit.ActiveSkillsEffects["FirstAttackResistanceBonus"] += bonusEffect.Bonus;
+            }
+        }
+        else if (effect is IPenaltyEffect penaltyEffect)
+        {
+            effect.Apply(_rival);
+            if (effect is AttackPenaltyEffect)
+            {
+                unit.ActiveSkillsEffects["FirstAttackAttackPenalty"] -= penaltyEffect.Penalty;
+            }
+            else if (effect is DefensePenaltyEffect)
+            {
+                unit.ActiveSkillsEffects["FirstAttackDefensePenalty"] -= penaltyEffect.Penalty;
+            }
+            else if (effect is ResistancePenaltyEffect)
+            {
+                unit.ActiveSkillsEffects["FirstAttackResistancePenalty"] -= penaltyEffect.Penalty;
+            }
+        }
+    }
+
+    private void ApplyRegularEffect(Effect effect, Unit unit)
+    {
+        if (effect is IBonusEffect bonusEffect)
+        {
+            effect.Apply(unit);
+            if (effect is AttackBonusEffect)
+            {
+                unit.ActiveSkillsEffects["AttackBonus"] += bonusEffect.Bonus;
+            }
+            else if (effect is DefenseBonusEffect)
+            {
+                unit.ActiveSkillsEffects["DefenseBonus"] += bonusEffect.Bonus;
+            }
+            else if (effect is SpeedBonusEffect)
+            {
+                unit.ActiveSkillsEffects["SpeedBonus"] += bonusEffect.Bonus;
+            }
+            else if (effect is ResistanceBonusEffect)
+            {
+                Console.WriteLine("Applying ResistanceBonusEffect");
+                unit.ActiveSkillsEffects["ResistanceBonus"] += bonusEffect.Bonus;
+            }
+        }
+        else if (effect is IPenaltyEffect penaltyEffect)
+        {
+            effect.Apply(_rival);
+            if (effect is AttackPenaltyEffect)
+            {
+                unit.ActiveSkillsEffects["AttackPenalty"] -= penaltyEffect.Penalty;
+            }
+            else if (effect is DefensePenaltyEffect)
+            {
+                unit.ActiveSkillsEffects["DefensePenalty"] -= penaltyEffect.Penalty;
+            }
+            else if (effect is SpeedPenaltyEffect)
+            {
+                unit.ActiveSkillsEffects["SpeedPenalty"] -= penaltyEffect.Penalty;
+            }
+            else if (effect is ResistancePenaltyEffect)
+            {
+                unit.ActiveSkillsEffects["ResistancePenalty"] -= penaltyEffect.Penalty;
+            }
+        }
     }
 }
-    
-
-    
