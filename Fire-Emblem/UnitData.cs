@@ -31,7 +31,7 @@ public class UnitData
                 unit.CurrentHP = unit.MaxHP;
                 unit.Attack = int.Parse(unitData.Atk.Trim());
                 unit.Speed = int.Parse(unitData.Spd.Trim());
-                unit.Defence = int.Parse(unitData.Def.Trim());
+                unit.Defense = int.Parse(unitData.Def.Trim());
                 unit.Resistance = int.Parse(unitData.Res.Trim());
                 break;
             }

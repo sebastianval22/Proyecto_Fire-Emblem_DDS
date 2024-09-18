@@ -14,8 +14,7 @@ public static class SkillFactory
                 {
                     Conditions = new List<Condition>
                     {
-                        new InitiatesCombatCondition(),
-                        new HealthBelowCondition(50)
+                        new InitiatesCombatCondition()
                     },
                     Effects = new List<Effect>
                     {
@@ -366,14 +365,14 @@ public static class SkillFactory
             case "Close Def":
                 return new Skill("Close Def", "Hybrid")
                 {
-                    Effects = new List<Effect> { new DefenseBonusEffect(8), new ResistanceBonusEffect(8), new NeutralizeAttackBonusEffect() },
+                    Effects = new List<Effect> { new DefenseBonusEffect(8), new ResistanceBonusEffect(8), new NeutralizeAttackBonusEffect(), new NeutralizeSpeedBonusEffect(), new NeutralizeDefenseBonusEffect(), new NeutralizeResistanceBonusEffect()},
                     Conditions = new List<Condition> { new OpponentInitiatesCombatCondition(), new OrCondition(new List<Condition>
                         {new OpponentWeaponUsedCondition("Sword"), new OpponentWeaponUsedCondition("Lance"), new OpponentWeaponUsedCondition("Axe") }) }
                 };
             case "Distant Def":
                 return new Skill("Distant Def", "Hybrid")
                 {
-                    Effects = new List<Effect> { new DefenseBonusEffect(8), new ResistanceBonusEffect(8), new NeutralizeAttackBonusEffect() },
+                    Effects = new List<Effect> { new DefenseBonusEffect(8), new ResistanceBonusEffect(8), new NeutralizeAttackBonusEffect(), new NeutralizeSpeedBonusEffect(), new NeutralizeDefenseBonusEffect(), new NeutralizeResistanceBonusEffect()},
                     Conditions = new List<Condition> { new OpponentInitiatesCombatCondition(), new OrCondition(new List<Condition>
                         {new OpponentWeaponUsedCondition("Magic"), new OpponentWeaponUsedCondition("Bow") }) }
                 };
@@ -415,17 +414,17 @@ public static class SkillFactory
             case "Life and Death":
                 return new Skill("Life and Death", "Hybrid")
                 {
-                    Effects = new List<Effect> { new AttackBonusEffect(6), new DefensePenaltyEffect(5), new ResistancePenaltyEffect(5), new SpeedBonusEffect(6) }
+                    Effects = new List<Effect> { new AttackBonusEffect(6), new DefenseCostEffect(5), new ResistanceCostEffect(5), new SpeedBonusEffect(6) }
                 };
             case "Solid Ground":
                 return new Skill("Solid Ground", "Hybrid")
                 {
-                    Effects = new List<Effect> { new DefenseBonusEffect(6), new AttackBonusEffect(6), new ResistancePenaltyEffect(5) }
+                    Effects = new List<Effect> { new DefenseBonusEffect(6), new AttackBonusEffect(6), new ResistanceCostEffect(5) }
                 };
             case "Still Water":
                 return new Skill("Still Water", "Hybrid")
                 {
-                    Effects = new List<Effect> { new ResistanceBonusEffect(6), new AttackBonusEffect(6), new DefensePenaltyEffect(5) }
+                    Effects = new List<Effect> { new ResistanceBonusEffect(6), new AttackBonusEffect(6), new DefenseCostEffect(5) }
                 };
             case "Dragonskin":
                 return new Skill("DragonSkin", "Hybrid")

@@ -9,7 +9,7 @@ public class FollowUpAttackBasedOnUnitDefenseEffect : Effect
 
     public override void ApplySpecificEffect(Unit unit, RoundFight roundFight)
     {
-        var unitDefense150 = 1.5 * unit.Defence;
+        var unitDefense150 = 1.5 * unit.Defense;
         int attackEffect = Convert.ToInt32(Math.Floor(unitDefense150 - unit.Attack));
         
         if (attackEffect> 0)

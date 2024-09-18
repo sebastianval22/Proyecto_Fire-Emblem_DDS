@@ -9,7 +9,7 @@ public class FirstDefensePenaltyMinusHalfEffect : DefensePenaltyEffect
     }
     public override void Apply(Unit rival)
     {
-        Penalty = Convert.ToInt32(Math.Floor(rival.Defence / 2.0));
+        Penalty = Convert.ToInt32(Math.Floor(rival.Defense / 2.0));
         rival.ActiveSkillsEffects["FirstAttackDefensePenalty"] -= Penalty;
     }
 }

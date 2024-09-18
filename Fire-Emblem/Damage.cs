@@ -33,7 +33,7 @@ public class Damage
         return _attacker.Weapon switch
         {
             "Magic" => _defender.Resistance,
-            _ => _defender.Defence
+            _ => _defender.Defense
         };
     }
     

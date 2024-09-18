@@ -11,11 +11,11 @@ public class OpponentDefenseResistanceAverageEffect : Effect
     {
         Unit rival = unit == roundFight.attackingUnit ? roundFight.defendingUnit : roundFight.attackingUnit;
         
-        var averageDefenceResistance = (rival.Defence + rival.Resistance) / 2.0;
+        var averageDefenseResistance = (rival.Defense + rival.Resistance) / 2.0;
 
 
-        int defenseEffect = Convert.ToInt32(Math.Floor(averageDefenceResistance - rival.Defence));
-        int resistanceEffect = Convert.ToInt32(Math.Floor(averageDefenceResistance- rival.Resistance));
+        int defenseEffect = Convert.ToInt32(Math.Floor(averageDefenseResistance - rival.Defense));
+        int resistanceEffect = Convert.ToInt32(Math.Floor(averageDefenseResistance- rival.Resistance));
         
         if (defenseEffect> 0)
         {
