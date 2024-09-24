@@ -4,6 +4,6 @@ public class NeutralizeDefenseBonusEffect: Effect, INeutralizeBonus
 {
     public override void Apply(Unit rival)
     {
-        rival.DefenseBonusNeutralized = true;
+        rival.Defense.BonusNeutralized = true;
     }
 }

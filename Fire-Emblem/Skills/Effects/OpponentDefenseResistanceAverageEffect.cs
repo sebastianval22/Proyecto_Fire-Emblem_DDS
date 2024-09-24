@@ -11,28 +11,28 @@ public class OpponentDefenseResistanceAverageEffect : Effect
     {
         Unit rival = unit == roundFight.attackingUnit ? roundFight.defendingUnit : roundFight.attackingUnit;
         
-        var averageDefenseResistance = (rival.Defense + rival.Resistance) / 2.0;
+        var averageDefenseResistance = (rival.Defense.Value + rival.Resistance.Value) / 2.0;
 
 
-        int defenseEffect = Convert.ToInt32(Math.Floor(averageDefenseResistance - rival.Defense));
-        int resistanceEffect = Convert.ToInt32(Math.Floor(averageDefenseResistance- rival.Resistance));
+        int defenseEffect = Convert.ToInt32(Math.Floor(averageDefenseResistance - rival.Defense.Value));
+        int resistanceEffect = Convert.ToInt32(Math.Floor(averageDefenseResistance- rival.Resistance.Value));
         
         if (defenseEffect> 0)
         {
-            rival.ActiveSkillsEffects["DefenseBonus"] += defenseEffect;
+            rival.Defense.Bonus += defenseEffect;
         }
         else
         {
-            rival.ActiveSkillsEffects["DefensePenalty"] += defenseEffect;
+            rival.Defense.Penalty += defenseEffect;
         }
 
         if (resistanceEffect > 0)
         {
-            rival.ActiveSkillsEffects["ResistanceBonus"] += resistanceEffect;
+            rival.Resistance.Bonus += resistanceEffect;
         }
         else
         {
-            rival.ActiveSkillsEffects["ResistancePenalty"] += resistanceEffect;
+            rival.Resistance.Penalty += resistanceEffect;
         }
     }
 }

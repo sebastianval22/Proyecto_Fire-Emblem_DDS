@@ -4,7 +4,7 @@ public class NeutralizeSpeedBonusEffect: Effect, INeutralizeBonus
 {
     public override void Apply(Unit rival)
     {
-        rival.SpeedBonusNeutralized = true;
+        rival.Speed.BonusNeutralized = true;
     }
 
 }

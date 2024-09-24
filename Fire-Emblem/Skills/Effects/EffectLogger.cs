@@ -11,7 +11,7 @@ namespace Fire_Emblem.Skills.Effects
             _view = view;
         }
 
-        public static void ShowEffect(string message)
+        private static void ShowEffect(string message)
         {
             _view?.WriteLine(message);
         }
@@ -30,77 +30,77 @@ namespace Fire_Emblem.Skills.Effects
 
         private static void ShowBonusEffects(Unit unit)
         {
-            ShowEffectIfPositive(unit, "AttackBonus", "Atk");
-            ShowEffectIfPositive(unit, "SpeedBonus", "Spd");
-            ShowEffectIfPositive(unit, "DefenseBonus", "Def");
-            ShowEffectIfPositive(unit, "ResistanceBonus", "Res");
+            ShowEffectIfPositive(unit.Attack.Bonus, unit.Name, "Atk");
+            ShowEffectIfPositive(unit.Speed.Bonus, unit.Name, "Spd");
+            ShowEffectIfPositive(unit.Defense.Bonus, unit.Name, "Def");
+            ShowEffectIfPositive(unit.Resistance.Bonus, unit.Name, "Res");
         }
 
         private static void ShowFirstAttackBonusEffects(Unit unit)
         {
-            ShowEffectIfPositive(unit, "FirstAttackAttackBonus", "Atk", " en su primer ataque");
-            ShowEffectIfPositive(unit, "FirstAttackDefenseBonus", "Def", " en su primer ataque");
-            ShowEffectIfPositive(unit, "FirstAttackResistanceBonus", "Res", " en su primer ataque");
+            ShowEffectIfPositive(unit.Attack.FirstAttackBonus, unit.Name, "Atk", " en su primer ataque");
+            ShowEffectIfPositive(unit.Defense.FirstAttackBonus, unit.Name, "Def", " en su primer ataque");
+            ShowEffectIfPositive(unit.Resistance.FirstAttackBonus, unit.Name, "Res", " en su primer ataque");
         }
 
         private static void ShowFollowUpAttackBonusEffects(Unit unit)
         {
-            ShowEffectIfPositive(unit, "FollowUpAttackAttackBonus", "Atk", " en su Follow-Up");
-            ShowEffectIfPositive(unit, "FollowUpAttackDefenseBonus", "Def", " en su Follow-Up");
-            ShowEffectIfPositive(unit, "FollowUpAttackResistanceBonus", "Res", " en su Follow-Up");
+            ShowEffectIfPositive(unit.Attack.FollowUpAttackBonus, unit.Name, "Atk", " en su Follow-Up");
+            ShowEffectIfPositive(unit.Defense.FollowUpAttackBonus, unit.Name, "Def", " en su Follow-Up");
+            ShowEffectIfPositive(unit.Resistance.FollowUpAttackBonus, unit.Name, "Res", " en su Follow-Up");
         }
 
         private static void ShowPenaltyEffects(Unit unit)
         {
-            ShowEffectIfNegative(unit, "AttackPenalty", "Atk");
-            ShowEffectIfNegative(unit, "SpeedPenalty", "Spd");
-            ShowEffectIfNegative(unit, "DefensePenalty", "Def");
-            ShowEffectIfNegative(unit, "ResistancePenalty", "Res");
+            ShowEffectIfNegative(unit.Attack.Penalty, unit.Name, "Atk");
+            ShowEffectIfNegative(unit.Speed.Penalty, unit.Name, "Spd");
+            ShowEffectIfNegative(unit.Defense.Penalty, unit.Name, "Def");
+            ShowEffectIfNegative(unit.Resistance.Penalty, unit.Name, "Res");
         }
 
         private static void ShowFirstAttackPenaltyEffects(Unit unit)
         {
-            ShowEffectIfNegative(unit, "FirstAttackAttackPenalty", "Atk", " en su primer ataque");
-            ShowEffectIfNegative(unit, "FirstAttackDefensePenalty", "Def", " en su primer ataque");
-            ShowEffectIfNegative(unit, "FirstAttackResistancePenalty", "Res", " en su primer ataque");
+            ShowEffectIfNegative(unit.Attack.FirstAttackPenalty, unit.Name, "Atk", " en su primer ataque");
+            ShowEffectIfNegative(unit.Defense.FirstAttackPenalty, unit.Name, "Def", " en su primer ataque");
+            ShowEffectIfNegative(unit.Resistance.FirstAttackPenalty, unit.Name, "Res", " en su primer ataque");
         }
 
         private static void ShowFollowUpAttackPenaltyEffects(Unit unit)
         {
-            ShowEffectIfNegative(unit, "FollowUpAttackAttackPenalty", "Atk", " en su Follow-Up");
-            ShowEffectIfNegative(unit, "FollowUpAttackDefensePenalty", "Def", " en su Follow-Up");
-            ShowEffectIfNegative(unit, "FollowUpAttackResistancePenalty", "Res", " en su Follow-Up");
+            ShowEffectIfNegative(unit.Attack.FollowUpAttackPenalty, unit.Name, "Atk", " en su Follow-Up");
+            ShowEffectIfNegative(unit.Defense.FollowUpAttackPenalty, unit.Name, "Def", " en su Follow-Up");
+            ShowEffectIfNegative(unit.Resistance.FollowUpAttackPenalty, unit.Name, "Res", " en su Follow-Up");
         }
 
         private static void ShowBonusNeutralizationEffects(Unit unit)
         {
-            ShowNeutralizationEffect(unit.AttackBonusNeutralized, unit.Name, "bonus de Atk");
-            ShowNeutralizationEffect(unit.SpeedBonusNeutralized, unit.Name, "bonus de Spd");
-            ShowNeutralizationEffect(unit.DefenseBonusNeutralized, unit.Name, "bonus de Def");
-            ShowNeutralizationEffect(unit.ResistanceBonusNeutralized, unit.Name, "bonus de Res");
+            ShowNeutralizationEffect(unit.Attack.BonusNeutralized, unit.Name, "bonus de Atk");
+            ShowNeutralizationEffect(unit.Speed.BonusNeutralized, unit.Name, "bonus de Spd");
+            ShowNeutralizationEffect(unit.Defense.BonusNeutralized, unit.Name, "bonus de Def");
+            ShowNeutralizationEffect(unit.Resistance.BonusNeutralized, unit.Name, "bonus de Res");
         }
 
         private static void ShowPenaltyNeutralizationEffects(Unit unit)
         {
-            ShowNeutralizationEffect(unit.AttackPenaltyNeutralized, unit.Name, "penalty de Atk");
-            ShowNeutralizationEffect(unit.SpeedPenaltyNeutralized, unit.Name, "penalty de Spd");
-            ShowNeutralizationEffect(unit.DefensePenaltyNeutralized, unit.Name, "penalty de Def");
-            ShowNeutralizationEffect(unit.ResistancePenaltyNeutralized, unit.Name, "penalty de Res");
+            ShowNeutralizationEffect(unit.Attack.PenaltyNeutralized, unit.Name, "penalty de Atk");
+            ShowNeutralizationEffect(unit.Speed.PenaltyNeutralized, unit.Name, "penalty de Spd");
+            ShowNeutralizationEffect(unit.Defense.PenaltyNeutralized, unit.Name, "penalty de Def");
+            ShowNeutralizationEffect(unit.Resistance.PenaltyNeutralized, unit.Name, "penalty de Res");
         }
 
-        private static void ShowEffectIfPositive(Unit unit, string effectKey, string effectName, string suffix = "")
+        private static void ShowEffectIfPositive(int effectValue, string unitName, string effectName, string suffix = "")
         {
-            if (unit.ActiveSkillsEffects[effectKey] > 0)
+            if (effectValue > 0)
             {
-                ShowEffect($"{unit.Name} obtiene {effectName}+{unit.ActiveSkillsEffects[effectKey]}{suffix}");
+                ShowEffect($"{unitName} obtiene {effectName}+{effectValue}{suffix}");
             }
         }
 
-        private static void ShowEffectIfNegative(Unit unit, string effectKey, string effectName, string suffix = "")
+        private static void ShowEffectIfNegative(int effectValue, string unitName, string effectName, string suffix = "")
         {
-            if (unit.ActiveSkillsEffects[effectKey] < 0)
+            if (effectValue < 0)
             {
-                ShowEffect($"{unit.Name} obtiene {effectName}{unit.ActiveSkillsEffects[effectKey]}{suffix}");
+                ShowEffect($"{unitName} obtiene {effectName}{effectValue}{suffix}");
             }
         }
 

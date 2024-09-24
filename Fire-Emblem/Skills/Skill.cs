@@ -9,15 +9,13 @@ public class Skill
     public string SkillType { get; set; }
     public List<Condition> Conditions { get; set; } = new List<Condition>();
     public List<Effect> Effects { get; set; } = new List<Effect>();
-    
-    private Unit _unit;
-    private Unit _rival;
 
     public Skill(string name, string skillType)
     {
         Name = name;
         SkillType = skillType;
     }
+
     public void ActivateBaseStatsSkillEffects(Unit unit)
     {
         foreach (var effect in Effects)
@@ -25,6 +23,7 @@ public class Skill
             effect.Apply(unit);
         }
     }
+
     public void UpdateActiveSkillEffects(Unit unit, RoundFight roundFight)
     {
         Unit rival = unit == roundFight.attackingUnit ? roundFight.defendingUnit : roundFight.attackingUnit;
@@ -34,23 +33,11 @@ public class Skill
             {
                 if (SkillType != "Base Stats")
                 {
-                    if (effect is IPenaltyEffect)
+                    if (effect is IPenaltyEffect or INeutralizeBonus)
                     {
                         effect.Apply(rival);
                     }
-                    else if (effect is IBonusEffect)
-                    {
-                        effect.Apply(unit);
-                    }
-                    else if (effect is ICostEffect)
-                    {
-                        effect.Apply(unit);
-                    }
-                    else if (effect is INeutralizeBonus)
-                    {
-                        effect.Apply(rival);
-                    }
-                    else if (effect is INeutralizePenalty)
+                    else if (effect is IBonusEffect or ICostEffect or INeutralizePenalty)
                     {
                         effect.Apply(unit);
                     }
@@ -58,11 +45,8 @@ public class Skill
                     {
                         effect.ApplySpecificEffect(unit, roundFight);
                     }
-                    
                 }
             }
         }
     }
-
-   
 }

@@ -10,69 +10,37 @@ namespace Fire_Emblem
         public string DeathQuote { get; set; }
         public int MaxHP { get; set; }
         public int CurrentHP { get; set; }
-        public int Attack { get; set; }
-        public int Speed { get; set; }
-        public int Defense { get; set; }
-        public int Resistance { get; set; }
+        public Attack Attack { get; set; }
+        public Defense Defense { get; set; }
+        public Speed Speed { get; set; }
+        public Resistance Resistance { get; set; }
         public List<Skill> Skills { get; set; }
         public Unit RecentOpponent { get; set; }
         public bool HasFirstAttackSkill { get; set; }
-        public Dictionary<string, int> ActiveSkillsEffects { get; set; }
+        public List<Stat> Stats { get; set; }
 
-        public bool AttackBonusNeutralized { get; set; }
-        public bool DefenseBonusNeutralized { get; set; }
-        public bool SpeedBonusNeutralized { get; set; }
-        public bool ResistanceBonusNeutralized { get; set; }
-        public bool AttackPenaltyNeutralized { get; set; }
-        public bool DefensePenaltyNeutralized { get; set; }
-        public bool SpeedPenaltyNeutralized { get; set; }
-        public bool ResistancePenaltyNeutralized { get; set; }
 
-        private int _backupAttack;
-        private int _backupSpeed;
-        private int _backupDefense;
-        private int _backupResistance;
 
         public Unit(string name, List<Skill> skills)
         {
             Name = name;
             Skills = skills;
             InitializeUnitData();
-            InitializeActiveSkillsEffects();
-            ResetNeutralizations();
+            foreach (var stat in Stats)
+            {
+                stat.ResetEffects();
+            }
         }
 
         private void InitializeUnitData()
         {
+            Attack = new Attack();
+            Defense = new Defense();
+            Speed = new Speed();
+            Resistance = new Resistance();
+            Stats = new List<Stat> { Attack, Defense, Speed, Resistance };
             var unitData = new UnitData();
             unitData.InitializeUnit(this);
-        }
-
-        private void InitializeActiveSkillsEffects()
-        {
-            ActiveSkillsEffects = new Dictionary<string, int>
-            {
-                {"AttackBonus", 0},
-                {"DefenseBonus", 0},
-                {"SpeedBonus", 0},
-                {"ResistanceBonus", 0},
-                {"AttackPenalty", 0},
-                {"DefensePenalty", 0},
-                {"SpeedPenalty", 0},
-                {"ResistancePenalty", 0},
-                {"FirstAttackAttackBonus", 0},
-                {"FirstAttackDefenseBonus", 0},
-                {"FirstAttackResistanceBonus", 0},
-                {"FirstAttackAttackPenalty", 0},
-                {"FirstAttackDefensePenalty", 0},
-                {"FirstAttackResistancePenalty", 0},
-                {"FollowUpAttackAttackBonus", 0},
-                {"FollowUpAttackDefenseBonus", 0},
-                {"FollowUpAttackResistanceBonus", 0},
-                {"FollowUpAttackAttackPenalty", 0},
-                {"FollowUpAttackDefensePenalty", 0},
-                {"FollowUpAttackResistancePenalty", 0}
-            };
         }
 
         public void UpdateHPStatus(int damage)
@@ -87,43 +55,41 @@ namespace Fire_Emblem
 
         public void SaveAttributes()
         {
-            _backupAttack = Attack;
-            _backupSpeed = Speed;
-            _backupDefense = Defense;
-            _backupResistance = Resistance;
+            foreach (var stat in Stats)
+            {
+                stat.SaveValue();
+            }
         }
 
         public void RestoreBackupAttributes()
         {
-            Attack = _backupAttack;
-            Speed = _backupSpeed;
-            Defense = _backupDefense;
-            Resistance = _backupResistance;
+            foreach (var stat in Stats)
+            {
+                stat.RestoreValue();
+            }
         }
-
+        
         public Dictionary<string, int> ObtainAttributes()
         {
-            return new Dictionary<string, int>
-            {
-                { "Attack", Attack },
-                { "Speed", Speed },
-                { "Defense", Defense },
-                { "Resistance", Resistance }
-            };
+            return Stats.ToDictionary(stat => stat.GetType().Name, stat => stat.Value);
         }
 
         public void RestoreSpecificAttributes(Dictionary<string, int> attributes)
         {
-            if (attributes.ContainsKey("Attack")) Attack = attributes["Attack"];
-            if (attributes.ContainsKey("Speed")) Speed = attributes["Speed"];
-            if (attributes.ContainsKey("Defense")) Defense = attributes["Defense"];
-            if (attributes.ContainsKey("Resistance")) Resistance = attributes["Resistance"];
+            foreach (var stat in Stats)
+            {
+                if (attributes.TryGetValue(stat.GetType().Name, out var value))
+                {
+                    stat.Value = value;
+                }
+            }
         }
-
         public void ApplyEffects()
         {
-            ApplyBonuses();
-            ApplyPenalties();
+            foreach (var stat in Stats)
+            {
+                stat.ApplyEffects();
+            }
 
             if (HasFirstAttackEffects())
             {
@@ -133,79 +99,35 @@ namespace Fire_Emblem
             }
         }
 
-        private void ApplyBonuses()
-        {
-            if (!AttackBonusNeutralized) Attack += ActiveSkillsEffects["AttackBonus"];
-            if (!DefenseBonusNeutralized) Defense += ActiveSkillsEffects["DefenseBonus"];
-            if (!SpeedBonusNeutralized) Speed += ActiveSkillsEffects["SpeedBonus"];
-            if (!ResistanceBonusNeutralized) Resistance += ActiveSkillsEffects["ResistanceBonus"];
-        }
-
-        private void ApplyPenalties()
-        {
-            if (!AttackPenaltyNeutralized) Attack += ActiveSkillsEffects["AttackPenalty"];
-            if (!DefensePenaltyNeutralized) Defense += ActiveSkillsEffects["DefensePenalty"];
-            if (!SpeedPenaltyNeutralized) Speed += ActiveSkillsEffects["SpeedPenalty"];
-            if (!ResistancePenaltyNeutralized) Resistance += ActiveSkillsEffects["ResistancePenalty"];
-        }
-
         private bool HasFirstAttackEffects()
         {
-            return ActiveSkillsEffects.Any(kv => kv.Key.Contains("FirstAttack") && kv.Value != 0);
+
+            return Stats.Any(stat => stat.FirstAttackBonus != 0 || stat.FirstAttackPenalty != 0);
         }
 
         private void ApplyFirstAttackEffects()
         {
-            if (!AttackBonusNeutralized) Attack += ActiveSkillsEffects["FirstAttackAttackBonus"];
-            if (!DefenseBonusNeutralized) Defense += ActiveSkillsEffects["FirstAttackDefenseBonus"];
-            if (!ResistanceBonusNeutralized) Resistance += ActiveSkillsEffects["FirstAttackResistanceBonus"];
-
-            if (!AttackPenaltyNeutralized) Attack += ActiveSkillsEffects["FirstAttackAttackPenalty"];
-            if (!DefensePenaltyNeutralized) Defense += ActiveSkillsEffects["FirstAttackDefensePenalty"];
-            if (!ResistancePenaltyNeutralized) Resistance += ActiveSkillsEffects["FirstAttackResistancePenalty"];
+            foreach (var stat in Stats)
+            {
+                stat.ApplyFirstAttackEffects();
+            }
         }
 
         public void ApplyFollowUpAttackEffects()
         {
-            ApplyFollowUpBonuses();
-            ApplyFollowUpPenalties();
-        }
-
-        private void ApplyFollowUpBonuses()
-        {
-            if (!AttackBonusNeutralized) Attack += ActiveSkillsEffects["FollowUpAttackAttackBonus"];
-            if (!DefenseBonusNeutralized) Defense += ActiveSkillsEffects["FollowUpAttackDefenseBonus"];
-            if (!ResistanceBonusNeutralized) Resistance += ActiveSkillsEffects["FollowUpAttackResistanceBonus"];
-        }
-
-        private void ApplyFollowUpPenalties()
-        {
-            if (!AttackPenaltyNeutralized) Attack += ActiveSkillsEffects["FollowUpAttackAttackPenalty"];
-            if (!DefensePenaltyNeutralized) Defense += ActiveSkillsEffects["FollowUpAttackDefensePenalty"];
-            if (!ResistancePenaltyNeutralized) Resistance += ActiveSkillsEffects["FollowUpAttackResistancePenalty"];
+            foreach (var stat in Stats)
+            {
+                stat.ApplyFollowUpAttackEffects();
+            }
         }
 
         public void ResetActiveSkillsEffects()
         {
-            foreach (var key in ActiveSkillsEffects.Keys.ToList())
+            foreach (var stat in Stats)
             {
-                ActiveSkillsEffects[key] = 0;
+                stat.ResetEffects();
             }
-
             HasFirstAttackSkill = false;
-            ResetNeutralizations();
-        }
-
-        private void ResetNeutralizations()
-        {
-            AttackBonusNeutralized = false;
-            DefenseBonusNeutralized = false;
-            SpeedBonusNeutralized = false;
-            ResistanceBonusNeutralized = false;
-            AttackPenaltyNeutralized = false;
-            DefensePenaltyNeutralized = false;
-            SpeedPenaltyNeutralized = false;
-            ResistancePenaltyNeutralized = false;
         }
     }
 }

@@ -16,6 +16,6 @@ public class AttackBonusOpponentEffect : Effect
     public override void ApplySpecificEffect(Unit unit, RoundFight roundFight)
     {
         Unit rival = unit == roundFight.attackingUnit ? roundFight.defendingUnit : roundFight.attackingUnit;
-        rival.ActiveSkillsEffects["AttackBonus"] += _opponent_bonus;
+        rival.Attack.Bonus += _opponent_bonus;
     }
 }

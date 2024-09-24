@@ -13,8 +13,8 @@ public class SpeedBonusWithAdditionalEffect : SpeedBonusEffect
 
     public override void Apply(Unit unit)
     {
-        int additionalBonus = (unit.Speed / (_additionalBonusPerSpeed["Bonus"] * _additionalBonusPerSpeed["Per Speed"]));
+        int additionalBonus = (unit.Speed.Value / (_additionalBonusPerSpeed["Bonus"] * _additionalBonusPerSpeed["Per Speed"]));
         Bonus = _baseBonus + additionalBonus;
-        unit.ActiveSkillsEffects["SpeedBonus"] += Bonus;
+        unit.Speed.Bonus += Bonus;
     }
 }

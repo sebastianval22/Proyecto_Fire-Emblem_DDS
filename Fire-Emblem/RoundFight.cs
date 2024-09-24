@@ -20,22 +20,48 @@ public class RoundFight
     
     public void Fight(Unit chosenAttackingUnit, Unit chosenDefendingUnit)
     {
-        attackingUnit = chosenAttackingUnit;
-        defendingUnit = chosenDefendingUnit;
-        // Save attributes before the fight
-        _attackingUnitAtributesBeforeFight = attackingUnit.ObtainAttributes();
-        _defendingUnitAtributesBeforeFight = defendingUnit.ObtainAttributes();
+        InitializeFight(chosenAttackingUnit, chosenDefendingUnit);
         _attackController.InitialAttack(attackingUnit, defendingUnit);
         Counter();
         FollowUp();
         // Restore attributes after the fight
+        FinalizeFight();
+    }
+    private void InitializeFight(Unit chosenAttackingUnit, Unit chosenDefendingUnit)
+    {
+        attackingUnit = chosenAttackingUnit;
+        defendingUnit = chosenDefendingUnit;
+        SaveAttributesBeforeFight();
+    }
+    private void SaveAttributesBeforeFight()
+    {
+        _attackingUnitAtributesBeforeFight = attackingUnit.ObtainAttributes();
+        _defendingUnitAtributesBeforeFight = defendingUnit.ObtainAttributes();
+    }
+    private void FinalizeFight()
+    {
+        RestoreAttributesAfterFight();
+        ResetUnitsAfterFight();
+        UpdateRecentOpponents();
+    }
+
+    private void RestoreAttributesAfterFight()
+    {
         attackingUnit.RestoreSpecificAttributes(_attackingUnitAtributesBeforeFight);
         defendingUnit.RestoreSpecificAttributes(_defendingUnitAtributesBeforeFight);
+    }
+    private void ResetUnitsAfterFight()
+    {
         attackingUnit.ResetActiveSkillsEffects();
         defendingUnit.ResetActiveSkillsEffects();
+    }
+
+    private void UpdateRecentOpponents()
+    {
         attackingUnit.RecentOpponent = defendingUnit;
         defendingUnit.RecentOpponent = attackingUnit;
     }
+
     private void Counter()
     {
         if (AreBothUnitsAlive())
@@ -52,7 +78,7 @@ public class RoundFight
 
     private void FollowUp()
     {
-        var differenceSpeed = attackingUnit.Speed - defendingUnit.Speed;
+        var differenceSpeed = attackingUnit.Speed.Value - defendingUnit.Speed.Value;
         if (AreBothUnitsAlive())
         {
             switch (differenceSpeed)

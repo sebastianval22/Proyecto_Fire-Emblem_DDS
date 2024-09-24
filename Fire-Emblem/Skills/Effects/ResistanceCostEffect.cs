@@ -11,6 +11,6 @@ public class ResistanceCostEffect : Effect, ICostEffect
     
     public override void Apply(Unit unit)
     {
-        unit.ActiveSkillsEffects["ResistancePenalty"] -= Cost;
+        unit.Resistance.Penalty -= Cost;
     }
 }

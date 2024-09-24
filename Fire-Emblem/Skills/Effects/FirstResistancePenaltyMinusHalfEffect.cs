@@ -10,7 +10,7 @@ public class FirstResistancePenaltyMinusHalfEffect : ResistancePenaltyEffect
 
     public override void Apply(Unit rival)
     {
-        Penalty = Convert.ToInt32(Math.Floor(rival.Resistance / 2.0));
-        rival.ActiveSkillsEffects["FirstAttackResistancePenalty"] -= Penalty;
+        Penalty = Convert.ToInt32(Math.Floor(rival.Resistance.Value / 2.0));
+        rival.Resistance.FirstAttackPenalty -= Penalty;
     }
 }

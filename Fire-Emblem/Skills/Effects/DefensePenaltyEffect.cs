@@ -10,7 +10,7 @@ public class DefensePenaltyEffect : Effect, IPenaltyEffect
 
     public override void Apply(Unit rival)
     {
-        rival.ActiveSkillsEffects["DefensePenalty"] -= Penalty;
+        rival.Defense.Penalty -= Penalty;
     }
 
 }

@@ -9,16 +9,16 @@ public class FollowUpAttackBasedOnUnitDefenseEffect : Effect
 
     public override void ApplySpecificEffect(Unit unit, RoundFight roundFight)
     {
-        var unitDefense150 = 1.5 * unit.Defense;
-        int attackEffect = Convert.ToInt32(Math.Floor(unitDefense150 - unit.Attack));
+        var unitDefense150 = 1.5 * unit.Defense.Value;
+        int attackEffect = Convert.ToInt32(Math.Floor(unitDefense150 - unit.Attack.Value));
         
         if (attackEffect> 0)
         {
-            unit.ActiveSkillsEffects["FollowUpAttackAttackBonus"] += attackEffect;
+            unit.Attack.FollowUpAttackBonus+= attackEffect;
         }
         else
         {
-            unit.ActiveSkillsEffects["FollowUpAttackAttackPenalty"] += attackEffect;
+            unit.Attack.FollowUpAttackPenalty += attackEffect;
         }
     }
 }

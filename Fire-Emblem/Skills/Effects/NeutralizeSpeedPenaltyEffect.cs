@@ -4,6 +4,6 @@ public class NeutralizeSpeedPenaltyEffect : Effect, INeutralizePenalty
 {
     public override void Apply(Unit unit)
     {
-        unit.SpeedPenaltyNeutralized = true;
+        unit.Speed.PenaltyNeutralized = true;
     }
 }

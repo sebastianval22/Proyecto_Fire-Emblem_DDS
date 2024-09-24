@@ -29,10 +29,10 @@ public class UnitData
                 unit.DeathQuote = unitData.DeathQuote.Trim();
                 unit.MaxHP = int.Parse(unitData.HP.Trim());
                 unit.CurrentHP = unit.MaxHP;
-                unit.Attack = int.Parse(unitData.Atk.Trim());
-                unit.Speed = int.Parse(unitData.Spd.Trim());
-                unit.Defense = int.Parse(unitData.Def.Trim());
-                unit.Resistance = int.Parse(unitData.Res.Trim());
+                unit.Attack.Value = int.Parse(unitData.Atk.Trim());
+                unit.Speed.Value = int.Parse(unitData.Spd.Trim());
+                unit.Defense.Value = int.Parse(unitData.Def.Trim());
+                unit.Resistance.Value = int.Parse(unitData.Res.Trim());
                 break;
             }
         }

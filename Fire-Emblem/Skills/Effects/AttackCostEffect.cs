@@ -10,6 +10,6 @@ public class AttackCostEffect : Effect, ICostEffect
 
     public override void Apply(Unit unit)
     {
-        unit.ActiveSkillsEffects["AttackPenalty"] -= Cost;
+        unit.Attack.Penalty -= Cost;
     }
 }

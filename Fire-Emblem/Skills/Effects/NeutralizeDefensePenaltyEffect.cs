@@ -4,7 +4,7 @@ public class NeutralizeDefensePenaltyEffect : Effect, INeutralizePenalty
 {
     public override void Apply(Unit unit)
     {
-        unit.DefensePenaltyNeutralized = true;
+        unit.Defense.PenaltyNeutralized = true;
     }
     
 }

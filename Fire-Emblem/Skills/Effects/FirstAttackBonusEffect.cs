@@ -13,8 +13,8 @@ public class FirstAttackBonusEffect : AttackBonusEffect
     public override void Apply(Unit unit)
     {
         unit.SaveAttributes();
-        Bonus = Convert.ToInt32(Math.Floor(unit.Attack * (this._bonusPercentage/100)));
-        unit.ActiveSkillsEffects["FirstAttackAttackBonus"] += Bonus;
+        Bonus = Convert.ToInt32(Math.Floor(unit.Attack.Value * (this._bonusPercentage/100)));
+        unit.Attack.FirstAttackBonus += Bonus;
     }
     
 }

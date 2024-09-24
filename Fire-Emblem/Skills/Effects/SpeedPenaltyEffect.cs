@@ -10,6 +10,6 @@ public class SpeedPenaltyEffect :  Effect, IPenaltyEffect
 
     public override void Apply(Unit rival)
     {
-        rival.ActiveSkillsEffects["SpeedPenalty"] -= Penalty;
+        rival.Speed.Penalty -= Penalty;
     }
 }
