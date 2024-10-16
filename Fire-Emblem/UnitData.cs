@@ -16,25 +16,37 @@ public class UnitData
     
     public void InitializeUnit(Unit unit)
     {
+        var units = LoadUnitData();
+        var unitData = FindUnitData(units, unit.Name);
+
+        if (unitData != null)
+        {
+            ApplyUnitData(unit, unitData);
+        }
+    }
+
+    private List<UnitData> LoadUnitData()
+    {
         string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "characters.json");
         string jsonContent = File.ReadAllText(jsonFilePath);
-        var units = JsonSerializer.Deserialize<List<UnitData>>(jsonContent);
+        return JsonSerializer.Deserialize<List<UnitData>>(jsonContent);
+    }
 
-        foreach (var unitData in units)
-        {
-            if (unitData.Name.Trim() == unit.Name)
-            {
-                unit.Weapon = unitData.Weapon.Trim();
-                unit.Gender = unitData.Gender.Trim();
-                unit.DeathQuote = unitData.DeathQuote.Trim();
-                unit.MaxHP = int.Parse(unitData.HP.Trim());
-                unit.CurrentHP = unit.MaxHP;
-                unit.Attack.Value = int.Parse(unitData.Atk.Trim());
-                unit.Speed.Value = int.Parse(unitData.Spd.Trim());
-                unit.Defense.Value = int.Parse(unitData.Def.Trim());
-                unit.Resistance.Value = int.Parse(unitData.Res.Trim());
-                break;
-            }
-        }
+    private UnitData FindUnitData(List<UnitData> units, string unitName)
+    {
+        return units.FirstOrDefault(u => u.Name.Trim() == unitName);
+    }
+
+    private void ApplyUnitData(Unit unit, UnitData unitData)
+    {
+        unit.Weapon = unitData.Weapon.Trim();
+        unit.Gender = unitData.Gender.Trim();
+        unit.DeathQuote = unitData.DeathQuote.Trim();
+        unit.MaxHP = int.Parse(unitData.HP.Trim());
+        unit.CurrentHP = unit.MaxHP;
+        unit.Attack.Value = int.Parse(unitData.Atk.Trim());
+        unit.Speed.Value = int.Parse(unitData.Spd.Trim());
+        unit.Defense.Value = int.Parse(unitData.Def.Trim());
+        unit.Resistance.Value = int.Parse(unitData.Res.Trim());
     }
 }

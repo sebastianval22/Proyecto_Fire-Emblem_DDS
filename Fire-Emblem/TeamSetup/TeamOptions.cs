@@ -7,8 +7,8 @@ public static class TeamOptions
     private static string _teamsFolder;
     private static string[] _teamFiles;
     private static View _view;
-    
-    private static string ShowTeamOptions()
+
+    private static void DisplayTeamFiles()
     {
         _view.WriteLine("Elige un archivo para cargar los equipos");
         string[] files = Directory.GetFiles(_teamsFolder, "*.txt");
@@ -18,17 +18,30 @@ public static class TeamOptions
         {
             _view.WriteLine($"{i}: {Path.GetFileName(files[i])}");
         }
-
-        string nameChosenTeam = _view.ReadLine();
-        return nameChosenTeam;
     }
-    
+
+    private static string GetChosenTeamName()
+    {
+        return _view.ReadLine();
+    }
+
+    private static string ShowTeamOptions()
+    {
+        DisplayTeamFiles();
+        return GetChosenTeamName();
+    }
+
+    private static bool IsValidTeamIndex(string nameChosenTeam, out int index)
+    {
+        return int.TryParse(nameChosenTeam, out index) && index < _teamFiles.Length;
+    }
+
     public static string ChooseTeam(View view, string teamsFolder)
     {
         _view = view;
         _teamsFolder = teamsFolder;
         string nameChosenTeam = ShowTeamOptions();
-        if (int.TryParse(nameChosenTeam, out int index) && index <= _teamFiles.Length)
+        if (IsValidTeamIndex(nameChosenTeam, out int index))
         {
             string chosenTeamFile = _teamFiles.GetValue(index).ToString();
             return chosenTeamFile;
@@ -36,5 +49,4 @@ public static class TeamOptions
 
         return "Equipo en archivo no encontrado";
     }
-    
 }

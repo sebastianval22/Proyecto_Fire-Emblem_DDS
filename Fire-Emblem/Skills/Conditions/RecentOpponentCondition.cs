@@ -4,13 +4,13 @@ public class RecentOpponentCondition : Condition
 {
     public override bool IsMet(Unit unit, RoundFight roundFight)
     {
-        if (unit == roundFight.attackingUnit)
+        if (unit == roundFight.AttackingUnit)
         {
-            return unit.RecentOpponent == roundFight.defendingUnit;
+            return unit.RecentOpponent == roundFight.DefendingUnit;
         }
         else
         {
-            return unit.RecentOpponent == roundFight.attackingUnit;
+            return unit.RecentOpponent == roundFight.AttackingUnit;
         }
     }
 }

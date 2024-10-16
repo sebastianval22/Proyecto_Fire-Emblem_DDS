@@ -5,20 +5,21 @@ namespace Fire_Emblem.Skills;
 
 public class Skill
 {
-    public string Name { get; set; }
-    public string SkillType { get; set; }
-    public List<Condition> Conditions { get; set; } = new List<Condition>();
-    public List<Effect> Effects { get; set; } = new List<Effect>();
+    private readonly SkillData _skillData;
 
-    public Skill(string name, string skillType)
+    public SkillData SkillData
     {
-        Name = name;
-        SkillType = skillType;
+        get => _skillData;
+    }
+
+    public Skill(SkillData skillData)
+    {
+        _skillData = skillData;
     }
 
     public void ActivateBaseStatsSkillEffects(Unit unit)
     {
-        foreach (var effect in Effects)
+        foreach (var effect in SkillData.Effects)
         {
             effect.Apply(unit);
         }
@@ -26,27 +27,57 @@ public class Skill
 
     public void UpdateActiveSkillEffects(Unit unit, RoundFight roundFight)
     {
-        Unit rival = unit == roundFight.attackingUnit ? roundFight.defendingUnit : roundFight.attackingUnit;
-        if (Conditions.All(condition => condition.IsMet(unit, roundFight)))
+        if (SkillData.Conditions.All(condition => condition.IsMet(unit, roundFight)))
         {
-            foreach (var effect in Effects)
-            {
-                if (SkillType != "Base Stats")
-                {
-                    if (effect is IPenaltyEffect or INeutralizeBonus)
-                    {
-                        effect.Apply(rival);
-                    }
-                    else if (effect is IBonusEffect or ICostEffect or INeutralizePenalty)
-                    {
-                        effect.Apply(unit);
-                    }
-                    else
-                    {
-                        effect.ApplySpecificEffect(unit, roundFight);
-                    }
-                }
-            }
+            Console.WriteLine("IS MET");
+            ApplyEffects(unit, roundFight);
         }
+    }
+
+    private void ApplyEffects(Unit unit, RoundFight roundFight)
+    {
+        foreach (var effect in SkillData.Effects)
+        {
+            ApplyEffectBasedOnType(effect, unit, roundFight);
+        }
+    }
+
+    private void ApplyEffectBasedOnType(Effect effect, Unit unit, RoundFight roundFight)
+    {
+        if (SkillData.SkillType != "Base Stats")
+        {
+            ApplyEffect(effect, unit, roundFight);
+        }
+    }
+
+    private void ApplyEffect(Effect effect, Unit unit, RoundFight roundFight)
+    {
+        Unit rival = GetRival(unit, roundFight);
+
+        if (effect is IPenaltyEffect or INeutralizeBonus)
+        {
+            effect.Apply(rival);
+        }
+        else if (effect is IBonusEffect or ICostEffect or INeutralizePenalty)
+        {
+            effect.Apply(unit);
+        }
+        else if (effect is IDamageEffect)
+        {
+            effect.Apply(unit);
+        }
+        
+        else
+        {
+            effect.ApplySpecificEffect(unit, roundFight);
+            Console.WriteLine("BIENNN");
+        }
+    }
+    
+
+
+    private Unit GetRival(Unit unit, RoundFight roundFight)
+    {
+        return unit == roundFight.AttackingUnit ? roundFight.DefendingUnit : roundFight.AttackingUnit;
     }
 }

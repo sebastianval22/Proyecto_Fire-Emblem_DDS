@@ -1,16 +1,23 @@
-namespace Fire_Emblem.Skills.Effects;
-
-public class ResistanceCostEffect : Effect, ICostEffect
-
+namespace Fire_Emblem.Skills.Effects
 {
-    public   int Cost { get; protected set; }
-    public ResistanceCostEffect(int cost)
+    public class ResistanceCostEffect : Effect, ICostEffect
     {
-        Cost = cost;
-    }
-    
-    public override void Apply(Unit unit)
-    {
-        unit.Resistance.Penalty -= Cost;
+        private int _cost;
+
+        public int Cost
+        {
+            get => _cost;
+            protected set => _cost = value;
+        }
+
+        public ResistanceCostEffect(int cost)
+        {
+            _cost = cost;
+        }
+
+        public override void Apply(Unit unit)
+        {
+            unit.Resistance.Penalty -= _cost;
+        }
     }
 }

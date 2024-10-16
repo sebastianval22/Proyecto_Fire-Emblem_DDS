@@ -1,4 +1,6 @@
 using Fire_Emblem.Skills;
+using Fire_Emblem.Skills.Effects;
+
 
 namespace Fire_Emblem
 {
@@ -14,12 +16,16 @@ namespace Fire_Emblem
         public Defense Defense { get; set; }
         public Speed Speed { get; set; }
         public Resistance Resistance { get; set; }
+        public DamagePercentageReductionStat DamagePercentageReductionStat { get; set; }
+        public DamageAbsoluteReductionStat DamageAbsoluteReductionStat { get; set; }
+        public ExtraDamageStat ExtraDamageStat { get; set; }
         public List<Skill> Skills { get; set; }
         public Unit RecentOpponent { get; set; }
         public bool HasFirstAttackSkill { get; set; }
         public List<Stat> Stats { get; set; }
 
-
+        private readonly UnitEffectsService _effectsService;
+        private readonly UnitAttributesService _attributesService;
 
         public Unit(string name, List<Skill> skills)
         {
@@ -30,15 +36,40 @@ namespace Fire_Emblem
             {
                 stat.ResetEffects();
             }
+            _effectsService = new UnitEffectsService();
+            _attributesService = new UnitAttributesService();
         }
 
         private void InitializeUnitData()
+        {
+            InitializeStats();
+            InitializeStatList();
+            InitializeDamageStats();
+            InitializeUnitDataObject();
+        }
+
+        private void InitializeStats()
         {
             Attack = new Attack();
             Defense = new Defense();
             Speed = new Speed();
             Resistance = new Resistance();
+        }
+
+        private void InitializeStatList()
+        {
             Stats = new List<Stat> { Attack, Defense, Speed, Resistance };
+        }
+
+        private void InitializeDamageStats()
+        {
+            DamagePercentageReductionStat = new DamagePercentageReductionStat(1, 1);
+            DamageAbsoluteReductionStat = new DamageAbsoluteReductionStat(0, 0);
+            ExtraDamageStat = new ExtraDamageStat(0, 0);
+        }
+
+        private void InitializeUnitDataObject()
+        {
             var unitData = new UnitData();
             unitData.InitializeUnit(this);
         }
@@ -55,79 +86,37 @@ namespace Fire_Emblem
 
         public void SaveAttributes()
         {
-            foreach (var stat in Stats)
-            {
-                stat.SaveValue();
-            }
+            _attributesService.SaveAttributes(this);
         }
 
         public void RestoreBackupAttributes()
         {
-            foreach (var stat in Stats)
-            {
-                stat.RestoreValue();
-            }
+            _attributesService.RestoreBackupAttributes(this);
         }
-        
+
         public Dictionary<string, int> ObtainAttributes()
         {
-            return Stats.ToDictionary(stat => stat.GetType().Name, stat => stat.Value);
+            return _attributesService.ObtainAttributes(this);
         }
 
         public void RestoreSpecificAttributes(Dictionary<string, int> attributes)
         {
-            foreach (var stat in Stats)
-            {
-                if (attributes.TryGetValue(stat.GetType().Name, out var value))
-                {
-                    stat.Value = value;
-                }
-            }
+            _attributesService.RestoreSpecificAttributes(this, attributes);
         }
+
         public void ApplyEffects()
         {
-            foreach (var stat in Stats)
-            {
-                stat.ApplyEffects();
-            }
-
-            if (HasFirstAttackEffects())
-            {
-                SaveAttributes();
-                ApplyFirstAttackEffects();
-                HasFirstAttackSkill = true;
-            }
-        }
-
-        private bool HasFirstAttackEffects()
-        {
-
-            return Stats.Any(stat => stat.FirstAttackBonus != 0 || stat.FirstAttackPenalty != 0);
-        }
-
-        private void ApplyFirstAttackEffects()
-        {
-            foreach (var stat in Stats)
-            {
-                stat.ApplyFirstAttackEffects();
-            }
+            _effectsService.ApplyEffects(this);
         }
 
         public void ApplyFollowUpAttackEffects()
         {
-            foreach (var stat in Stats)
-            {
-                stat.ApplyFollowUpAttackEffects();
-            }
+            _effectsService.ApplyFollowUpAttackEffects(this);
         }
 
         public void ResetActiveSkillsEffects()
         {
-            foreach (var stat in Stats)
-            {
-                stat.ResetEffects();
-            }
-            HasFirstAttackSkill = false;
+            _effectsService.ResetActiveSkillsEffects(this);
         }
     }
 }

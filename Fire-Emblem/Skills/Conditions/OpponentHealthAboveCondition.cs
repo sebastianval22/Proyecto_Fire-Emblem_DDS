@@ -12,7 +12,7 @@ public class OpponentHealthAboveCondition : Condition
     
     public override bool IsMet(Unit unit, RoundFight roundFight)
     {
-        Unit rival = unit == roundFight.attackingUnit ? roundFight.defendingUnit : roundFight.attackingUnit;
+        Unit rival = unit == roundFight.AttackingUnit ? roundFight.DefendingUnit : roundFight.AttackingUnit;
         double thresholdHP = rival.MaxHP * (_thresholdPercentage / 100);
         int truncatedThresholdHP = Convert.ToInt32(Math.Floor(thresholdHP));
         return rival.CurrentHP >= truncatedThresholdHP;

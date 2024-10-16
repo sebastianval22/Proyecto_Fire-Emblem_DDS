@@ -4,7 +4,7 @@ public class OpponentInitiatesCombatCondition : Condition
 {
     public override bool IsMet(Unit unit, RoundFight roundFight)
     {
-        Unit rival = unit == roundFight.attackingUnit ? roundFight.defendingUnit : roundFight.attackingUnit;
-        return rival == roundFight.attackingUnit;
+        Unit rival = unit == roundFight.AttackingUnit ? roundFight.DefendingUnit : roundFight.AttackingUnit;
+        return rival == roundFight.AttackingUnit;
     }
 }

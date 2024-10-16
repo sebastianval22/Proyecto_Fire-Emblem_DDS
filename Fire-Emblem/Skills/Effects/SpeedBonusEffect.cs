@@ -1,18 +1,23 @@
-namespace Fire_Emblem.Skills.Effects;
-
-public class SpeedBonusEffect : Effect, IBonusEffect
+namespace Fire_Emblem.Skills.Effects
 {
-    public int Bonus { get; protected set;}
-
-    public SpeedBonusEffect(int bonus)
+    public class SpeedBonusEffect : Effect, IBonusEffect
     {
-        Bonus = bonus;
-    }
+        private int _bonus;
 
+        public int Bonus
+        {
+            get => _bonus;
+            protected set => _bonus = value;
+        }
 
+        public SpeedBonusEffect(int bonus)
+        {
+            _bonus = bonus;
+        }
 
-    public override void Apply(Unit unit)
-    {
-        unit.Speed.Bonus += Bonus;
+        public override void Apply(Unit unit)
+        {
+            unit.Speed.Bonus += _bonus;
+        }
     }
 }

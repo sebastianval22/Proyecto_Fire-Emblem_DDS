@@ -17,12 +17,12 @@ public class TeamSetup
     {
         _teamsFolder = teamsFolder;
         _view = view;
-        _teamChecks = new List<ITeamCheck>  // If more checks are added they will be executed in the order they are added
+        _teamChecks = new List<ITeamCheck> 
         {
-            new MaxUnitsCheck(),
-            new RepeatedUnitsCheck(),
-            new MaxSkillsPerUnitCheck(),
-            new RepeatedSkillsPerUnitCheck()
+            new MaxUnits(),
+            new RepeatedUnits(),
+            new MaxSkillsPerUnit(),
+            new RepeatedSkillsPerUnit()
         };
     }
 
@@ -35,13 +35,22 @@ public class TeamSetup
     {
         foreach (var check in _teamChecks)
         {
-            if (!check.Check(ChosenTeamInfo))
-            {
-                _teamsValid = false;
-                return;
-            }
+            PerformCheck(check);
         }
     }
+
+    private void PerformCheck(ITeamCheck check)
+    {
+        if (IsTeamInvalidForSpecificCheck(check))
+        {
+            _teamsValid = false;
+        }
+    }
+    private bool IsTeamInvalidForSpecificCheck(ITeamCheck check)
+    {
+        return !check.Check(ChosenTeamInfo);
+    }
+    
     private void InitializeChosenTeamInfo()
     {
         string[] teamFileLines = File.ReadAllLines(_chosenTeamFile);
@@ -49,19 +58,32 @@ public class TeamSetup
 
         foreach (string line in teamFileLines)
         {
-            if (line.StartsWith("Player 1 Team") || line.StartsWith("Player 2 Team"))
-            {
-                if (currentTeam != null)
-                {
-                    ChosenTeamInfo.Add(currentTeam);
-                }
-                currentTeam = new List<Unit>();
-            }
-            else if (currentTeam != null)
-            {
-                currentTeam.Add(CreateUnit(line));
-            }
+            currentTeam = ProcessLine(line, currentTeam);
         }
+        AddCurrentTeamToList(currentTeam);
+    }
+
+    private List<Unit> ProcessLine(string line, List<Unit> currentTeam)
+    {
+        if (IsTeamHeader(line))
+        {
+            AddCurrentTeamToList(currentTeam);
+            return new List<Unit>();
+        }
+        else if (currentTeam != null)
+        {
+            currentTeam.Add(CreateUnit(line));
+        }
+        return currentTeam;
+    }
+
+    private bool IsTeamHeader(string line)
+    {
+        return line.StartsWith("Player 1 Team") || line.StartsWith("Player 2 Team");
+    }
+
+    private void AddCurrentTeamToList(List<Unit> currentTeam)
+    {
         if (currentTeam != null)
         {
             ChosenTeamInfo.Add(currentTeam);
@@ -70,19 +92,31 @@ public class TeamSetup
 
     private Unit CreateUnit(string unitInfo)
     {
-        string[] parts = unitInfo.Split('(', 2); // Split into name and Skills (if there are any)
-        string unitName = parts[0].Trim();
-        List<string> skillNames = new List<string>();
+        string unitName = ExtractUnitName(unitInfo);
+        List<string> skillNames = ExtractSkillNames(unitInfo);
+
+        List<Skill> skills = SkillFactory.InitiateSkills(skillNames);
+
+        return new Unit(unitName, skills);
+    }
+
+    private string ExtractUnitName(string unitInfo)
+    {
+        string[] parts = unitInfo.Split('(', 2);
+        return parts[0].Trim();
+    }
+
+    private List<string> ExtractSkillNames(string unitInfo)
+    {
+        string[] parts = unitInfo.Split('(', 2);
         if (parts.Length > 1)
         {
             string skillsPart = parts[1].TrimEnd(')');
-            skillNames = skillsPart.Split(',').Select(a => a.Trim()).ToList();
+            return skillsPart.Split(',').Select(a => a.Trim()).ToList();
         }
-
-        List<Skill> Skills = SkillFactory.InitiateSkills(skillNames);
-
-        return new Unit(unitName, Skills);
+        return new List<string>();
     }
+
     public void SetupTeams()
     {
         _chosenTeamFile = TeamOptions.ChooseTeam(_view, _teamsFolder);

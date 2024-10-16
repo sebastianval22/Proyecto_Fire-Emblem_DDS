@@ -1,16 +1,23 @@
-namespace Fire_Emblem.Skills.Effects;
-
-public class AttackBonusEffect : Effect, IBonusEffect
+namespace Fire_Emblem.Skills.Effects
 {
-    public int Bonus { get; protected set; }
-    public AttackBonusEffect(int bonus)
+    public class AttackBonusEffect : Effect, IBonusEffect
     {
-        Bonus = bonus;
-    }
+        private int _bonus;
 
+        public int Bonus
+        {
+            get => _bonus;
+            protected set => _bonus = value;
+        }
 
-    public override void Apply(Unit unit)
-    {
-        unit.Attack.Bonus += Bonus;
+        public AttackBonusEffect(int bonus)
+        {
+            _bonus = bonus;
+        }
+
+        public override void Apply(Unit unit)
+        {
+            unit.Attack.Bonus += _bonus;
+        }
     }
 }

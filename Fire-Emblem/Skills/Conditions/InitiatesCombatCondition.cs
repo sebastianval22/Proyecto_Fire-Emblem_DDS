@@ -5,6 +5,6 @@ public class InitiatesCombatCondition : Condition
     
     public override bool IsMet(Unit unit, RoundFight roundFight)
     {
-        return unit == roundFight.attackingUnit;
+        return unit == roundFight.AttackingUnit;
     }
 }

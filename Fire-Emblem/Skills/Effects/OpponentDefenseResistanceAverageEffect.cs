@@ -9,30 +9,25 @@ public class OpponentDefenseResistanceAverageEffect : Effect
 
     public override void ApplySpecificEffect(Unit unit, RoundFight roundFight)
     {
-        Unit rival = unit == roundFight.attackingUnit ? roundFight.defendingUnit : roundFight.attackingUnit;
+        Unit rival = unit == roundFight.AttackingUnit ? roundFight.DefendingUnit : roundFight.AttackingUnit;
         
         var averageDefenseResistance = (rival.Defense.Value + rival.Resistance.Value) / 2.0;
 
+        ApplyEffect(rival.Defense, averageDefenseResistance);
+        ApplyEffect(rival.Resistance, averageDefenseResistance);
+    }
 
-        int defenseEffect = Convert.ToInt32(Math.Floor(averageDefenseResistance - rival.Defense.Value));
-        int resistanceEffect = Convert.ToInt32(Math.Floor(averageDefenseResistance- rival.Resistance.Value));
+    private void ApplyEffect(Stat stat, double averageValue)
+    {
+        int effectValue = Convert.ToInt32(Math.Floor(averageValue - stat.Value));
         
-        if (defenseEffect> 0)
+        if (effectValue > 0)
         {
-            rival.Defense.Bonus += defenseEffect;
+            stat.Bonus += effectValue;
         }
         else
         {
-            rival.Defense.Penalty += defenseEffect;
-        }
-
-        if (resistanceEffect > 0)
-        {
-            rival.Resistance.Bonus += resistanceEffect;
-        }
-        else
-        {
-            rival.Resistance.Penalty += resistanceEffect;
+            stat.Penalty += effectValue;
         }
     }
 }

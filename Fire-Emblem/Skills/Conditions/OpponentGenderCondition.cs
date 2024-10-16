@@ -11,13 +11,13 @@ public class OpponentGenderCondition : Condition
 
     public override bool IsMet(Unit unit, RoundFight roundFight)
     {
-        if (unit == roundFight.attackingUnit)
+        if (unit == roundFight.AttackingUnit)
         {
-            return roundFight.defendingUnit.Gender == _gender;
+            return roundFight.DefendingUnit.Gender == _gender;
         }
         else
         {
-            return roundFight.attackingUnit.Gender == _gender;
+            return roundFight.AttackingUnit.Gender == _gender;
         }
     }
 }

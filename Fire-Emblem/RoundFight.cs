@@ -1,100 +1,117 @@
 using Fire_Emblem_View;
 
-namespace Fire_Emblem;
+namespace Fire_Emblem
+{
+    public class RoundFight
+    {
+        private View _view;
+        private AttackController _attackController;
+        private Unit _attackingUnit;
+        private Unit _defendingUnit;
+        private Dictionary<string, int> _attackingUnitAttributesBeforeFight;
+        private Dictionary<string, int> _defendingUnitAttributesBeforeFight;
 
-public class RoundFight
-{   
-    private View _view;
-    private AttackController _attackController;
-    public Unit attackingUnit;
-    public Unit defendingUnit;
-    private Dictionary<string, int> _attackingUnitAtributesBeforeFight;
-    private Dictionary<string, int> _defendingUnitAtributesBeforeFight;
-    
-    
-    public RoundFight(View view)
-    {
-        _view = view;
-        _attackController = new AttackController(view, this);
-    }
-    
-    public void Fight(Unit chosenAttackingUnit, Unit chosenDefendingUnit)
-    {
-        InitializeFight(chosenAttackingUnit, chosenDefendingUnit);
-        _attackController.InitialAttack(attackingUnit, defendingUnit);
-        Counter();
-        FollowUp();
-        // Restore attributes after the fight
-        FinalizeFight();
-    }
-    private void InitializeFight(Unit chosenAttackingUnit, Unit chosenDefendingUnit)
-    {
-        attackingUnit = chosenAttackingUnit;
-        defendingUnit = chosenDefendingUnit;
-        SaveAttributesBeforeFight();
-    }
-    private void SaveAttributesBeforeFight()
-    {
-        _attackingUnitAtributesBeforeFight = attackingUnit.ObtainAttributes();
-        _defendingUnitAtributesBeforeFight = defendingUnit.ObtainAttributes();
-    }
-    private void FinalizeFight()
-    {
-        RestoreAttributesAfterFight();
-        ResetUnitsAfterFight();
-        UpdateRecentOpponents();
-    }
-
-    private void RestoreAttributesAfterFight()
-    {
-        attackingUnit.RestoreSpecificAttributes(_attackingUnitAtributesBeforeFight);
-        defendingUnit.RestoreSpecificAttributes(_defendingUnitAtributesBeforeFight);
-    }
-    private void ResetUnitsAfterFight()
-    {
-        attackingUnit.ResetActiveSkillsEffects();
-        defendingUnit.ResetActiveSkillsEffects();
-    }
-
-    private void UpdateRecentOpponents()
-    {
-        attackingUnit.RecentOpponent = defendingUnit;
-        defendingUnit.RecentOpponent = attackingUnit;
-    }
-
-    private void Counter()
-    {
-        if (AreBothUnitsAlive())
+        public Unit AttackingUnit
         {
-            _attackController.CounterAttack(defendingUnit, attackingUnit);
+            get => _attackingUnit;
+            private set => _attackingUnit = value;
         }
-        
-    }
 
-    private bool AreBothUnitsAlive()
-    {
-        return (attackingUnit.IsUnitAlive() && defendingUnit.IsUnitAlive());
-    }
+        public Unit DefendingUnit
+        {
+            get => _defendingUnit;
+            private set => _defendingUnit = value;
+        }
 
-    private void FollowUp()
-    {
-        var differenceSpeed = attackingUnit.Speed.Value - defendingUnit.Speed.Value;
-        if (AreBothUnitsAlive())
+        public RoundFight(View view)
+        {
+            _view = view;
+            _attackController = new AttackController(view, this);
+        }
+
+        public void Fight(Unit chosenAttackingUnit, Unit chosenDefendingUnit)
+        {
+            InitializeFight(chosenAttackingUnit, chosenDefendingUnit);
+            _attackController.ExecuteInitialAttack(AttackingUnit, DefendingUnit);
+            Counter();
+            FollowUp();
+            FinalizeFight();
+        }
+
+        private void InitializeFight(Unit chosenAttackingUnit, Unit chosenDefendingUnit)
+        {
+            AttackingUnit = chosenAttackingUnit;
+            DefendingUnit = chosenDefendingUnit;
+            SaveAttributesBeforeFight();
+        }
+
+        private void SaveAttributesBeforeFight()
+        {
+            _attackingUnitAttributesBeforeFight = AttackingUnit.ObtainAttributes();
+            _defendingUnitAttributesBeforeFight = DefendingUnit.ObtainAttributes();
+        }
+
+        private void FinalizeFight()
+        {
+            RestoreAttributesAfterFight();
+            ResetUnitsAfterFight();
+            UpdateRecentOpponents();
+        }
+
+        private void RestoreAttributesAfterFight()
+        {
+            AttackingUnit.RestoreSpecificAttributes(_attackingUnitAttributesBeforeFight);
+            DefendingUnit.RestoreSpecificAttributes(_defendingUnitAttributesBeforeFight);
+        }
+
+        private void ResetUnitsAfterFight()
+        {
+            AttackingUnit.ResetActiveSkillsEffects();
+            DefendingUnit.ResetActiveSkillsEffects();
+        }
+
+        private void UpdateRecentOpponents()
+        {
+            AttackingUnit.RecentOpponent = DefendingUnit;
+            DefendingUnit.RecentOpponent = AttackingUnit;
+        }
+
+        private void Counter()
+        {
+            if (AreBothUnitsAlive())
+            {
+                _attackController.ExecuteCounterAttack(DefendingUnit, AttackingUnit);
+            }
+        }
+
+        private bool AreBothUnitsAlive()
+        {
+            return (AttackingUnit.IsUnitAlive() && DefendingUnit.IsUnitAlive());
+        }
+
+        private void FollowUp()
+        {
+            var differenceSpeed = AttackingUnit.Speed.Value - DefendingUnit.Speed.Value;
+            if (AreBothUnitsAlive())
+            {
+                ExecuteFollowUpBasedOnSpeed(differenceSpeed);
+            }
+        }
+        private void ExecuteFollowUpBasedOnSpeed(int differenceSpeed)
         {
             switch (differenceSpeed)
             {
                 case >= 5:
-                    _attackController.FollowUpAttack(attackingUnit, defendingUnit);
+                    _attackController.ExecuteFollowUpAttack(AttackingUnit, DefendingUnit);
                     break;
                 case <= -5:
-                    _attackController.FollowUpAttack(defendingUnit, attackingUnit);
+                    _attackController.ExecuteFollowUpAttack(DefendingUnit, AttackingUnit);
                     break;
                 default:
                     _view.WriteLine("Ninguna unidad puede hacer un follow up");
                     break;
             }
-        
         }
+        
     }
-
 }

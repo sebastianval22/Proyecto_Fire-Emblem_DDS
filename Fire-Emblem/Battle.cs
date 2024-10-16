@@ -24,18 +24,42 @@ public class Battle
     public void Start()
     {
         AddAlterationBaseStats();
-        while (_teams[0].Count > 0 && _teams[1].Count > 0)
+        while (TeamsAreAlive())
         {   
-            _attackingUnit = ChooseUnit(_attackingPlayerNumber);
-            _defendingUnit = ChooseUnit(_defendingPlayerNumber);
-            _view.WriteLine($"Round {_round}: {_attackingUnit.Name} (Player {_attackingPlayerNumber}) comienza");
-            _roundFightController.Fight(_attackingUnit, _defendingUnit);
+            ExecuteRound();
             UpdateTeams();
-            _view.WriteLine($"{_attackingUnit.Name} ({_attackingUnit.CurrentHP}) : {_defendingUnit.Name} ({_defendingUnit.CurrentHP})");
-            _round++;
-            (_attackingPlayerNumber, _defendingPlayerNumber) = (_defendingPlayerNumber, _attackingPlayerNumber);
-
+            DisplayRoundResult();
+            PrepareNextRound();
         }
+        DisplayWinner();
+    }
+
+    private bool TeamsAreAlive()
+    {
+        return _teams[0].Count > 0 && _teams[1].Count > 0;
+    }
+
+    private void ExecuteRound()
+    {
+        _attackingUnit = ChooseUnit(_attackingPlayerNumber);
+        _defendingUnit = ChooseUnit(_defendingPlayerNumber);
+        _view.WriteLine($"Round {_round}: {_attackingUnit.Name} (Player {_attackingPlayerNumber}) comienza");
+        _roundFightController.Fight(_attackingUnit, _defendingUnit);
+    }
+
+    private void DisplayRoundResult()
+    {
+        _view.WriteLine($"{_attackingUnit.Name} ({_attackingUnit.CurrentHP}) : {_defendingUnit.Name} ({_defendingUnit.CurrentHP})");
+    }
+
+    private void PrepareNextRound()
+    {
+        _round++;
+        (_attackingPlayerNumber, _defendingPlayerNumber) = (_defendingPlayerNumber, _attackingPlayerNumber);
+    }
+
+    private void DisplayWinner()
+    {
         if (_teams[0].Count == 0)
         {
             _view.WriteLine("Player 2 ganó");
@@ -44,8 +68,8 @@ public class Battle
         {
             _view.WriteLine("Player 1 ganó");
         }
-    }                           
-    
+    }
+
     private void UpdateTeams()
     {
         for (int i = 0; i < _teams.Count; i++)
@@ -54,39 +78,64 @@ public class Battle
         }
     }
     
-    private Unit ChooseUnit(int player_number)
+    private Unit ChooseUnit(int playerNumber)
     {
-        List<Unit> team = _teams[player_number - 1];
-        _view.WriteLine($"Player {player_number} selecciona una opción");
+        List<Unit> team = _teams[playerNumber - 1];
+        DisplayTeamOptions(playerNumber, team);
+        return GetChosenUnit(playerNumber, team);
+    }
+
+    private void DisplayTeamOptions(int playerNumber, List<Unit> team)
+    {
+        _view.WriteLine($"Player {playerNumber} selecciona una opción");
         for (int i = 0; i < team.Count; i++)
         {
             _view.WriteLine($"{i}: {team[i].Name}");
         }
-        string option_chosen_unit = _view.ReadLine();
-        if (int.TryParse(option_chosen_unit, out int index))
+    }
+
+    private Unit GetChosenUnit(int playerNumber, List<Unit> team)
+    {
+        string optionChosenUnit = _view.ReadLine();
+        if (int.TryParse(optionChosenUnit, out int index))
         {
             return team[index];
         }
         else
         {
-            // Input is not a valid integer
-            return ChooseUnit(player_number); // Recursively call the method to prompt again
+            return ChooseUnit(playerNumber); 
         }
     }
+
     private void AddAlterationBaseStats()
     {
         foreach (List<Unit> team in _teams)
         {
-            foreach (Unit unit in team)
-            {
-                foreach (Skill skill in unit.Skills)
-                {
-                    if (skill.SkillType == "Base Stats")
-                    {
-                        skill.ActivateBaseStatsSkillEffects(unit);
-                    }
-                }
-            }
+            AddBaseStatsToTeam(team);
+        }
+    }
+
+    private void AddBaseStatsToTeam(List<Unit> team)
+    {
+        foreach (Unit unit in team)
+        {
+            AddBaseStatsToUnit(unit);
+        }
+    }
+
+    private void AddBaseStatsToUnit(Unit unit)
+    {
+        foreach (Skill skill in unit.Skills)
+        {
+            ActivateBaseStatsSkillIfApplicable(skill, unit);
+        }
+    }
+
+    private void ActivateBaseStatsSkillIfApplicable(Skill skill, Unit unit)
+    {
+        if (skill.SkillData.SkillType == "Base Stats")
+        {
+            skill.ActivateBaseStatsSkillEffects(unit);
         }
     }
 }

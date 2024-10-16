@@ -1,16 +1,23 @@
-namespace Fire_Emblem.Skills.Effects;
-
-public class DefensePenaltyEffect : Effect, IPenaltyEffect
+namespace Fire_Emblem.Skills.Effects
 {
-    public int Penalty { get; protected set; }
-    public DefensePenaltyEffect(int penalty)
+    public class DefensePenaltyEffect : Effect, IPenaltyEffect
     {
-        Penalty = penalty;
-    }
+        private int _penalty;
 
-    public override void Apply(Unit rival)
-    {
-        rival.Defense.Penalty -= Penalty;
-    }
+        public int Penalty
+        {
+            get => _penalty;
+            protected set => _penalty = value;
+        }
 
+        public DefensePenaltyEffect(int penalty)
+        {
+            _penalty = penalty;
+        }
+
+        public override void Apply(Unit rival)
+        {
+            rival.Defense.Penalty -= _penalty;
+        }
+    }
 }

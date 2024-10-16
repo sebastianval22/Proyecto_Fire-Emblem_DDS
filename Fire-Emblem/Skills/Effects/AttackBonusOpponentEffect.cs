@@ -2,7 +2,7 @@ namespace Fire_Emblem.Skills.Effects;
 
 public class AttackBonusOpponentEffect : Effect
 {
-    public int _opponent_bonus { get; protected set; }
+    private int _opponent_bonus;
     public AttackBonusOpponentEffect(int bonus)
     {
         _opponent_bonus = bonus;
@@ -15,7 +15,7 @@ public class AttackBonusOpponentEffect : Effect
 
     public override void ApplySpecificEffect(Unit unit, RoundFight roundFight)
     {
-        Unit rival = unit == roundFight.attackingUnit ? roundFight.defendingUnit : roundFight.attackingUnit;
+        Unit rival = unit == roundFight.AttackingUnit ? roundFight.DefendingUnit : roundFight.AttackingUnit;
         rival.Attack.Bonus += _opponent_bonus;
     }
 }
