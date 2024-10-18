@@ -11,6 +11,7 @@ public class DamagePercentageReductionSpeedEffect : Effect
     {
         Unit rival = unit == roundFight.AttackingUnit ? roundFight.DefendingUnit : roundFight.AttackingUnit;
         var speedDifference = unit.Speed.Value - rival.Speed.Value;
+        Console.WriteLine($"Diferencia de velocidad {speedDifference}");
         var reduction = speedDifference * 0.04;
         reduction = Math.Min(reduction, 0.4);
         unit.DamagePercentageReductionStat.Value *= (1 - reduction);

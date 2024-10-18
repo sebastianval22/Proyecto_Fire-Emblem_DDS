@@ -4,10 +4,11 @@ namespace Fire_Emblem.Skills.Effects
     {
         private int _bonus;
 
-        public int Bonus
+        protected int Bonus
         {
             get => _bonus;
-            protected set => _bonus = value;
+            set => _bonus = value;
+           
         }
 
         public AttackBonusEffect(int bonus)

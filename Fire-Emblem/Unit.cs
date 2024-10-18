@@ -22,7 +22,10 @@ namespace Fire_Emblem
         public List<Skill> Skills { get; set; }
         public Unit RecentOpponent { get; set; }
         public bool HasFirstAttackSkill { get; set; }
-        public List<Stat> Stats { get; set; }
+        public bool HasHadFirstCombatStarting { get; set; } = false;
+        public bool HasHadFirstCombatNotStarting { get; set; } = false;
+
+    public List<Stat> Stats { get; set; }
 
         private readonly UnitEffectsService _effectsService;
         private readonly UnitAttributesService _attributesService;
@@ -63,7 +66,7 @@ namespace Fire_Emblem
 
         private void InitializeDamageStats()
         {
-            DamagePercentageReductionStat = new DamagePercentageReductionStat(1, 1);
+            DamagePercentageReductionStat = new DamagePercentageReductionStat(1, 1, 1);
             DamageAbsoluteReductionStat = new DamageAbsoluteReductionStat(0, 0);
             ExtraDamageStat = new ExtraDamageStat(0, 0);
         }
@@ -118,5 +121,6 @@ namespace Fire_Emblem
         {
             _effectsService.ResetActiveSkillsEffects(this);
         }
+        
     }
 }

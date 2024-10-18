@@ -14,7 +14,6 @@ public class DamagePercentageReductionResistanceEffect :  Effect
         var reduction = resistanceDifference * 0.04;
         reduction = Math.Min(reduction, 0.4);
         unit.DamagePercentageReductionStat.Value *= (1 - reduction);
-        Console.WriteLine($"{unit.Name} tiene {unit.DamagePercentageReductionStat.Value} damage");
     }
 }
 

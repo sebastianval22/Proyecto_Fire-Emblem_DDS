@@ -19,7 +19,7 @@ public class DamageCalculator
     {
         InitializeCombatants(attacker, defender);
         int damage = ApplyExtraDamage(CalculateBaseDamage(), attacker.ExtraDamageStat.Value );
-        int newDamage = ApplyDamagePercentageReduction(damage, defender.DamagePercentageReductionStat.Value);
+        int newDamage = ApplyDamagePercentageReduction(damage, defender.DamagePercentageReductionStat.Value*defender.DamagePercentageReductionStat.FollowUpAttackValue);
         return ApplyDamageAbsoluteReduction(newDamage, defender.DamageAbsoluteReductionStat.Value);
     }
 
@@ -38,7 +38,7 @@ public class DamageCalculator
         DetermineAdvantageFactor();
     }
 
-    private int CalculateBaseDamage()
+    public int CalculateBaseDamage()
     {
         int defensePoints = DetermineDefensePoints();
         int attackPoints = (int)Math.Truncate(_attacker.Attack.Value * _advantageFactor);

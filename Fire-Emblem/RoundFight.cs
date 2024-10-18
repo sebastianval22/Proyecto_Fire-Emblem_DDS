@@ -53,11 +53,17 @@ namespace Fire_Emblem
 
         private void FinalizeFight()
         {
+            UpdateUnitAttributesAfterFight();
             RestoreAttributesAfterFight();
             ResetUnitsAfterFight();
             UpdateRecentOpponents();
         }
 
+        private void UpdateUnitAttributesAfterFight()
+        {
+            AttackingUnit.HasHadFirstCombatStarting = true;
+            DefendingUnit.HasHadFirstCombatNotStarting = true;
+        }
         private void RestoreAttributesAfterFight()
         {
             AttackingUnit.RestoreSpecificAttributes(_attackingUnitAttributesBeforeFight);

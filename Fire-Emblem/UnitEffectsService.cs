@@ -51,6 +51,7 @@ namespace Fire_Emblem
         {
             unit.DamagePercentageReductionStat.Value = 1;
             unit.DamagePercentageReductionStat.FirstAttackValue = 1;
+            unit.DamagePercentageReductionStat.FollowUpAttackValue = 1;
             unit.DamageAbsoluteReductionStat.Value = 0;
             unit.DamageAbsoluteReductionStat.FirstAttackValue = 0;
             unit.ExtraDamageStat.Value = 0;

@@ -21,7 +21,6 @@ public class TeamSetup
         {
             new MaxUnits(),
             new RepeatedUnits(),
-            new MaxSkillsPerUnit(),
             new RepeatedSkillsPerUnit()
         };
     }
@@ -94,7 +93,10 @@ public class TeamSetup
     {
         string unitName = ExtractUnitName(unitInfo);
         List<string> skillNames = ExtractSkillNames(unitInfo);
-
+        if (MaxSkillsPerUnit.Check(skillNames))
+        {
+            _teamsValid = false;
+        }
         List<Skill> skills = SkillFactory.InitiateSkills(skillNames);
 
         return new Unit(unitName, skills);

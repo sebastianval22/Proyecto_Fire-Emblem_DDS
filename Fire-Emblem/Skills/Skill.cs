@@ -29,7 +29,6 @@ public class Skill
     {
         if (SkillData.Conditions.All(condition => condition.IsMet(unit, roundFight)))
         {
-            Console.WriteLine("IS MET");
             ApplyEffects(unit, roundFight);
         }
     }
@@ -58,7 +57,7 @@ public class Skill
         {
             effect.Apply(rival);
         }
-        else if (effect is IBonusEffect or ICostEffect or INeutralizePenalty)
+        else if (effect is IBonusEffect or ICostEffect or INeutralizePenalty or ISelfNeutralizeBonus)
         {
             effect.Apply(unit);
         }

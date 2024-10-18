@@ -46,14 +46,16 @@ public class AttackController
     {
         InitializeBaseStatsSkills(attackingUnit, defendingUnit);
         InitializeDamageSkills(attackingUnit, defendingUnit);
+        EffectLogger.ShowAllUnitEffects(attackingUnit, defendingUnit);
     }
     
     private void InitializeDamageSkills(Unit attackingUnit, Unit defendingUnit)
     {
+        Console.WriteLine($"La unidad defe es {defendingUnit.Name} tiene porcentahe de reduccion de daño {defendingUnit.DamagePercentageReductionStat.Value}");
         ApplyDamageSkills(attackingUnit);
         ApplyDamageSkills(defendingUnit);
-        EffectLogger.ShowDamageEffects(attackingUnit);
-        EffectLogger.ShowDamageEffects(defendingUnit);
+        Console.WriteLine($"La unidad defe es {defendingUnit.Name} tiene porcentahe de reduccion de daño {defendingUnit.DamagePercentageReductionStat.Value}");
+        
     }
     private void InitializeBaseStatsSkills(Unit attackingUnit, Unit defendingUnit)
     {
@@ -61,8 +63,7 @@ public class AttackController
         ApplySkills(defendingUnit);
         attackingUnit.ApplyEffects();
         defendingUnit.ApplyEffects();
-        EffectLogger.ShowUnitEffects(attackingUnit);
-        EffectLogger.ShowUnitEffects(defendingUnit);
+
     }
     public void ExecuteCounterAttack(Unit attackingUnit, Unit defendingUnit)
     {

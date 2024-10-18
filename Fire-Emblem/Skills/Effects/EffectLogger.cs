@@ -15,8 +15,17 @@ namespace Fire_Emblem.Skills.Effects
         {
             _view?.WriteLine(message);
         }
+        public static void ShowAllUnitEffects(Unit attackingUnit, Unit defendingUnit)
 
-        public static void ShowUnitEffects(Unit unit)
+        {
+            
+            ShowUnitEffects(attackingUnit);
+            ShowDamageEffects(attackingUnit);
+            ShowUnitEffects(defendingUnit);
+            ShowDamageEffects(defendingUnit);
+        }
+
+        private static void ShowUnitEffects(Unit unit)
         {
             ShowBonusEffects(unit);
             ShowFirstAttackBonusEffects(unit);
@@ -28,11 +37,13 @@ namespace Fire_Emblem.Skills.Effects
             ShowPenaltyNeutralizationEffects(unit);
         }
 
-        public static void ShowDamageEffects(Unit unit)
+        private static void ShowDamageEffects(Unit unit)
         {
             ShowExtraDamageEffects(unit);
+            ShowFirstAttackExtraDamageEffects(unit);
             ShowDamagePercentageReductionEffects(unit);
             ShowFirstDamagePercentageReductionEffects(unit);
+            ShowFollowUpDamagePercentageReductionEffects(unit);
             ShowDamageAbsoluteReductionEffects(unit);
         }
         private static void ShowExtraDamageEffects(Unit unit)
@@ -40,6 +51,15 @@ namespace Fire_Emblem.Skills.Effects
             if (unit.ExtraDamageStat.Value > 0)
             {
                 ShowEffect($"{unit.Name} realizará +{unit.ExtraDamageStat.Value} daño extra en cada ataque");
+            }
+        }
+
+        private static void ShowFirstAttackExtraDamageEffects(Unit unit)
+        {
+            if (unit.ExtraDamageStat.FirstAttackValue > 0)
+            {
+                ShowEffect($"{unit.Name} realizará +{unit.ExtraDamageStat.FirstAttackValue} daño extra en su primer ataque");
+
             }
         }
         private static void ShowDamagePercentageReductionEffects(Unit unit)
@@ -57,6 +77,14 @@ namespace Fire_Emblem.Skills.Effects
             {
                 int roundedReductionPercentage = CalculateReductionPercentage(unit.DamagePercentageReductionStat.FirstAttackValue);
                 ShowEffect($"{unit.Name} reducirá el daño del primer ataque del rival en un {roundedReductionPercentage}%");
+            }
+        }
+        private static void ShowFollowUpDamagePercentageReductionEffects(Unit unit)
+        {
+            if (1 > unit.DamagePercentageReductionStat.FollowUpAttackValue)
+            {
+                int roundedReductionPercentage = CalculateReductionPercentage(unit.DamagePercentageReductionStat.FollowUpAttackValue);
+                ShowEffect($"{unit.Name} reducirá el daño del Follow-Up del rival en un {roundedReductionPercentage}%");
             }
         }
 
