@@ -1,12 +1,12 @@
+using Fire_Emblem.Controllers;
+
 namespace Fire_Emblem.Skills.Conditions;
 
 public class SpeedDifferenceCondition : Condition
 {
-    public override bool IsMet(Unit unit, RoundFight roundFight)
+    public override bool IsMet(Unit unit, RoundFightController roundFightController)
     {
-        Console.WriteLine("ENTROOOOOOOOOO");
-        Unit rival = unit == roundFight.AttackingUnit ? roundFight.DefendingUnit : roundFight.AttackingUnit;
-        Console.WriteLine($"Speed unidad {unit.Speed.Value} nombre {unit.Name} Speed rival {rival.Speed.Value} nombre {rival.Name}");
+        Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
         return unit.Speed.Value - rival.Speed.Value > 0;
     }
 }

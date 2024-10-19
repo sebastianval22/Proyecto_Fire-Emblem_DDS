@@ -1,4 +1,5 @@
 ﻿using Fire_Emblem_View;
+using Fire_Emblem.Views;
 using Fire_Emblem.Skills.Effects;
 
 namespace Fire_Emblem;
@@ -20,8 +21,8 @@ public class Game
         teamSetup.SetupTeams();
         if (teamSetup.IsTeamsValid())
         {
-            EffectLogger.Initialize(_view);
-            var battle = new Battle(_view, teamSetup.ChosenTeamInfo);
+            BaseView.Initialize(_view);
+            var battle = new BattleController(teamSetup.ChosenTeamInfo);
             battle.Start();
         }
         else

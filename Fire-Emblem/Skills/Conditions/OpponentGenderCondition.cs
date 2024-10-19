@@ -1,3 +1,5 @@
+using Fire_Emblem.Controllers;
+
 namespace Fire_Emblem.Skills.Conditions;
 
 public class OpponentGenderCondition : Condition
@@ -9,15 +11,15 @@ public class OpponentGenderCondition : Condition
         _gender = gender;
     }
 
-    public override bool IsMet(Unit unit, RoundFight roundFight)
+    public override bool IsMet(Unit unit, RoundFightController roundFightController)
     {
-        if (unit == roundFight.AttackingUnit)
+        if (unit == roundFightController.AttackingUnit)
         {
-            return roundFight.DefendingUnit.Gender == _gender;
+            return roundFightController.DefendingUnit.Gender == _gender;
         }
         else
         {
-            return roundFight.AttackingUnit.Gender == _gender;
+            return roundFightController.AttackingUnit.Gender == _gender;
         }
     }
 }

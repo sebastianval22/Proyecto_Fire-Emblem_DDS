@@ -1,3 +1,5 @@
+using Fire_Emblem.Controllers;
+
 namespace Fire_Emblem.Skills.Conditions;
 
 public class OpponentHealthAboveCondition : Condition
@@ -10,9 +12,9 @@ public class OpponentHealthAboveCondition : Condition
 
     }
     
-    public override bool IsMet(Unit unit, RoundFight roundFight)
+    public override bool IsMet(Unit unit, RoundFightController roundFightController)
     {
-        Unit rival = unit == roundFight.AttackingUnit ? roundFight.DefendingUnit : roundFight.AttackingUnit;
+        Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
         double thresholdHP = rival.MaxHP * (_thresholdPercentage / 100);
         int truncatedThresholdHP = Convert.ToInt32(Math.Floor(thresholdHP));
         return rival.CurrentHP >= truncatedThresholdHP;

@@ -1,3 +1,5 @@
+using Fire_Emblem.Controllers;
+
 namespace Fire_Emblem.Skills.Conditions;
 
 public class HealthAboveCondition : Condition
@@ -10,7 +12,7 @@ public class HealthAboveCondition : Condition
 
     }
 
-    public override bool IsMet(Unit unit, RoundFight roundFight)
+    public override bool IsMet(Unit unit, RoundFightController roundFightController)
     {
         return Math.Round((double)unit.CurrentHP / unit.MaxHP, 2) >= (_thresholdPercentage / 100);
     }

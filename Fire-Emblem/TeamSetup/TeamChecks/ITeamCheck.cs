@@ -1,6 +1,7 @@
-namespace Fire_Emblem.TeamChecks;
-
-public interface ITeamCheck
+namespace Fire_Emblem.TeamSetup.TeamChecks
 {
-    bool Check(List<List<Unit>> teams);
+    public interface ITeamCheck
+    {
+        bool Check(List<List<Unit>> teams);
+    }
 }

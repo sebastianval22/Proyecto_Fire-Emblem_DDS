@@ -1,3 +1,5 @@
+using Fire_Emblem.Controllers;
+
 namespace Fire_Emblem.Skills.Conditions
 {
     public class OrCondition : Condition
@@ -9,9 +11,9 @@ namespace Fire_Emblem.Skills.Conditions
             _conditions = conditions;
         }
 
-        public override bool IsMet(Unit unit, RoundFight roundFight)
+        public override bool IsMet(Unit unit, RoundFightController roundFightController)
         {
-            return _conditions.Any(condition => condition.IsMet(unit, roundFight));
+            return _conditions.Any(condition => condition.IsMet(unit, roundFightController));
         }
     }
 }

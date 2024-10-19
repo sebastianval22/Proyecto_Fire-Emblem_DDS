@@ -1,5 +1,11 @@
 using Fire_Emblem.Skills.Conditions;
+using Fire_Emblem.Controllers;
 using Fire_Emblem.Skills.Effects;
+using Fire_Emblem.Skills.Effects.PenaltyEffects;
+using Fire_Emblem.Skills.Effects.BonusEffects;
+using Fire_Emblem.Skills.Effects.NeutralizeEffects;
+using Fire_Emblem.Skills.Effects.Damage;
+using Fire_Emblem.Skills.Effects.CostEffects;
 
 namespace Fire_Emblem.Skills;
 
@@ -25,33 +31,33 @@ public class Skill
         }
     }
 
-    public void UpdateActiveSkillEffects(Unit unit, RoundFight roundFight)
+    public void UpdateActiveSkillEffects(Unit unit, RoundFightController roundFightController)
     {
-        if (SkillData.Conditions.All(condition => condition.IsMet(unit, roundFight)))
+        if (SkillData.Conditions.All(condition => condition.IsMet(unit, roundFightController)))
         {
-            ApplyEffects(unit, roundFight);
+            ApplyEffects(unit, roundFightController);
         }
     }
 
-    private void ApplyEffects(Unit unit, RoundFight roundFight)
+    private void ApplyEffects(Unit unit, RoundFightController roundFightController)
     {
         foreach (var effect in SkillData.Effects)
         {
-            ApplyEffectBasedOnType(effect, unit, roundFight);
+            ApplyEffectBasedOnType(effect, unit, roundFightController);
         }
     }
 
-    private void ApplyEffectBasedOnType(Effect effect, Unit unit, RoundFight roundFight)
+    private void ApplyEffectBasedOnType(Effect effect, Unit unit, RoundFightController roundFightController)
     {
         if (SkillData.SkillType != "Base Stats")
         {
-            ApplyEffect(effect, unit, roundFight);
+            ApplyEffect(effect, unit, roundFightController);
         }
     }
 
-    private void ApplyEffect(Effect effect, Unit unit, RoundFight roundFight)
+    private void ApplyEffect(Effect effect, Unit unit, RoundFightController roundFightController)
     {
-        Unit rival = GetRival(unit, roundFight);
+        Unit rival = GetRival(unit, roundFightController);
 
         if (effect is IPenaltyEffect or INeutralizeBonus)
         {
@@ -68,15 +74,14 @@ public class Skill
         
         else
         {
-            effect.ApplySpecificEffect(unit, roundFight);
-            Console.WriteLine("BIENNN");
+            effect.ApplySpecificEffect(unit, roundFightController);
         }
     }
     
 
 
-    private Unit GetRival(Unit unit, RoundFight roundFight)
+    private Unit GetRival(Unit unit, RoundFightController roundFightController)
     {
-        return unit == roundFight.AttackingUnit ? roundFight.DefendingUnit : roundFight.AttackingUnit;
+        return unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
     }
 }

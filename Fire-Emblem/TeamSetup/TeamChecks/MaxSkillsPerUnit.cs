@@ -1,4 +1,4 @@
-namespace Fire_Emblem.TeamChecks;
+namespace Fire_Emblem.TeamSetup.TeamChecks;
 
 public static class MaxSkillsPerUnit
 

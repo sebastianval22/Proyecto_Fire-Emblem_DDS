@@ -1,6 +1,6 @@
 using Fire_Emblem.Skills;
 
-namespace Fire_Emblem.TeamChecks;
+namespace Fire_Emblem.TeamSetup.TeamChecks;
 
 public class RepeatedSkillsPerUnit : ITeamCheck
 {

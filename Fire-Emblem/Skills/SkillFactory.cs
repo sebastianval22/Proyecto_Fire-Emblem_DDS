@@ -1,5 +1,14 @@
 using Fire_Emblem.Skills.Conditions;
 using Fire_Emblem.Skills.Effects;
+using Fire_Emblem.Skills.Effects.PenaltyEffects;
+using Fire_Emblem.Skills.Effects.BonusEffects;
+using Fire_Emblem.Skills.Effects.NeutralizeEffects;
+using Fire_Emblem.Skills.Effects.Damage;
+using Fire_Emblem.Skills.Effects.CostEffects;
+using Fire_Emblem.Skills.Effects.Damage.DamageAbsoluteReduction;
+using Fire_Emblem.Skills.Effects.Damage.DamagePercentageReduction;
+using Fire_Emblem.Skills.Effects.HybridEffects;
+using Fire_Emblem.Skills.Effects.Damage.ExtraDamage;
 
 namespace Fire_Emblem.Skills;
 

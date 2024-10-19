@@ -1,12 +1,14 @@
 using Fire_Emblem.AdvantageWeapons;
+using Fire_Emblem.Controllers;
+
 
 namespace Fire_Emblem.Skills.Conditions;
 
 public class AdvantageWeaponUsedCondition : Condition
 {
-    public override bool IsMet(Unit unit, RoundFight roundFight)
+    public override bool IsMet(Unit unit, RoundFightController roundFightController)
     {
-        Unit rival = unit == roundFight.AttackingUnit ? roundFight.DefendingUnit : roundFight.AttackingUnit;
+        Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
         IWeaponAdvantage advantage = unit.Weapon switch
         {
             "Sword" => new SwordAdvantage(),

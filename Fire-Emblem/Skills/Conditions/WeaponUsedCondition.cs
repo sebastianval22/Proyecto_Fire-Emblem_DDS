@@ -1,3 +1,5 @@
+using Fire_Emblem.Controllers;
+
 namespace Fire_Emblem.Skills.Conditions;
 
 public class WeaponUsedCondition : Condition
@@ -10,7 +12,7 @@ public class WeaponUsedCondition : Condition
         _weaponRequired = weaponRequired;
     }
 
-    public override bool IsMet(Unit unit, RoundFight roundFight)
+    public override bool IsMet(Unit unit, RoundFightController roundFightController)
     {
         return unit.Weapon == _weaponRequired;
     }

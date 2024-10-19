@@ -68,7 +68,7 @@ namespace Fire_Emblem
         {
             DamagePercentageReductionStat = new DamagePercentageReductionStat(1, 1, 1);
             DamageAbsoluteReductionStat = new DamageAbsoluteReductionStat(0, 0);
-            ExtraDamageStat = new ExtraDamageStat(0, 0);
+            ExtraDamageStat = new ExtraDamageStat(0, 0, 0);
         }
 
         private void InitializeUnitDataObject()
