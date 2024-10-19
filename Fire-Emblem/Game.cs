@@ -1,6 +1,8 @@
 ﻿using Fire_Emblem_View;
 using Fire_Emblem.Views;
-using Fire_Emblem.Skills.Effects;
+using Fire_Emblem.Controllers;
+using Fire_Emblem.TeamSetup;
+using Fire_Emblem.TeamSetup.TeamChecks;
 
 namespace Fire_Emblem;
 
@@ -17,11 +19,11 @@ public class Game
 
     public void Play()
     {
-        var teamSetup = new TeamSetup.TeamSetup(_view, _teamsFolder);
+        BaseView.Initialize(_view);
+        var teamSetup = new TeamSetupController(_teamsFolder);
         teamSetup.SetupTeams();
         if (teamSetup.IsTeamsValid())
         {
-            BaseView.Initialize(_view);
             var battle = new BattleController(teamSetup.ChosenTeamInfo);
             battle.Start();
         }

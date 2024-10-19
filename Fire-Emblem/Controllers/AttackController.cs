@@ -1,4 +1,5 @@
 using Fire_Emblem.Skills;
+using Fire_Emblem.Strategies;
 using Fire_Emblem.Views;
 
 namespace Fire_Emblem.Controllers;
@@ -7,11 +8,13 @@ public class AttackController
 {
     private DamageController _damageController = new DamageController();
     private RoundFightController _roundFightController;
+    private StrategyApplySkillsPriority _strategyApplySkillsPriority;
 
 
     public AttackController( RoundFightController roundFightController)
     {
         _roundFightController = roundFightController;
+        _strategyApplySkillsPriority = new StrategyApplySkillsPriority(roundFightController);
     }
     
     private void ExecuteAttack(Unit attackingUnit, Unit defendingUnit, int damageAttack)
@@ -39,24 +42,11 @@ public class AttackController
 
     private void InitializeSkills(Unit attackingUnit, Unit defendingUnit)
     {
-        InitializeBaseStatsSkills(attackingUnit, defendingUnit);
-        InitializeDamageSkills(attackingUnit, defendingUnit);
+        _strategyApplySkillsPriority.ApplySkills(attackingUnit, defendingUnit);
         EffectView.ShowAllUnitEffects(attackingUnit, defendingUnit);
     }
     
-    private void InitializeDamageSkills(Unit attackingUnit, Unit defendingUnit)
-    {
-        ApplyDamageSkills(defendingUnit);
-        ApplyDamageSkills(attackingUnit);
-    }
-    private void InitializeBaseStatsSkills(Unit attackingUnit, Unit defendingUnit)
-    {
-        ApplySkills(attackingUnit);
-        ApplySkills(defendingUnit);
-        attackingUnit.ApplyEffects();
-        defendingUnit.ApplyEffects();
 
-    }
     public void ExecuteCounterAttack(Unit attackingUnit, Unit defendingUnit)
     {
         int damageAttack = _damageController.CalculateDamageFirstAttack(attackingUnit, defendingUnit);
@@ -75,37 +65,5 @@ public class AttackController
         }
         
     }
-    private void ApplySkills( Unit attackingUnit)
-    {
-        foreach (Skill unitSkill in attackingUnit.Skills.Reverse<Skill>())
-        {
-             UpdateActiveSkillEffects(attackingUnit,unitSkill);
-        }
-    }
-    
-    private void UpdateActiveSkillEffects(Unit attackingUnit, Skill unitSkill)
-    {
-        if (unitSkill.SkillData.SkillType != "Damage")
-        {
-            unitSkill.UpdateActiveSkillEffects(attackingUnit, _roundFightController);
-        }
-    }
-    private void ApplyDamageSkills(Unit attackingUnit)
-    {
-        foreach (Skill unitSkill in attackingUnit.Skills.Reverse<Skill>())
-        {
-            UpdateDamageSkillEffects(attackingUnit, unitSkill);
-        }
-    
-    }
-        private void UpdateDamageSkillEffects(Unit attackingUnit, Skill unitSkill)
-        {
-            if (unitSkill.SkillData.SkillType == "Damage")
-            {
-                Console.WriteLine($"Activando skill {unitSkill.SkillData.Name}");
-                unitSkill.UpdateActiveSkillEffects(attackingUnit, _roundFightController);
-            }
-        }
-
 }
     

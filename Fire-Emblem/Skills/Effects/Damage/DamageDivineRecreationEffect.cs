@@ -18,7 +18,7 @@ public class DamageDivineRecreationEffect : Effect
             
             DamageController damageController = new DamageController();
             
-            int normalDamage = damageController.CalculateDamageFirstAttack(rival, unit);
+            int normalDamage = damageController.CalculateDamageFirstAttackWithoutReduction(rival, unit);
             unit.DamagePercentageReductionStat.FirstAttackValue *= 0.7;
             Console.WriteLine($"El daño base de la unidad rival es de {normalDamage} y el daño de su primer ataque es de {damageController.CalculateDamageFirstAttack(rival, unit)}");
             int extraDamage = normalDamage - damageController.CalculateDamageFirstAttack(rival, unit);
@@ -30,7 +30,7 @@ public class DamageDivineRecreationEffect : Effect
             Console.WriteLine($"La unidad {unit.Name} ha activado la habilidad Divine Recreation y ha reducido el daño de su primer ataque en un 30%");
             DamageController damageController = new DamageController();
             
-            int normalDamage = damageController.CalculateDamageFirstAttack(rival, unit);
+            int normalDamage = damageController.CalculateDamageFirstAttackWithoutReduction(rival, unit);
             unit.DamagePercentageReductionStat.FirstAttackValue *= 0.7;
             Console.WriteLine($"El daño base de la unidad rival es de {normalDamage} y el daño de su primer ataque es de {damageController.CalculateDamageFirstAttack(rival, unit)}");
             

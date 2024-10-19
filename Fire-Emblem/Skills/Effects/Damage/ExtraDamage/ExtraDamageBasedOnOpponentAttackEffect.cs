@@ -16,7 +16,8 @@ public class ExtraDamageBasedOnOpponentAttackEffect : Effect
     public override void ApplySpecificEffect(Unit unit, RoundFightController roundFightController)
     {
         Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
-        int extraDamage = Convert.ToInt32(Math.Floor((rival.Attack.Value) * 0.15));
+        var rivalRealAttack = rival.Attack.Value - (rival.Attack.FirstAttackPenalty + rival.Attack.FirstAttackBonus);
+        int extraDamage = Convert.ToInt32(Math.Floor((rivalRealAttack) * 0.15));
         unit.ExtraDamageStat.Value += extraDamage;
         
     }

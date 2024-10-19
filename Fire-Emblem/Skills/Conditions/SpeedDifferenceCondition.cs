@@ -7,6 +7,8 @@ public class SpeedDifferenceCondition : Condition
     public override bool IsMet(Unit unit, RoundFightController roundFightController)
     {
         Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
-        return unit.Speed.Value - rival.Speed.Value > 0;
+        var speedDifference = (unit.Speed.Value - (unit.Speed.FirstAttackPenalty + unit.Speed.FirstAttackBonus))  - (rival.Speed.Value -(rival.Speed.FirstAttackPenalty + rival.Speed.FirstAttackBonus));
+
+        return speedDifference > 0;
     }
 }

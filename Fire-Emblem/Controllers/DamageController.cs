@@ -25,6 +25,11 @@ public  class DamageController
         int newDamage = ApplyDamagePercentageReduction(damage, defender.DamagePercentageReductionStat.Value * defender.DamagePercentageReductionStat.FirstAttackValue);
         return ApplyDamageAbsoluteReduction(newDamage, defender.DamageAbsoluteReductionStat.Value + defender.DamageAbsoluteReductionStat.FirstAttackValue);
     }
+    public int CalculateDamageFirstAttackWithoutReduction(Unit attacker, Unit defender)
+    {
+        InitializeCombatants(attacker, defender);
+        return ApplyExtraDamage(CalculateBaseDamage(), attacker.ExtraDamageStat.Value + attacker.ExtraDamageStat.FirstAttackValue);
+    }
 
     public void InitializeCombatants(Unit attacker, Unit defender)
     {

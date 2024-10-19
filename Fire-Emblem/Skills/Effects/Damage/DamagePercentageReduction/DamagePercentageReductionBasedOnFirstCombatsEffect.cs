@@ -18,7 +18,7 @@ public class DamagePercentageReductionBasedOnFirstCombatsEffect : Effect
         }
         else if  (unit.HasHadFirstCombatNotStarting == false && unit == roundFightController.DefendingUnit)
         {
-            unit.DamagePercentageReductionStat.Value = 0.4;
+            unit.DamagePercentageReductionStat.Value *= 0.4;
         }
         else
         {

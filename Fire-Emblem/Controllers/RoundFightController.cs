@@ -1,4 +1,3 @@
-using Fire_Emblem_View;
 using Fire_Emblem.Views;
 
 namespace Fire_Emblem.Controllers

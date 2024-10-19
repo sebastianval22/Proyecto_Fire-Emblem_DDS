@@ -1,22 +1,21 @@
-using Fire_Emblem_View;
-using Fire_Emblem.TeamChecks;
+using Fire_Emblem.TeamSetup;
+using Fire_Emblem.TeamSetup.TeamChecks;
 using Fire_Emblem.Skills;
 
-namespace Fire_Emblem.TeamSetup;
+namespace Fire_Emblem.Controllers;
 
 public class TeamSetupController
 {
     private string _teamsFolder;
-    private View _view;
     private bool _teamsValid = true;
     private string _chosenTeamFile;
     public List<List<Unit>> ChosenTeamInfo = new List<List<Unit>>();
     private List<ITeamCheck> _teamChecks;
 
-    public TeamSetupController(View view, string teamsFolder)
+    public TeamSetupController( string teamsFolder)
     {
         _teamsFolder = teamsFolder;
-        _view = view;
+
         _teamChecks = new List<ITeamCheck> 
         {
             new MaxUnits(),
@@ -121,7 +120,7 @@ public class TeamSetupController
 
     public void SetupTeams()
     {
-        _chosenTeamFile = TeamOptions.ChooseTeam(_view, _teamsFolder);
+        _chosenTeamFile = TeamOptions.ChooseTeam(_teamsFolder);
         InitializeChosenTeamInfo();
         CheckTeams();
     }

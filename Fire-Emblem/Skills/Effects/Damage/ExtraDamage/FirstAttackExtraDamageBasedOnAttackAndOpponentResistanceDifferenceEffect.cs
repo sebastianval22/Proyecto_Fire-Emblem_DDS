@@ -15,7 +15,9 @@ public class FirstAttackExtraDamageBasedOnAttackAndOpponentResistanceDifferenceE
     public override void ApplySpecificEffect(Unit unit, RoundFightController roundFightController)
     {
         Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
-        int extraDamage = Convert.ToInt32(Math.Floor((unit.Attack.Value - rival.Resistance.Value) *(_extraDamagePercentageValue/100.0))); 
+        var attackResistanceDifference = (unit.Attack.Value - (unit.Attack.FirstAttackPenalty + unit.Attack.FirstAttackBonus))  - (rival.Resistance.Value -(rival.Resistance.FirstAttackPenalty + rival.Resistance.FirstAttackBonus));
+
+        int extraDamage = Convert.ToInt32(Math.Floor((attackResistanceDifference) *(_extraDamagePercentageValue/100.0))); 
         unit.ExtraDamageStat.FirstAttackValue += extraDamage;
         }
 }
