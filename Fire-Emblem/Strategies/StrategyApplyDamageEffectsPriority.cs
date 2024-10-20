@@ -5,11 +5,12 @@ namespace Fire_Emblem.Strategies;
 
 public class StrategyApplyDamageEffectsPriority
 {
-    private RoundFightController _roundFightController;
+    private readonly SkillsController _skillsController;
     public StrategyApplyDamageEffectsPriority(RoundFightController roundFightController)
     {
-        _roundFightController = roundFightController;
+        _skillsController = new SkillsController(roundFightController);
     }
+
     public void ApplyDamageEffects(Unit attackingUnit, Unit defendingUnit)
 
     {
@@ -34,18 +35,16 @@ public class StrategyApplyDamageEffectsPriority
         
     private void ApplyFirstDamageEffects(Unit unit, Skill unitSkill)
     {
-        if (unitSkill.SkillData.SkillType == "Damage" && unitSkill.SkillData.Name != "Divine Recreation Damage")
+        if (unitSkill.SkillType == "Damage" && unitSkill.Name != "Divine Recreation Damage")
         {
-            Console.WriteLine($"Activando skill {unitSkill.SkillData.Name}");
-            unitSkill.UpdateActiveSkillEffects(unit, _roundFightController);
+            _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
         }
     }
     private void ApplySecondDamageEffects(Unit unit, Skill unitSkill)
     {
-        if (unitSkill.SkillData.SkillType == "Damage" && unitSkill.SkillData.Name == "Divine Recreation Damage")
+        if (unitSkill.SkillType == "Damage" && unitSkill.Name == "Divine Recreation Damage")
         {
-            Console.WriteLine($"Activando skill {unitSkill.SkillData.Name}");
-            unitSkill.UpdateActiveSkillEffects(unit, _roundFightController);
+            _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
         }
     }
 }

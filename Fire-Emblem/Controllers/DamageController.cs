@@ -42,7 +42,6 @@ public  class DamageController
     {
         int defensePoints = DetermineDefensePoints();
         int attackPoints = (int)Math.Truncate(_attacker.Attack.Value * _advantageFactor);
-        Console.WriteLine($"Los puntos de ataque de la unidad {_attacker.Name}son {attackPoints} ({_attacker.Attack.Value} {_advantageFactor})y los puntos de defensa {_defender.Name}son {defensePoints}");
         return Math.Max(attackPoints - defensePoints, 0);
     }
 

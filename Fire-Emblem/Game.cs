@@ -1,8 +1,7 @@
 ﻿using Fire_Emblem_View;
 using Fire_Emblem.Views;
 using Fire_Emblem.Controllers;
-using Fire_Emblem.TeamSetup;
-using Fire_Emblem.TeamSetup.TeamChecks;
+
 
 namespace Fire_Emblem;
 

@@ -6,12 +6,12 @@ namespace Fire_Emblem.Controllers;
 
 public class TeamSetupController
 {
-    private string _teamsFolder;
+    private readonly string _teamsFolder;
     private bool _teamsValid = true;
     private string _chosenTeamFile;
     public List<List<Unit>> ChosenTeamInfo = new List<List<Unit>>();
-    private List<ITeamCheck> _teamChecks;
-
+    private readonly List<ITeamCheck> _teamChecks;
+    private readonly UnitController _unitController = new UnitController();
     public TeamSetupController( string teamsFolder)
     {
         _teamsFolder = teamsFolder;
@@ -22,6 +22,7 @@ public class TeamSetupController
             new RepeatedUnits(),
             new RepeatedSkillsPerUnit()
         };
+        
     }
 
     public bool IsTeamsValid()
@@ -97,8 +98,9 @@ public class TeamSetupController
             _teamsValid = false;
         }
         List<Skill> skills = SkillFactory.InitiateSkills(skillNames);
-
-        return new Unit(unitName, skills);
+        Unit newUnit = new Unit(unitName, skills);
+        _unitController.InitializeUnitData(newUnit);
+        return newUnit;
     }
 
     private string ExtractUnitName(string unitInfo)
@@ -107,7 +109,7 @@ public class TeamSetupController
         return parts[0].Trim();
     }
 
-    private List<string> ExtractSkillNames(string unitInfo)
+    private  static List<string> ExtractSkillNames(string unitInfo)
     {
         string[] parts = unitInfo.Split('(', 2);
         if (parts.Length > 1)

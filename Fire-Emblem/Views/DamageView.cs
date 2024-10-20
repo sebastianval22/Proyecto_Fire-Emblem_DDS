@@ -1,6 +1,5 @@
-using Fire_Emblem.Views;
 
-namespace Fire_Emblem;
+namespace Fire_Emblem.Views;
 
 public  static class DamageView 
 {

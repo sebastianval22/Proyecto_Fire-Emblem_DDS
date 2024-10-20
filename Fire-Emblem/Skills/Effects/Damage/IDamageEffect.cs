@@ -1,4 +1,4 @@
-namespace Fire_Emblem.Skills.Effects;
+namespace Fire_Emblem.Skills.Effects.Damage;
 
 public interface IDamageEffect
 {

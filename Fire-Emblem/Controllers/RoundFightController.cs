@@ -4,7 +4,8 @@ namespace Fire_Emblem.Controllers
 {
     public class RoundFightController
     {
-        private AttackController _attackController;
+        private readonly AttackController _attackController;
+        private readonly UnitController _unitController = new UnitController();
         private Unit _attackingUnit;
         private Unit _defendingUnit;
         private Dictionary<string, int> _attackingUnitAttributesBeforeFight;
@@ -45,8 +46,8 @@ namespace Fire_Emblem.Controllers
 
         private void SaveAttributesBeforeFight()
         {
-            _attackingUnitAttributesBeforeFight = AttackingUnit.ObtainAttributes();
-            _defendingUnitAttributesBeforeFight = DefendingUnit.ObtainAttributes();
+            _attackingUnitAttributesBeforeFight = _unitController.ObtainAttributes(AttackingUnit);
+            _defendingUnitAttributesBeforeFight = _unitController.ObtainAttributes(DefendingUnit);
         }
 
         private void FinalizeFight()
@@ -64,14 +65,14 @@ namespace Fire_Emblem.Controllers
         }
         private void RestoreAttributesAfterFight()
         {
-            AttackingUnit.RestoreSpecificAttributes(_attackingUnitAttributesBeforeFight);
-            DefendingUnit.RestoreSpecificAttributes(_defendingUnitAttributesBeforeFight);
+            _unitController.RestoreSpecificAttributes(_attackingUnitAttributesBeforeFight, AttackingUnit);
+            _unitController.RestoreSpecificAttributes(_defendingUnitAttributesBeforeFight, DefendingUnit);
         }
 
         private void ResetUnitsAfterFight()
         {
-            AttackingUnit.ResetActiveSkillsEffects();
-            DefendingUnit.ResetActiveSkillsEffects();
+            _unitController.ResetActiveSkillsEffects(AttackingUnit);
+            _unitController.ResetActiveSkillsEffects(DefendingUnit);
         }
 
         private void UpdateRecentOpponents()
@@ -90,7 +91,7 @@ namespace Fire_Emblem.Controllers
 
         private bool AreBothUnitsAlive()
         {
-            return (AttackingUnit.IsUnitAlive() && DefendingUnit.IsUnitAlive());
+            return (_unitController.IsUnitAlive(AttackingUnit) && _unitController.IsUnitAlive(DefendingUnit));
         }
 
         private void FollowUp()

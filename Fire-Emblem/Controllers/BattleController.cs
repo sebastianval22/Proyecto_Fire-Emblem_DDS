@@ -5,18 +5,21 @@ namespace Fire_Emblem.Controllers;
 
 public class BattleController
 {
-    private List<List<Unit>> _teams;
+    private readonly List<List<Unit>> _teams;
     private int _attackingPlayerNumber = 1;
     private int _defendingPlayerNumber = 2;
     private int _round = 1;
     private Unit _attackingUnit;
     private Unit _defendingUnit;
-    private RoundFightController _roundFightControllerController;
+    private readonly RoundFightController _roundFightControllerController;
+    private readonly SkillsController _skillsController;
+    private readonly UnitController _unitController = new UnitController();
     
     public BattleController(List<List<Unit>> teams)
     {
         _teams = teams;
         _roundFightControllerController = new RoundFightController();
+        _skillsController = new SkillsController(_roundFightControllerController);
     }
     
     public void Start()
@@ -56,7 +59,7 @@ public class BattleController
     {
         for (int i = 0; i < _teams.Count; i++)
         {
-            _teams[i].RemoveAll(unit => !unit.IsUnitAlive());
+            _teams[i].RemoveAll(unit => !_unitController.IsUnitAlive(unit));
         }
     }
     
@@ -108,9 +111,9 @@ public class BattleController
 
     private void ActivateBaseStatsSkillIfApplicable(Skill skill, Unit unit)
     {
-        if (skill.SkillData.SkillType == "Base Stats")
+        if (skill.SkillType == "Base Stats")
         {
-            skill.ActivateBaseStatsSkillEffects(unit);
+            _skillsController.ActivateBaseStatsSkillEffects(skill, unit);
         }
     }
 }

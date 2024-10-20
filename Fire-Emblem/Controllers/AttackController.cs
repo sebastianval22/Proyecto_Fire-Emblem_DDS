@@ -1,4 +1,3 @@
-using Fire_Emblem.Skills;
 using Fire_Emblem.Strategies;
 using Fire_Emblem.Views;
 
@@ -6,27 +5,26 @@ namespace Fire_Emblem.Controllers;
 
 public class AttackController
 {
-    private DamageController _damageController = new DamageController();
-    private RoundFightController _roundFightController;
-    private StrategyApplySkillsPriority _strategyApplySkillsPriority;
+    private readonly DamageController _damageController = new DamageController();
+    private readonly UnitController _unitController = new UnitController();
+    private readonly StrategyApplySkillsPriority _strategyApplySkillsPriority;
 
 
     public AttackController( RoundFightController roundFightController)
     {
-        _roundFightController = roundFightController;
         _strategyApplySkillsPriority = new StrategyApplySkillsPriority(roundFightController);
     }
     
     private void ExecuteAttack(Unit attackingUnit, Unit defendingUnit, int damageAttack)
     {
         AttackView.ShowAttack(attackingUnit, defendingUnit, damageAttack);
-        defendingUnit.UpdateHPStatus(damageAttack);
+        _unitController.UpdateHPStatus(defendingUnit, damageAttack);
     }
 
     public void ExecuteFollowUpAttack(Unit attackingUnit, Unit defendingUnit)
     {
-        attackingUnit.ApplyFollowUpAttackEffects();
-        defendingUnit.ApplyFollowUpAttackEffects();
+        _unitController.ApplyFollowUpAttackEffects(attackingUnit);
+        _unitController.ApplyFollowUpAttackEffects(defendingUnit);
         int damageAttack = _damageController.CalculateFollowUpDamage(attackingUnit, defendingUnit);
         ExecuteAttack(attackingUnit, defendingUnit, damageAttack);
     }
@@ -55,12 +53,12 @@ public class AttackController
         if (attackingUnit.HasFirstAttackSkill)
 
         {
-            attackingUnit.RestoreBackupAttributes();
+            _unitController.RestoreBackupAttributes(attackingUnit);
             attackingUnit.HasFirstAttackSkill = false;
         }
         if (defendingUnit.HasFirstAttackSkill)
         {
-            defendingUnit.RestoreBackupAttributes();
+            _unitController.RestoreBackupAttributes(defendingUnit);
             defendingUnit.HasFirstAttackSkill = false;
         }
         

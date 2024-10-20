@@ -11,12 +11,18 @@ namespace Fire_Emblem
 
             if (HasFirstAttackEffects(unit))
             {
-                unit.SaveAttributes();
+                SaveAttributes(unit);
                 ApplyFirstAttackEffects(unit);
                 unit.HasFirstAttackSkill = true;
             }
         }
-
+        public void SaveAttributes(Unit unit)
+        {
+            foreach (var stat in unit.Stats)
+            {
+                stat.SaveValue();
+            }
+        }
         private bool HasFirstAttackEffects(Unit unit)
         {
             return unit.Stats.Any(stat => stat.FirstAttackBonus != 0 || stat.FirstAttackPenalty != 0);
