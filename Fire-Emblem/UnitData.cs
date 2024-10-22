@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Fire_Emblem.Exceptions;
 
 namespace Fire_Emblem;
 
@@ -19,10 +20,11 @@ public class UnitData
         var units = LoadUnitData();
         var unitData = FindUnitData(units, unit.Name);
 
-        if (unitData != null)
+        if (unitData == null)
         {
-            ApplyUnitData(unit, unitData);
+            throw new UnitDataNotFoundException();
         }
+        ApplyUnitData(unit, unitData);
     }
 
     private List<UnitData> LoadUnitData()

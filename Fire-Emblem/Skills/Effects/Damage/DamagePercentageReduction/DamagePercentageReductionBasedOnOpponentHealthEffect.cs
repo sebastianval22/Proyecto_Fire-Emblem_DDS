@@ -16,7 +16,7 @@ public class DamagePercentageReductionBasedOnOpponentHealthEffect : Effect
     {
         Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
         int reductionPercentage = Convert.ToInt32(Math.Floor((((double)rival.CurrentHP / rival.MaxHP)*100) * (_reductionPercentageValue / 100.0)));
-        unit.DamagePercentageReductionStat.Value *= (1- reductionPercentage/100.0);        
+        unit.DamageEffectStat.DamagePercentageReductionValue *= (1- reductionPercentage/100.0);        
     }
     
 }

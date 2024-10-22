@@ -10,6 +10,6 @@ public class FollowUpDamagePercentageReductionEffect : Effect, IDamageEffect
 
     public override void Apply(Unit unit)
     {
-        unit.DamagePercentageReductionStat.FollowUpAttackValue *= (1 - _reductionPercentage / 100.0);
+        unit.DamageEffectStat.DamagePercentageReductionFollowUpAttackValue *= (1 - _reductionPercentage / 100.0);
     }
 }

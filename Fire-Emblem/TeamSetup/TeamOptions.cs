@@ -1,3 +1,4 @@
+using Fire_Emblem.Exceptions;
 using Fire_Emblem.Views;
 
 namespace Fire_Emblem.TeamSetup;
@@ -32,15 +33,11 @@ public static class TeamOptions
     {
         _teamsFolder = teamsFolder;
         string nameChosenTeam = ShowTeamOptions();
-        try
+        if (IsValidTeamIndex(nameChosenTeam, out int index))
         {
-            IsValidTeamIndex(nameChosenTeam, out int index);
             string chosenTeamFile = _teamFiles.GetValue(index).ToString();
             return chosenTeamFile;
         }
-        catch (ArgumentException)
-        {
-            return "Equipo en archivo no encontrado";
-        }
+        throw new ChosenTeamNotFoundException();
     }
 }

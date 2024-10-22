@@ -9,7 +9,7 @@ public class TeamSetupController
     private readonly string _teamsFolder;
     private bool _teamsValid = true;
     private string _chosenTeamFile;
-    public List<List<Unit>> ChosenTeamInfo = new List<List<Unit>>();
+    public TeamList ChosenTeamInfo { get; } = new TeamList();
     private readonly List<ITeamCheck> _teamChecks;
     private readonly UnitController _unitController = new UnitController();
     public TeamSetupController( string teamsFolder)
@@ -53,7 +53,7 @@ public class TeamSetupController
     private void InitializeChosenTeamInfo()
     {
         string[] teamFileLines = File.ReadAllLines(_chosenTeamFile);
-        List<Unit> currentTeam = null;
+        UnitList currentTeam = null;
 
         foreach (string line in teamFileLines)
         {
@@ -61,18 +61,14 @@ public class TeamSetupController
         }
         AddCurrentTeamToList(currentTeam);
     }
-
-    private List<Unit> ProcessLine(string line, List<Unit> currentTeam)
+    private UnitList ProcessLine(string line, UnitList currentTeam)
     {
         if (IsTeamHeader(line))
         {
             AddCurrentTeamToList(currentTeam);
-            return new List<Unit>();
+            return new UnitList();
         }
-        else if (currentTeam != null)
-        {
-            currentTeam.Add(CreateUnit(line));
-        }
+        currentTeam.AddUnit(CreateUnit(line));
         return currentTeam;
     }
 
@@ -81,11 +77,11 @@ public class TeamSetupController
         return line.StartsWith("Player 1 Team") || line.StartsWith("Player 2 Team");
     }
 
-    private void AddCurrentTeamToList(List<Unit> currentTeam)
+    private void AddCurrentTeamToList(UnitList currentTeam)
     {
         if (currentTeam != null)
         {
-            ChosenTeamInfo.Add(currentTeam);
+            ChosenTeamInfo.AddTeam(currentTeam);
         }
     }
 
@@ -97,7 +93,7 @@ public class TeamSetupController
         {
             _teamsValid = false;
         }
-        List<Skill> skills = SkillFactory.InitiateSkills(skillNames);
+        SkillsList skills = SkillFactory.InitiateSkills(skillNames);
         Unit newUnit = new Unit(unitName, skills);
         _unitController.InitializeUnitData(newUnit);
         return newUnit;

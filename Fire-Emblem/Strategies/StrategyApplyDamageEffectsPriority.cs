@@ -1,50 +1,47 @@
 using Fire_Emblem.Skills;
 using Fire_Emblem.Controllers;
 
-namespace Fire_Emblem.Strategies;
-
-public class StrategyApplyDamageEffectsPriority
+namespace Fire_Emblem.Strategies
 {
-    private readonly SkillsController _skillsController;
-    public StrategyApplyDamageEffectsPriority(RoundFightController roundFightController)
+    public class StrategyApplyDamageEffectsPriority
     {
-        _skillsController = new SkillsController(roundFightController);
-    }
+        private readonly SkillsController _skillsController;
 
-    public void ApplyDamageEffects(Unit attackingUnit, Unit defendingUnit)
+        public StrategyApplyDamageEffectsPriority(RoundFightController roundFightController)
+        {
+            _skillsController = new SkillsController(roundFightController);
+        }
 
-    {
-        foreach (Skill unitSkill in attackingUnit.Skills.Reverse<Skill>())
+        public void ApplyDamageEffects(Unit attackingUnit, Unit defendingUnit)
         {
-            ApplyFirstDamageEffects(attackingUnit ,unitSkill);
+            ApplyEffects(attackingUnit, ApplyFirstDamageEffects);
+            ApplyEffects(defendingUnit, ApplyFirstDamageEffects);
+            ApplyEffects(defendingUnit, ApplySecondDamageEffects);
+            ApplyEffects(attackingUnit, ApplySecondDamageEffects);
         }
-        foreach (Skill unitSkill in defendingUnit.Skills.Reverse<Skill>())
+
+        private void ApplyEffects(Unit unit, Action<Unit, Skill> applyEffect)
         {
-            ApplyFirstDamageEffects(defendingUnit ,unitSkill);
+            foreach (Skill unitSkill in unit.Skills.Reverse<Skill>())
+            {
+                applyEffect(unit, unitSkill);
+            }
         }
-        foreach (Skill unitSkill in defendingUnit.Skills.Reverse<Skill>())
+
+        private void ApplyFirstDamageEffects(Unit unit, Skill unitSkill)
         {
-            ApplySecondDamageEffects(defendingUnit, unitSkill);
+            if (SkillPriority.FirstPrioritySkillTypes.Contains(unitSkill.SkillType) && !SkillPriority.FirstPrioritySkills.Contains(unitSkill.Name))
+            {
+                _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
+            }
         }
-        foreach (Skill unitSkill in attackingUnit.Skills.Reverse<Skill>())
+
+        private void ApplySecondDamageEffects(Unit unit, Skill unitSkill)
         {
-            ApplySecondDamageEffects(attackingUnit, unitSkill);
-        }
-        
-    }
-        
-    private void ApplyFirstDamageEffects(Unit unit, Skill unitSkill)
-    {
-        if (unitSkill.SkillType == "Damage" && unitSkill.Name != "Divine Recreation Damage")
-        {
-            _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
-        }
-    }
-    private void ApplySecondDamageEffects(Unit unit, Skill unitSkill)
-    {
-        if (unitSkill.SkillType == "Damage" && unitSkill.Name == "Divine Recreation Damage")
-        {
-            _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
+            if (SkillPriority.FirstPrioritySkillTypes.Contains(unitSkill.SkillType) && SkillPriority.FirstPrioritySkills.Contains(unitSkill.Name))
+            {
+                _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
+            }
         }
     }
 }

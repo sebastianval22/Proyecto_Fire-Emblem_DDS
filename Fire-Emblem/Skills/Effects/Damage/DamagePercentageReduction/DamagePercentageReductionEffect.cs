@@ -11,6 +11,6 @@ public class DamagePercentageReductionEffect : Effect, IDamageEffect
 
     public override void Apply(Unit unit)
     {
-        unit.DamagePercentageReductionStat.Value *= (1-_reductionPercentage/100.0);
+        unit.DamageEffectStat.DamagePercentageReductionValue *= (1-_reductionPercentage/100.0);
     }
 }

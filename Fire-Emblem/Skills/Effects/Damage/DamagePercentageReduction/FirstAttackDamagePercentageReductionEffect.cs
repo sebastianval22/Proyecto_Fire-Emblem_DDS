@@ -9,7 +9,7 @@ public class FirstAttackDamagePercentageReductionEffect : Effect, IDamageEffect
     }
     public override void Apply(Unit unit)
     {
-        unit.DamagePercentageReductionStat.FirstAttackValue *= (1 - _reductionPercentage / 100.0);
+        unit.DamageEffectStat.DamagePercentageReductionFirstAttackValue *= (1 - _reductionPercentage / 100.0);
     }
     
 }

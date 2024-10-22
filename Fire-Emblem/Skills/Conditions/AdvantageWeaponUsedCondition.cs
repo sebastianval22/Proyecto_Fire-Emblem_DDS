@@ -17,7 +17,6 @@ public class AdvantageWeaponUsedCondition : Condition
             _ => null
         };
         float advantageFactor = advantage?.DetermineAdvantageFactor(rival) ?? 1;
-        Console.WriteLine($"{unit.Name} tiene ventaja con respecto a {rival.Name}: {advantageFactor}");
         return advantageFactor > 1;
     }
 }

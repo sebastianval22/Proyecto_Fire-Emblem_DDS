@@ -13,22 +13,22 @@ public  class DamageController
     public int CalculateFollowUpDamage(Unit attacker, Unit defender)
     {
         InitializeCombatants(attacker, defender);
-        int damage = ApplyExtraDamage(CalculateBaseDamage(), attacker.ExtraDamageStat.Value + attacker.ExtraDamageStat.FollowUpAttackValue);
-        int newDamage = ApplyDamagePercentageReduction(damage, defender.DamagePercentageReductionStat.Value*defender.DamagePercentageReductionStat.FollowUpAttackValue);
-        return ApplyDamageAbsoluteReduction(newDamage, defender.DamageAbsoluteReductionStat.Value);
+        int damage = ApplyExtraDamage(CalculateBaseDamage(), attacker.DamageEffectStat.ExtraDamageValue + attacker.DamageEffectStat.ExtraDamageFollowUpAttackValue);
+        int newDamage = ApplyDamagePercentageReduction(damage, defender.DamageEffectStat.DamagePercentageReductionValue*defender.DamageEffectStat.DamagePercentageReductionFollowUpAttackValue);
+        return ApplyDamageAbsoluteReduction(newDamage, defender.DamageEffectStat.DamageAbsoluteReductionValue);
     }
 
     public int CalculateDamageFirstAttack(Unit attacker, Unit defender)
     {
         InitializeCombatants(attacker, defender);
-        int damage = ApplyExtraDamage(CalculateBaseDamage(), attacker.ExtraDamageStat.Value + attacker.ExtraDamageStat.FirstAttackValue);
-        int newDamage = ApplyDamagePercentageReduction(damage, defender.DamagePercentageReductionStat.Value * defender.DamagePercentageReductionStat.FirstAttackValue);
-        return ApplyDamageAbsoluteReduction(newDamage, defender.DamageAbsoluteReductionStat.Value + defender.DamageAbsoluteReductionStat.FirstAttackValue);
+        int damage = ApplyExtraDamage(CalculateBaseDamage(), attacker.DamageEffectStat.ExtraDamageValue + attacker.DamageEffectStat.ExtraDamageFirstAttackValue);
+        int newDamage = ApplyDamagePercentageReduction(damage, defender.DamageEffectStat.DamagePercentageReductionValue * defender.DamageEffectStat.DamagePercentageReductionFirstAttackValue);
+        return ApplyDamageAbsoluteReduction(newDamage, defender.DamageEffectStat.DamageAbsoluteReductionValue + defender.DamageEffectStat.DamageAbsoluteReductionFirstAttackValue);
     }
     public int CalculateDamageFirstAttackWithoutReduction(Unit attacker, Unit defender)
     {
         InitializeCombatants(attacker, defender);
-        return ApplyExtraDamage(CalculateBaseDamage(), attacker.ExtraDamageStat.Value + attacker.ExtraDamageStat.FirstAttackValue);
+        return ApplyExtraDamage(CalculateBaseDamage(), attacker.DamageEffectStat.ExtraDamageValue + attacker.DamageEffectStat.ExtraDamageFirstAttackValue);
     }
 
     public void InitializeCombatants(Unit attacker, Unit defender)

@@ -18,6 +18,6 @@ public class ExtraDamageBasedOnOpponentDefenseEffect : Effect
         Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
         var rivalRealDefense = rival.Defense.Value - (rival.Defense.FirstAttackPenalty + rival.Defense.FirstAttackBonus);
         var extraDamage = Convert.ToInt32(Math.Floor((rivalRealDefense * _percentage) / 100.0));
-        unit.ExtraDamageStat.Value += extraDamage;
+        unit.DamageEffectStat.ExtraDamageValue += extraDamage;
     }
 }

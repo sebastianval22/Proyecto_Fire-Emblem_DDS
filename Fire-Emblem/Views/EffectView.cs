@@ -40,50 +40,50 @@ namespace Fire_Emblem.Views
         }
         private static void ShowExtraDamageEffects(Unit unit)
         {
-            if (unit.ExtraDamageStat.Value > 0)
+            if (unit.DamageEffectStat.ExtraDamageValue > 0)
             {
-                BaseView.ShowMessage($"{unit.Name} realizará +{unit.ExtraDamageStat.Value} daño extra en cada ataque");
+                BaseView.ShowMessage($"{unit.Name} realizará +{unit.DamageEffectStat.ExtraDamageValue} daño extra en cada ataque");
             }
         }
 
         private static void ShowFirstAttackExtraDamageEffects(Unit unit)
         {
-            if (unit.ExtraDamageStat.FirstAttackValue > 0)
+            if (unit.DamageEffectStat.ExtraDamageFirstAttackValue > 0)
             {
-                BaseView.ShowMessage($"{unit.Name} realizará +{unit.ExtraDamageStat.FirstAttackValue} daño extra en su primer ataque");
+                BaseView.ShowMessage($"{unit.Name} realizará +{unit.DamageEffectStat.ExtraDamageFirstAttackValue} daño extra en su primer ataque");
 
             }
         }
         private static void ShowFollowUpAttackExtraDamageEffects(Unit unit)
         {
-            if (unit.ExtraDamageStat.FollowUpAttackValue > 0)
+            if (unit.DamageEffectStat.ExtraDamageFollowUpAttackValue > 0)
             {
-                BaseView.ShowMessage($"{unit.Name} realizará +{unit.ExtraDamageStat.FollowUpAttackValue} daño extra en su Follow-Up");
+                BaseView.ShowMessage($"{unit.Name} realizará +{unit.DamageEffectStat.ExtraDamageFollowUpAttackValue} daño extra en su Follow-Up");
 
             }
         }
         private static void ShowDamagePercentageReductionEffects(Unit unit)
         {
-            if (1 > unit.DamagePercentageReductionStat.Value)
+            if (1 > unit.DamageEffectStat.DamagePercentageReductionValue)
             {
-                int roundedReductionPercentage = CalculateReductionPercentage(unit.DamagePercentageReductionStat.Value);
+                int roundedReductionPercentage = CalculateReductionPercentage(unit.DamageEffectStat.DamagePercentageReductionValue);
                 BaseView.ShowMessage($"{unit.Name} reducirá el daño de los ataques del rival en un {roundedReductionPercentage}%");
             }
         }
 
         private static void ShowFirstDamagePercentageReductionEffects(Unit unit)
         {
-            if (1 > unit.DamagePercentageReductionStat.FirstAttackValue)
+            if (1 > unit.DamageEffectStat.DamagePercentageReductionFirstAttackValue)
             {
-                int roundedReductionPercentage = CalculateReductionPercentage(unit.DamagePercentageReductionStat.FirstAttackValue);
+                int roundedReductionPercentage = CalculateReductionPercentage(unit.DamageEffectStat.DamagePercentageReductionFirstAttackValue);
                 BaseView.ShowMessage($"{unit.Name} reducirá el daño del primer ataque del rival en un {roundedReductionPercentage}%");
             }
         }
         private static void ShowFollowUpDamagePercentageReductionEffects(Unit unit)
         {
-            if (1 > unit.DamagePercentageReductionStat.FollowUpAttackValue)
+            if (1 > unit.DamageEffectStat.DamagePercentageReductionFollowUpAttackValue)
             {
-                int roundedReductionPercentage = CalculateReductionPercentage(unit.DamagePercentageReductionStat.FollowUpAttackValue);
+                int roundedReductionPercentage = CalculateReductionPercentage(unit.DamageEffectStat.DamagePercentageReductionFollowUpAttackValue);
                 BaseView.ShowMessage($"{unit.Name} reducirá el daño del Follow-Up del rival en un {roundedReductionPercentage}%");
             }
         }
@@ -95,9 +95,9 @@ namespace Fire_Emblem.Views
         }
         private static void ShowDamageAbsoluteReductionEffects(Unit unit)
         {
-            if (unit.DamageAbsoluteReductionStat.Value > 0)
+            if (unit.DamageEffectStat.DamageAbsoluteReductionValue > 0)
             {
-                BaseView.ShowMessage($"{unit.Name} recibirá -{unit.DamageAbsoluteReductionStat.Value} daño en cada ataque");
+                BaseView.ShowMessage($"{unit.Name} recibirá -{unit.DamageEffectStat.DamageAbsoluteReductionValue} daño en cada ataque");
             }
         }
 

@@ -7,18 +7,17 @@ namespace Fire_Emblem;
 
 public class Game
 {
-    private View _view;
+
     private string _teamsFolder;
     
     public Game(View view, string teamsFolder)
     {
-        _view = view;
+        BaseView.Initialize(view);
         _teamsFolder = teamsFolder;
     }
 
     public void Play()
-    {
-        BaseView.Initialize(_view);
+    { 
         var teamSetup = new TeamSetupController(_teamsFolder);
         teamSetup.SetupTeams();
         if (teamSetup.IsTeamsValid())
@@ -28,8 +27,9 @@ public class Game
         }
         else
         {
-            _view.WriteLine("Archivo de equipos no válido");
+            GameView.ShowInvalidTeamFileMessage();
         }
+        
     }
 
 }

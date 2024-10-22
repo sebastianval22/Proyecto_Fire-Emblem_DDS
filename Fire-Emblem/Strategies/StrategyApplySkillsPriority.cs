@@ -39,7 +39,7 @@ namespace Fire_Emblem.Strategies
 
         private void UpdateActiveSkillEffects(Unit unit, Skill unitSkill)
         {
-            if (unitSkill.SkillType != "Damage")
+            if (!SkillPriority.FirstPrioritySkillTypes.Contains(unitSkill.SkillType))
             {
                 _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
             }

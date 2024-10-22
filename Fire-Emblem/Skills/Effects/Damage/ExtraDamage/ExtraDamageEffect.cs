@@ -8,6 +8,6 @@ public class ExtraDamageEffect : Effect, IDamageEffect
     }
     public override void Apply(Unit unit)
     {
-        unit.ExtraDamageStat.Value += _extraDamage;
+        unit.DamageEffectStat.ExtraDamageValue += _extraDamage;
     }
 }

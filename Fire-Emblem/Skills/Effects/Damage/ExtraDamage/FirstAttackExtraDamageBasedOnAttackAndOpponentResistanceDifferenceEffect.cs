@@ -18,6 +18,6 @@ public class FirstAttackExtraDamageBasedOnAttackAndOpponentResistanceDifferenceE
         var attackResistanceDifference = (unit.Attack.Value - (unit.Attack.FirstAttackPenalty + unit.Attack.FirstAttackBonus))  - (rival.Resistance.Value -(rival.Resistance.FirstAttackPenalty + rival.Resistance.FirstAttackBonus));
 
         int extraDamage = Convert.ToInt32(Math.Floor((attackResistanceDifference) *(_extraDamagePercentageValue/100.0))); 
-        unit.ExtraDamageStat.FirstAttackValue += extraDamage;
+        unit.DamageEffectStat.ExtraDamageFirstAttackValue += extraDamage;
         }
 }

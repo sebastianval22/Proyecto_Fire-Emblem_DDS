@@ -2,12 +2,12 @@ namespace Fire_Emblem.Views
 {
     public class BattleView
     {
-        public static void DisplayTeamOptions(int playerNumber, List<Unit> team)
+        public static void DisplayTeamOptions(int playerNumber, UnitList  team)
         {
             BaseView.ShowMessage($"Player {playerNumber} selecciona una opción");
-            for (int i = 0; i < team.Count; i++)
+            for (int i = 0; i < team.Count(); i++)
             {
-                BaseView.ShowMessage($"{i}: {team[i].Name}");
+                BaseView.ShowMessage($"{i}: {team.GetUnit(i).Name}");
             }
         }
 
@@ -21,9 +21,10 @@ namespace Fire_Emblem.Views
             BaseView.ShowMessage($"{attackingUnit.Name} ({attackingUnit.CurrentHP}) : {defendingUnit.Name} ({defendingUnit.CurrentHP})");
         }
 
-        public static void DisplayWinner(List<List<Unit>> teams)
+        public static void DisplayWinner(TeamList teams)
         {
-            if (teams[0].Count == 0)
+            UnitList team1 = teams.GetTeam(1);
+            if (team1.CountUnits()==0)
             {
                 BaseView.ShowMessage("Player 2 ganó");
             }
@@ -31,6 +32,7 @@ namespace Fire_Emblem.Views
             {
                 BaseView.ShowMessage("Player 1 ganó");
             }
+            
         }
     }
 }

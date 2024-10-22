@@ -16,10 +16,8 @@ namespace Fire_Emblem
         public Defense Defense { get; set; }
         public Speed Speed { get; set; }
         public Resistance Resistance { get; set; }
-        public DamagePercentageReductionStat DamagePercentageReductionStat { get; set; }
-        public DamageAbsoluteReductionStat DamageAbsoluteReductionStat { get; set; }
-        public ExtraDamageStat ExtraDamageStat { get; set; }
-        public List<Skill> Skills { get; set; }
+        public DamageEffectStat DamageEffectStat { get; set; }
+        public SkillsList Skills { get; set; }
         public Unit RecentOpponent { get; set; }
         public bool HasFirstAttackSkill { get; set; }
         public bool HasHadFirstCombatStarting { get; set; } = false;
@@ -28,7 +26,7 @@ namespace Fire_Emblem
     public List<Stat> Stats { get; set; }
     
 
-        public Unit(string name, List<Skill> skills)
+        public Unit(string name, SkillsList skills)
         {
             Name = name;
             Skills = skills;

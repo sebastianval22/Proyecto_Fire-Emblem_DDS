@@ -4,16 +4,16 @@ public class MaxUnits : ITeamCheck
 {
     private bool _validTeam = true;
 
-    public bool Check(List<List<Unit>> teams)
+    public bool Check(TeamList teams)
     {
-        foreach (List<Unit> team in teams)
+        foreach (UnitList team in teams)
         {
             CheckTeamSize(team);
         }
         return _validTeam;
     }
 
-    private void CheckTeamSize(List<Unit> team)
+    private void CheckTeamSize(UnitList team)
     {
         if (TeamSizeIsInvalid(team))
         {
@@ -21,8 +21,8 @@ public class MaxUnits : ITeamCheck
         }
     }
 
-    private bool TeamSizeIsInvalid(List<Unit> team)
+    private bool TeamSizeIsInvalid(UnitList team)
     {
-        return team.Count > 3 || team.Count < 1;
+        return team.CountUnits() > 3 || team.CountUnits() < 1;
     }
 }

@@ -4,6 +4,7 @@ public class UnitController
 {
         private readonly UnitEffectsService _effectsService;
         private readonly UnitAttributesService _attributesService;
+        private readonly StatController _statController = new StatController();
 
         public UnitController()
         {
@@ -15,12 +16,8 @@ public class UnitController
         {
             InitializeStats(unit);
             InitializeStatList(unit);
-            InitializeDamageStats(unit);
             InitializeUnitDataObject(unit);
-            foreach (var stat in unit.Stats)
-            {
-                stat.ResetEffects();
-            }
+            _effectsService.ResetActiveSkillsEffects(unit);
         }
 
         private void InitializeStats(Unit unit)
@@ -29,19 +26,14 @@ public class UnitController
             unit.Defense = new Defense();
             unit.Speed = new Speed();
             unit.Resistance = new Resistance();
+            unit.DamageEffectStat = new DamageEffectStat();
         }
 
         private void InitializeStatList(Unit unit)
         {
             unit.Stats = new List<Stat> { unit.Attack, unit.Defense, unit.Speed, unit.Resistance };
         }
-
-        private void InitializeDamageStats(Unit unit)
-        {
-            unit.DamagePercentageReductionStat = new DamagePercentageReductionStat(1, 1, 1);
-            unit.DamageAbsoluteReductionStat = new DamageAbsoluteReductionStat(0, 0);
-            unit.ExtraDamageStat = new ExtraDamageStat(0, 0, 0);
-        }
+        
 
         private void InitializeUnitDataObject(Unit unit)
         {

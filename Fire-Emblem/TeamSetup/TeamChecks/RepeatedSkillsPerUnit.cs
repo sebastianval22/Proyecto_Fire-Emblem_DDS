@@ -6,16 +6,16 @@ public class RepeatedSkillsPerUnit : ITeamCheck
 {
     private bool _validTeam = true;
 
-    public bool Check(List<List<Unit>> teams)
+    public bool Check(TeamList teams)
     {
-        foreach (List<Unit> team in teams)
+        foreach (UnitList team in teams)
         {
             CheckTeamUnits(team);
         }
         return _validTeam;
     }
 
-    private void CheckTeamUnits(List<Unit> team)
+    private void CheckTeamUnits(UnitList team)
     {
         foreach (Unit unit in team)
         {

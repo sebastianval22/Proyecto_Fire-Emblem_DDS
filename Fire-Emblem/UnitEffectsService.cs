@@ -1,12 +1,16 @@
+using Fire_Emblem.Controllers;
+
 namespace Fire_Emblem
 {
+    
     public class UnitEffectsService
     {
+        private StatController _statController = new StatController();
         public void ApplyEffects(Unit unit)
         {
             foreach (var stat in unit.Stats)
             {
-                stat.ApplyEffects();
+                _statController.ApplyEffects(stat);
             }
 
             if (HasFirstAttackEffects(unit))
@@ -32,7 +36,7 @@ namespace Fire_Emblem
         {
             foreach (var stat in unit.Stats)
             {
-                stat.ApplyFirstAttackEffects();
+                _statController.ApplyFirstAttackEffects(stat); 
             }
         }
 
@@ -40,7 +44,7 @@ namespace Fire_Emblem
         {
             foreach (var stat in unit.Stats)
             {
-                stat.ApplyFollowUpAttackEffects();
+                _statController.ApplyFollowUpAttackEffects(stat);
             }
         }
 
@@ -48,21 +52,21 @@ namespace Fire_Emblem
         {
             foreach (var stat in unit.Stats)
             {
-                stat.ResetEffects();
+                _statController.ResetEffects(stat);
             }
             unit.HasFirstAttackSkill = false;
             ResetDamageActiveSkillsEffects(unit);
         }
         private void ResetDamageActiveSkillsEffects(Unit unit)
         {
-            unit.DamagePercentageReductionStat.Value = 1;
-            unit.DamagePercentageReductionStat.FirstAttackValue = 1;
-            unit.DamagePercentageReductionStat.FollowUpAttackValue = 1;
-            unit.DamageAbsoluteReductionStat.Value = 0;
-            unit.DamageAbsoluteReductionStat.FirstAttackValue = 0;
-            unit.ExtraDamageStat.Value = 0;
-            unit.ExtraDamageStat.FirstAttackValue = 0;
-            unit.ExtraDamageStat.FollowUpAttackValue = 0;
+            unit.DamageEffectStat.DamagePercentageReductionValue = 1;
+            unit.DamageEffectStat.DamagePercentageReductionFirstAttackValue = 1;
+            unit.DamageEffectStat.DamagePercentageReductionFollowUpAttackValue = 1;
+            unit.DamageEffectStat.DamageAbsoluteReductionValue = 0;
+            unit.DamageEffectStat.DamageAbsoluteReductionFirstAttackValue = 0;
+            unit.DamageEffectStat.ExtraDamageValue = 0;
+            unit.DamageEffectStat.ExtraDamageFirstAttackValue = 0;
+            unit.DamageEffectStat.ExtraDamageFollowUpAttackValue = 0;
         }
     }
 }

@@ -1,3 +1,4 @@
+using Fire_Emblem.Exceptions;
 using Fire_Emblem.Views;
 using Fire_Emblem.Skills;
 
@@ -5,7 +6,7 @@ namespace Fire_Emblem.Controllers;
 
 public class BattleController
 {
-    private readonly List<List<Unit>> _teams;
+    private readonly TeamList _teams;
     private int _attackingPlayerNumber = 1;
     private int _defendingPlayerNumber = 2;
     private int _round = 1;
@@ -15,7 +16,7 @@ public class BattleController
     private readonly SkillsController _skillsController;
     private readonly UnitController _unitController = new UnitController();
     
-    public BattleController(List<List<Unit>> teams)
+    public BattleController(TeamList teams)
     {
         _teams = teams;
         _roundFightControllerController = new RoundFightController();
@@ -37,7 +38,9 @@ public class BattleController
 
     private bool TeamsAreAlive()
     {
-        return _teams[0].Count > 0 && _teams[1].Count > 0;
+        UnitList team1 = _teams.GetTeam(1);
+        UnitList team2 = _teams.GetTeam(2);
+        return team1.CountUnits() > 0 && team2.CountUnits() > 0;
     }
 
     private void ExecuteRound()
@@ -57,43 +60,40 @@ public class BattleController
      
     private void UpdateTeams()
     {
-        for (int i = 0; i < _teams.Count; i++)
+        for (int i = 1; i < _teams.NumberOfTeams() + 1; i++)
         {
-            _teams[i].RemoveAll(unit => !_unitController.IsUnitAlive(unit));
+            _teams.GetTeam(i).RemoveAll(unit => !_unitController.IsUnitAlive(unit));
         }
     }
     
     private Unit ChooseUnit(int playerNumber)
     {
-        List<Unit> team = _teams[playerNumber - 1];
+        UnitList team = _teams.GetTeam(playerNumber);
         BattleView.DisplayTeamOptions(playerNumber, team);
-        return GetChosenUnit(playerNumber, team);
+        return GetChosenUnit(team);
     }
 
 
 
-    private Unit GetChosenUnit(int playerNumber, List<Unit> team)
-    {
+    private Unit GetChosenUnit(UnitList team)
+    { 
         string optionChosenUnit = BaseView.ReadLine();
         if (int.TryParse(optionChosenUnit, out int index))
         {
-            return team[index];
+            return team.GetUnit(index);
         }
-        else
-        {
-            return ChooseUnit(playerNumber); 
-        }
+        throw new InvalidUnitChoiceException();
     }
 
     private void AddAlterationBaseStats()
     {
-        foreach (List<Unit> team in _teams)
+        foreach (UnitList team in _teams)
         {
             AddBaseStatsToTeam(team);
         }
     }
 
-    private void AddBaseStatsToTeam(List<Unit> team)
+    private void AddBaseStatsToTeam(UnitList team)
     {
         foreach (Unit unit in team)
         {
