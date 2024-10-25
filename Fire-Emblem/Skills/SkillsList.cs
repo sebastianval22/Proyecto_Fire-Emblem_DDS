@@ -11,14 +11,17 @@ public class SkillsList : IEnumerable<Skill>
     {
         skills.Add(skill);
     }
+    
     public void AddRangeSkills(IEnumerable<Skill> skills)
     {
         this.skills.AddRange(skills);
     }
+    
     public IEnumerator<Skill> GetEnumerator()
     {
         return skills.GetEnumerator();
     }
+    
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();

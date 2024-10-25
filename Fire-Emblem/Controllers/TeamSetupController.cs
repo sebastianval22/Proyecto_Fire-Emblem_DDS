@@ -6,14 +6,17 @@ namespace Fire_Emblem.Controllers;
 
 public class TeamSetupController
 {
+    
     private readonly string _teamsFolder;
     private bool _teamsValid = true;
     private string _chosenTeamFile;
     public TeamList ChosenTeamInfo { get; } = new TeamList();
     private readonly List<ITeamCheck> _teamChecks;
     private readonly UnitController _unitController = new UnitController();
+    
     public TeamSetupController( string teamsFolder)
     {
+        
         _teamsFolder = teamsFolder;
 
         _teamChecks = new List<ITeamCheck> 
@@ -45,6 +48,7 @@ public class TeamSetupController
             _teamsValid = false;
         }
     }
+    
     private bool IsTeamInvalidForSpecificCheck(ITeamCheck check)
     {
         return !check.Check(ChosenTeamInfo);
@@ -61,6 +65,7 @@ public class TeamSetupController
         }
         AddCurrentTeamToList(currentTeam);
     }
+    
     private UnitList ProcessLine(string line, UnitList currentTeam)
     {
         if (IsTeamHeader(line))

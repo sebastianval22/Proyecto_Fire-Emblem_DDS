@@ -8,7 +8,7 @@ public class AdvantageWeaponUsedCondition : Condition
 {
     public override bool IsMet(Unit unit, RoundFightController roundFightController)
     {
-        Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
+        Unit rival = GetRival(unit, roundFightController); 
         IWeaponAdvantage advantage = unit.Weapon switch
         {
             "Sword" => new SwordAdvantage(),

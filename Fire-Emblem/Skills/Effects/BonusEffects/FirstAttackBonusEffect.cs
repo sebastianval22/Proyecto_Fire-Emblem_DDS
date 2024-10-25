@@ -4,6 +4,7 @@ namespace Fire_Emblem.Skills.Effects.BonusEffects;
 
 public class FirstAttackBonusEffect : AttackBonusEffect
 {
+    
     private readonly float _bonusPercentage;
     private readonly UnitController _unitController = new UnitController();
 
@@ -18,5 +19,4 @@ public class FirstAttackBonusEffect : AttackBonusEffect
         Bonus = Convert.ToInt32(Math.Floor(unit.Attack.Value * (this._bonusPercentage/100)));
         unit.Attack.FirstAttackBonus += Bonus;
     }
-    
 }

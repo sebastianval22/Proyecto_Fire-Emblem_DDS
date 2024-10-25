@@ -2,6 +2,7 @@ namespace Fire_Emblem.Skills.Effects.BonusEffects;
 
 public class SpeedBonusPerHPLostEffect : SpeedBonusEffect
 {
+    
     private readonly Dictionary<string, int> _additionalSpeedBonusPerHP;
     private readonly int _baseBonus;
     private readonly int _max;
@@ -15,7 +16,11 @@ public class SpeedBonusPerHPLostEffect : SpeedBonusEffect
 
     public override void Apply(Unit unit)
     {
-        int additionalBonus = (unit.MaxHP - unit.CurrentHP) / (_additionalSpeedBonusPerHP["Bonus"] * _additionalSpeedBonusPerHP["Per HP"]);
+        int maxHP = unit.MaxHP;
+        int currentHP = unit.CurrentHP;
+        int bonusPerHP = _additionalSpeedBonusPerHP["Bonus"];
+        int perHP = _additionalSpeedBonusPerHP["Per HP"];
+        int additionalBonus = (maxHP - currentHP) / (bonusPerHP * perHP);
         if (_max == 0)
         {
             Bonus = _baseBonus + additionalBonus;
@@ -26,6 +31,5 @@ public class SpeedBonusPerHPLostEffect : SpeedBonusEffect
             Bonus = int.Min(_baseBonus + additionalBonus, _max);
         }
         unit.Speed.Bonus += Bonus;
-        
     }
 }

@@ -2,7 +2,9 @@ namespace Fire_Emblem.Skills.Effects.Damage.DamagePercentageReduction;
 
 public class DamagePercentageReductionEffect : Effect, IDamageEffect
 {
-    private int _reductionPercentage;
+    
+    private readonly int _reductionPercentage;
+    
     public DamagePercentageReductionEffect(int reductionPercentage)
     {
 

@@ -16,6 +16,7 @@ namespace Fire_Emblem.Controllers
         {
             _roundFightController = roundFightController;
         }
+        
         public void ActivateBaseStatsSkillEffects(Skill skill, Unit unit)
         {
             foreach (var effect in skill.Effects)
@@ -72,7 +73,9 @@ namespace Fire_Emblem.Controllers
 
         private Unit GetRival(Unit unit, RoundFightController roundFightController)
         {
-            return unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
+            Unit attackingUnit = roundFightController.AttackingUnit;
+            Unit defendingUnit = roundFightController.DefendingUnit;
+            return unit == attackingUnit ? defendingUnit : attackingUnit;
         }
     }
 }

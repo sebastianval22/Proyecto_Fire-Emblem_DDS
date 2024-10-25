@@ -6,6 +6,7 @@ namespace Fire_Emblem
 {
     public class Unit
     {
+        
         public string Name { get; set; }
         public string Weapon { get; set; }
         public string Gender { get; set; }
@@ -22,15 +23,12 @@ namespace Fire_Emblem
         public bool HasFirstAttackSkill { get; set; }
         public bool HasHadFirstCombatStarting { get; set; } = false;
         public bool HasHadFirstCombatNotStarting { get; set; } = false;
-
-    public List<Stat> Stats { get; set; }
+        public List<Stat> Stats { get; set; }
     
-
         public Unit(string name, SkillsList skills)
         {
             Name = name;
             Skills = skills;
         }
-
     }
 }

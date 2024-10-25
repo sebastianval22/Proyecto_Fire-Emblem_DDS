@@ -25,6 +25,4 @@ public class DamagePercentageReductionBasedOnFirstCombatsEffect : Effect
             unit.DamageEffectStat.DamagePercentageReductionValue *= 0.7;
         }
     }
-
-        
 }

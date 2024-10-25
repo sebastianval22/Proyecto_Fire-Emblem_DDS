@@ -5,6 +5,7 @@ namespace Fire_Emblem.TeamSetup;
 
 public static class TeamOptions
 {
+    
     private static string _teamsFolder;
     private static string[] _teamFiles;
 
@@ -15,9 +16,7 @@ public static class TeamOptions
         _teamFiles = files;
         TeamSetupView.ShowTeamOptions(files);
     }
-
-
-
+    
     private static string ShowTeamOptions()
     {
         DisplayTeamFiles();

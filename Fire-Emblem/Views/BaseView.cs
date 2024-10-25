@@ -4,6 +4,7 @@ namespace Fire_Emblem.Views;
 
 public abstract class BaseView
 {
+    
     private static View _view;
 
     public static void Initialize(View view)
@@ -15,6 +16,7 @@ public abstract class BaseView
     {
         _view.WriteLine(message);
     }
+    
     public static string ReadLine()
     {
         return _view.ReadLine();

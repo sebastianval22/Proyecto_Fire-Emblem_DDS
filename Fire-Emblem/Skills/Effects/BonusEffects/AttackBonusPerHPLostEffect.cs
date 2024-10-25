@@ -2,6 +2,7 @@ namespace Fire_Emblem.Skills.Effects.BonusEffects;
 
 public class AttackBonusPerHPLostEffect : AttackBonusEffect
 {
+    
     private readonly Dictionary<string, int> _additionalAttackBonusPerHP;
     private readonly int _baseBonus;
     private readonly int _max;
@@ -15,7 +16,11 @@ public class AttackBonusPerHPLostEffect : AttackBonusEffect
 
     public override void Apply(Unit unit)
     {
-        int additionalBonus = (unit.MaxHP - unit.CurrentHP) / (_additionalAttackBonusPerHP["Bonus"] * _additionalAttackBonusPerHP["Per HP"]);
+        int maxHP = unit.MaxHP;
+        int currentHP = unit.CurrentHP;
+        int bonusPerHP = _additionalAttackBonusPerHP["Bonus"];
+        int perHP = _additionalAttackBonusPerHP["Per HP"];
+        int additionalBonus = (maxHP - currentHP) / (bonusPerHP * perHP);
         if (_max == 0)
         {
             Bonus = _baseBonus + additionalBonus;

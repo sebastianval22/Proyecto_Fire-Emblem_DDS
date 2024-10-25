@@ -2,6 +2,7 @@ namespace Fire_Emblem.Controllers
 {
     public class StatController
     {
+        
         public void ApplyEffects(Stat stat)
         {
             if (!stat.BonusNeutralized) stat.Value += stat.Bonus;
@@ -31,6 +32,5 @@ namespace Fire_Emblem.Controllers
             stat.BonusNeutralized = false;
             stat.PenaltyNeutralized = false;
         }
-
-}
+    }
 }

@@ -6,5 +6,4 @@ public class NeutralizeAttackBonusEffect : Effect, INeutralizeBonus
     {
        rival.Attack.BonusNeutralized = true;
     }
-    
 }

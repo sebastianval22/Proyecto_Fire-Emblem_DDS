@@ -5,6 +5,7 @@ namespace Fire_Emblem.Strategies
 {
     public class StrategyApplySkillsPriority
     {
+        
         private readonly UnitController _unitController = new UnitController();
         private readonly StrategyApplyDamageEffectsPriority _strategyApplyDamageEffectsPriority;
         private readonly SkillsController _skillsController;
@@ -31,7 +32,7 @@ namespace Fire_Emblem.Strategies
 
         private void ApplyNonDamageSkills(Unit unit)
         {
-            foreach (Skill unitSkill in unit.Skills.Reverse<Skill>())
+            foreach (Skill unitSkill in unit.Skills.Reverse())
             {
                 UpdateActiveSkillEffects(unit, unitSkill);
             }

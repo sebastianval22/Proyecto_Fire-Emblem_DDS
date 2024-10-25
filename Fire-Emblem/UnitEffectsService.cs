@@ -5,7 +5,9 @@ namespace Fire_Emblem
     
     public class UnitEffectsService
     {
-        private StatController _statController = new StatController();
+        
+        private readonly StatController _statController = new StatController();
+        
         public void ApplyEffects(Unit unit)
         {
             foreach (var stat in unit.Stats)
@@ -20,6 +22,7 @@ namespace Fire_Emblem
                 unit.HasFirstAttackSkill = true;
             }
         }
+        
         public void SaveAttributes(Unit unit)
         {
             foreach (var stat in unit.Stats)
@@ -27,6 +30,7 @@ namespace Fire_Emblem
                 stat.SaveValue();
             }
         }
+        
         private bool HasFirstAttackEffects(Unit unit)
         {
             return unit.Stats.Any(stat => stat.FirstAttackBonus != 0 || stat.FirstAttackPenalty != 0);
@@ -57,6 +61,7 @@ namespace Fire_Emblem
             unit.HasFirstAttackSkill = false;
             ResetDamageActiveSkillsEffects(unit);
         }
+        
         private void ResetDamageActiveSkillsEffects(Unit unit)
         {
             unit.DamageEffectStat.DamagePercentageReductionValue = 1;

@@ -2,6 +2,7 @@ namespace Fire_Emblem.Skills.Effects.PenaltyEffects
 {
     public class ResistancePenaltyEffect : Effect, IPenaltyEffect
     {
+        
         private int _penalty;
 
         public int Penalty

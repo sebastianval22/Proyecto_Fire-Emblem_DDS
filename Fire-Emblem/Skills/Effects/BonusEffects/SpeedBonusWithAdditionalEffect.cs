@@ -2,6 +2,7 @@ namespace Fire_Emblem.Skills.Effects.BonusEffects;
 
 public class SpeedBonusWithAdditionalEffect : SpeedBonusEffect
 {
+    
     private readonly Dictionary<string, int> _additionalBonusPerSpeed;
     private readonly int _baseBonus;
 
@@ -13,7 +14,10 @@ public class SpeedBonusWithAdditionalEffect : SpeedBonusEffect
 
     public override void Apply(Unit unit)
     {
-        int additionalBonus = (unit.Speed.Value / (_additionalBonusPerSpeed["Bonus"] * _additionalBonusPerSpeed["Per Speed"]));
+        int speedValue = unit.Speed.Value;
+        int bonusPerSpeed = _additionalBonusPerSpeed["Bonus"];
+        int perSpeed = _additionalBonusPerSpeed["Per Speed"];
+        int additionalBonus = speedValue / (bonusPerSpeed * perSpeed);
         Bonus = _baseBonus + additionalBonus;
         unit.Speed.Bonus += Bonus;
     }

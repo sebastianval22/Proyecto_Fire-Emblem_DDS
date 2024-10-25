@@ -12,7 +12,7 @@ public class HealthAboveRivalCondition : Condition
     
     public override bool IsMet(Unit unit, RoundFightController roundFightController)
     {
-        Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
+        Unit rival = GetRival(unit, roundFightController); 
         return unit.CurrentHP >= rival.CurrentHP + _thresholdAbove;
     }
 }

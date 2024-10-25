@@ -5,6 +5,7 @@ namespace Fire_Emblem;
 
 public class UnitData
 {
+    
     public string Name { get; set; }
     public string Weapon { get; set; }
     public string Gender { get; set; }

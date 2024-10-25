@@ -5,6 +5,7 @@ namespace Fire_Emblem.Strategies
 {
     public class StrategyApplyDamageEffectsPriority
     {
+        
         private readonly SkillsController _skillsController;
 
         public StrategyApplyDamageEffectsPriority(RoundFightController roundFightController)
@@ -30,7 +31,7 @@ namespace Fire_Emblem.Strategies
 
         private void ApplyFirstDamageEffects(Unit unit, Skill unitSkill)
         {
-            if (SkillPriority.FirstPrioritySkillTypes.Contains(unitSkill.SkillType) && !SkillPriority.FirstPrioritySkills.Contains(unitSkill.Name))
+            if (IsFirstPrioritySkillType(unitSkill) && IsNotFirstPrioritySkill(unitSkill))
             {
                 _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
             }
@@ -38,10 +39,25 @@ namespace Fire_Emblem.Strategies
 
         private void ApplySecondDamageEffects(Unit unit, Skill unitSkill)
         {
-            if (SkillPriority.FirstPrioritySkillTypes.Contains(unitSkill.SkillType) && SkillPriority.FirstPrioritySkills.Contains(unitSkill.Name))
+            if (IsFirstPrioritySkillType(unitSkill) && IsFirstPrioritySkill(unitSkill))
             {
                 _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
             }
+        }
+
+        private bool IsFirstPrioritySkillType(Skill unitSkill)
+        {
+            return SkillPriority.FirstPrioritySkillTypes.Contains(unitSkill.SkillType);
+        }
+
+        private bool IsNotFirstPrioritySkill(Skill unitSkill)
+        {
+            return !SkillPriority.FirstPrioritySkills.Contains(unitSkill.Name);
+        }
+
+        private bool IsFirstPrioritySkill(Skill unitSkill)
+        {
+            return SkillPriority.FirstPrioritySkills.Contains(unitSkill.Name);
         }
     }
 }

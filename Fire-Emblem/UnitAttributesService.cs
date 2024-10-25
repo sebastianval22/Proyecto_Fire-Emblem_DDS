@@ -2,6 +2,7 @@ namespace Fire_Emblem
 {
     public class UnitAttributesService
     {
+        
         public void SaveAttributes(Unit unit)
         {
             foreach (var stat in unit.Stats)
@@ -39,6 +40,7 @@ namespace Fire_Emblem
                 stat.Value = value;
             }
         }
+        
         private bool TryGetAttributeValue(Dictionary<string, int> attributes, string key, out int value)
         {
             return attributes.TryGetValue(key, out value);

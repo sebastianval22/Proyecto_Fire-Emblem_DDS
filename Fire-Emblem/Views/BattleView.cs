@@ -2,6 +2,7 @@ namespace Fire_Emblem.Views
 {
     public class BattleView
     {
+        
         public static void DisplayTeamOptions(int playerNumber, UnitList  team)
         {
             BaseView.ShowMessage($"Player {playerNumber} selecciona una opción");
@@ -32,7 +33,6 @@ namespace Fire_Emblem.Views
             {
                 BaseView.ShowMessage("Player 1 ganó");
             }
-            
         }
     }
 }

@@ -8,7 +8,6 @@ public class WeaponVsMagicCondition : Condition
     {
         var isAttackingUnitMagic = roundFightController.AttackingUnit.Weapon == "Magic";
         var isDefendingUnitMagic = roundFightController.DefendingUnit.Weapon == "Magic";
-
         return (isAttackingUnitMagic && !isDefendingUnitMagic) || (!isAttackingUnitMagic && isDefendingUnitMagic);
     }
 }

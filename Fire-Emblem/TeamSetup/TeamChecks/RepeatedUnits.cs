@@ -2,6 +2,7 @@ namespace Fire_Emblem.TeamSetup.TeamChecks;
 
 public class RepeatedUnits : ITeamCheck
 {
+    
     private bool _validTeam = true;
 
     public bool Check(TeamList teams)

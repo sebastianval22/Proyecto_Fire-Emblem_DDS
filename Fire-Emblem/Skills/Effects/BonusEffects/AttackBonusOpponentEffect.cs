@@ -4,10 +4,10 @@ namespace Fire_Emblem.Skills.Effects.BonusEffects;
 
 public class AttackBonusOpponentEffect : Effect
 {
-    private int _opponent_bonus;
+    private int _opponentBonus;
     public AttackBonusOpponentEffect(int bonus)
     {
-        _opponent_bonus = bonus;
+        _opponentBonus = bonus;
     }
 
     public override void Apply(Unit unit)
@@ -17,7 +17,7 @@ public class AttackBonusOpponentEffect : Effect
 
     public override void ApplySpecificEffect(Unit unit, RoundFightController roundFightController)
     {
-        Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
-        rival.Attack.Bonus += _opponent_bonus;
+        Unit rival = GetRival(unit, roundFightController); 
+        rival.Attack.Bonus += _opponentBonus;
     }
 }

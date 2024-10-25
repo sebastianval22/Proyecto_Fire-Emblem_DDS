@@ -2,13 +2,8 @@ namespace Fire_Emblem.Skills.Effects.BonusEffects
 {
     public class ResistanceBonusEffect : Effect, IBonusEffect
     {
-        private int _bonus;
-
-        public int Bonus
-        {
-            get => _bonus;
-            protected set => _bonus = value;
-        }
+        
+        private  readonly int _bonus;
 
         public ResistanceBonusEffect(int bonus)
         {

@@ -6,5 +6,4 @@ public class NeutralizeSpeedBonusEffect: Effect, INeutralizeBonus
     {
         rival.Speed.BonusNeutralized = true;
     }
-
 }

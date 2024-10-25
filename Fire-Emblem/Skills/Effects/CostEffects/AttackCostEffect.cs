@@ -2,6 +2,7 @@ namespace Fire_Emblem.Skills.Effects.CostEffects
 {
     public class AttackCostEffect : Effect, ICostEffect
     {
+        
         private int _cost;
 
         public int Cost
@@ -15,11 +16,9 @@ namespace Fire_Emblem.Skills.Effects.CostEffects
             _cost = cost;
         }
 
-        
-
-    public override void Apply(Unit unit)
-    {
-        unit.Attack.Penalty -= Cost;
+        public override void Apply(Unit unit)
+        {
+            unit.Attack.Penalty -= Cost;
+        }
     }
 }
-    }

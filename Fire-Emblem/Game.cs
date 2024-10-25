@@ -2,13 +2,12 @@
 using Fire_Emblem.Views;
 using Fire_Emblem.Controllers;
 
-
 namespace Fire_Emblem;
 
 public class Game
 {
 
-    private string _teamsFolder;
+    private readonly string _teamsFolder;
     
     public Game(View view, string teamsFolder)
     {
@@ -29,7 +28,5 @@ public class Game
         {
             GameView.ShowInvalidTeamFileMessage();
         }
-        
     }
-
 }

@@ -2,6 +2,7 @@ namespace Fire_Emblem.Controllers;
 
 public class UnitController
 {
+    
         private readonly UnitEffectsService _effectsService;
         private readonly UnitAttributesService _attributesService;
         private readonly StatController _statController = new StatController();
@@ -33,7 +34,6 @@ public class UnitController
         {
             unit.Stats = new List<Stat> { unit.Attack, unit.Defense, unit.Speed, unit.Resistance };
         }
-        
 
         private void InitializeUnitDataObject(Unit unit)
         {

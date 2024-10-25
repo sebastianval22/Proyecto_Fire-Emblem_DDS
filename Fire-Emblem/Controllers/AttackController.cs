@@ -9,7 +9,6 @@ public class AttackController
     private readonly UnitController _unitController = new UnitController();
     private readonly StrategyApplySkillsPriority _strategyApplySkillsPriority;
 
-
     public AttackController( RoundFightController roundFightController)
     {
         _strategyApplySkillsPriority = new StrategyApplySkillsPriority(roundFightController);
@@ -43,7 +42,6 @@ public class AttackController
         _strategyApplySkillsPriority.ApplySkills(attackingUnit, defendingUnit);
         EffectView.ShowAllUnitEffects(attackingUnit, defendingUnit);
     }
-    
 
     public void ExecuteCounterAttack(Unit attackingUnit, Unit defendingUnit)
     {

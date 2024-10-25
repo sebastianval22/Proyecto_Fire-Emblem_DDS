@@ -5,11 +5,8 @@ namespace Fire_Emblem.Views
 {
     public  class EffectView
     {
-
         public static void ShowAllUnitEffects(Unit attackingUnit, Unit defendingUnit)
-
         {
-            
             ShowUnitEffects(attackingUnit);
             ShowDamageEffects(attackingUnit);
             ShowUnitEffects(defendingUnit);
@@ -38,6 +35,7 @@ namespace Fire_Emblem.Views
             ShowFollowUpDamagePercentageReductionEffects(unit);
             ShowDamageAbsoluteReductionEffects(unit);
         }
+        
         private static void ShowExtraDamageEffects(Unit unit)
         {
             if (unit.DamageEffectStat.ExtraDamageValue > 0)
@@ -54,12 +52,12 @@ namespace Fire_Emblem.Views
 
             }
         }
+        
         private static void ShowFollowUpAttackExtraDamageEffects(Unit unit)
         {
             if (unit.DamageEffectStat.ExtraDamageFollowUpAttackValue > 0)
             {
                 BaseView.ShowMessage($"{unit.Name} realizará +{unit.DamageEffectStat.ExtraDamageFollowUpAttackValue} daño extra en su Follow-Up");
-
             }
         }
         private static void ShowDamagePercentageReductionEffects(Unit unit)
@@ -79,6 +77,7 @@ namespace Fire_Emblem.Views
                 BaseView.ShowMessage($"{unit.Name} reducirá el daño del primer ataque del rival en un {roundedReductionPercentage}%");
             }
         }
+        
         private static void ShowFollowUpDamagePercentageReductionEffects(Unit unit)
         {
             if (1 > unit.DamageEffectStat.DamagePercentageReductionFollowUpAttackValue)
@@ -93,6 +92,7 @@ namespace Fire_Emblem.Views
             double reductionPercentage = (1 - value) * 100;
             return (int)Math.Round(reductionPercentage);
         }
+        
         private static void ShowDamageAbsoluteReductionEffects(Unit unit)
         {
             if (unit.DamageEffectStat.DamageAbsoluteReductionValue > 0)

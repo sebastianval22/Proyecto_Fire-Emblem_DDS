@@ -2,14 +2,9 @@ namespace Fire_Emblem.Skills.Effects.CostEffects
 {
     public class ResistanceCostEffect : Effect, ICostEffect
     {
+        
         private int _cost;
-
-        public int Cost
-        {
-            get => _cost;
-            protected set => _cost = value;
-        }
-
+        
         public ResistanceCostEffect(int cost)
         {
             _cost = cost;

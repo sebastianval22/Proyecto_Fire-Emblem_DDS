@@ -2,7 +2,9 @@ namespace Fire_Emblem.Skills.Effects.PenaltyEffects;
 
 public class FirstResistancePenaltyMinusHalfEffect : ResistancePenaltyEffect
 {
+    
     private readonly int _basePenalty;
+    
     public FirstResistancePenaltyMinusHalfEffect(int basePenalty) : base(basePenalty)
     {
         _basePenalty = basePenalty;

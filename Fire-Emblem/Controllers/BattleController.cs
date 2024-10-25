@@ -6,6 +6,7 @@ namespace Fire_Emblem.Controllers;
 
 public class BattleController
 {
+    
     private readonly TeamList _teams;
     private int _attackingPlayerNumber = 1;
     private int _defendingPlayerNumber = 2;
@@ -56,7 +57,6 @@ public class BattleController
         _round++;
         (_attackingPlayerNumber, _defendingPlayerNumber) = (_defendingPlayerNumber, _attackingPlayerNumber);
     }
-
      
     private void UpdateTeams()
     {
@@ -72,8 +72,6 @@ public class BattleController
         BattleView.DisplayTeamOptions(playerNumber, team);
         return GetChosenUnit(team);
     }
-
-
 
     private Unit GetChosenUnit(UnitList team)
     { 

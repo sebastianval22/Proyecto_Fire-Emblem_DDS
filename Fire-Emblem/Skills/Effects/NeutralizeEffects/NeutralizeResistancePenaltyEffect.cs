@@ -6,5 +6,4 @@ public class NeutralizeResistancePenaltyEffect : Effect, INeutralizePenalty
     {
         unit.Resistance.PenaltyNeutralized = true;
     }
-    
 }

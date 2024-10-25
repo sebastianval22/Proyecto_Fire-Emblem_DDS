@@ -4,6 +4,7 @@ namespace Fire_Emblem.Controllers
 {
     public class RoundFightController
     {
+        
         private readonly AttackController _attackController;
         private readonly UnitController _unitController = new UnitController();
         private Unit _attackingUnit;
@@ -63,6 +64,7 @@ namespace Fire_Emblem.Controllers
             AttackingUnit.HasHadFirstCombatStarting = true;
             DefendingUnit.HasHadFirstCombatNotStarting = true;
         }
+        
         private void RestoreAttributesAfterFight()
         {
             _unitController.RestoreSpecificAttributes(_attackingUnitAttributesBeforeFight, AttackingUnit);
@@ -102,6 +104,7 @@ namespace Fire_Emblem.Controllers
                 ExecuteFollowUpBasedOnSpeed(differenceSpeed);
             }
         }
+        
         private void ExecuteFollowUpBasedOnSpeed(int differenceSpeed)
         {
             switch (differenceSpeed)

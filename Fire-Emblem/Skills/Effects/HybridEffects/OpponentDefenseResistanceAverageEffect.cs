@@ -10,8 +10,7 @@ public class OpponentDefenseResistanceAverageEffect : Effect
 
     public override void ApplySpecificEffect(Unit unit, RoundFightController roundFightController)
     {
-        Unit rival = unit == roundFightController.AttackingUnit ? roundFightController.DefendingUnit : roundFightController.AttackingUnit;
-        
+        Unit rival = GetRival(unit, roundFightController);        
         var averageDefenseResistance = (rival.Defense.Value + rival.Resistance.Value) / 2.0;
 
         ApplyEffect(rival.Defense, averageDefenseResistance);
