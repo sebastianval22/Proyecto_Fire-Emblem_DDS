@@ -1,5 +1,6 @@
-using Fire_Emblem.Skills.Effects;
-using Fire_Emblem.Skills.Effects.NeutralizeEffects;
+using Fire_Emblem.Controllers.Skills.Effects;
+using Fire_Emblem.Controllers.Skills.Effects.NeutralizeEffects;
+using Fire_Emblem.Models;
 
 namespace Fire_Emblem.Views
 {

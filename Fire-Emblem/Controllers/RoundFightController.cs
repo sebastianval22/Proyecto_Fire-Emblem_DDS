@@ -1,4 +1,5 @@
 using Fire_Emblem.Views;
+using Fire_Emblem.Models;
 
 namespace Fire_Emblem.Controllers
 {
@@ -9,8 +10,8 @@ namespace Fire_Emblem.Controllers
         private readonly UnitController _unitController = new UnitController();
         private Unit _attackingUnit;
         private Unit _defendingUnit;
-        private Dictionary<string, int> _attackingUnitAttributesBeforeFight;
-        private Dictionary<string, int> _defendingUnitAttributesBeforeFight;
+        private Attributes _attackingUnitAttributesBeforeFight;
+        private Attributes _defendingUnitAttributesBeforeFight;
 
         public Unit AttackingUnit
         {

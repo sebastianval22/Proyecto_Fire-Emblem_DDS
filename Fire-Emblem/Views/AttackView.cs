@@ -1,3 +1,5 @@
+using Fire_Emblem.Models;
+
 namespace Fire_Emblem.Views;
 
 public static class AttackView

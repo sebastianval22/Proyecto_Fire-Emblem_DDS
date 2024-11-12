@@ -1,17 +1,17 @@
 using Fire_Emblem.Views;
-using Fire_Emblem.AdvantageWeapons;
+using Fire_Emblem.Controllers.AdvantageWeapons;
+using Fire_Emblem.Models;
 
 namespace Fire_Emblem.Controllers;
 
-public  class DamageController
+public class DamageController
 {
     private Unit _attacker;
     private Unit _defender; 
     private float _advantageFactor;
-    
+
     public int CalculateFollowUpDamage(Unit attacker, Unit defender)
     {
-        InitializeCombatants(attacker, defender);
         int baseDamage = CalculateBaseDamage();
         int extraDamage = attacker.DamageEffectStat.ExtraDamageValue +
                           attacker.DamageEffectStat.ExtraDamageFollowUpAttackValue;
@@ -24,7 +24,6 @@ public  class DamageController
 
     public int CalculateDamageFirstAttack(Unit attacker, Unit defender)
     {
-        InitializeCombatants(attacker, defender);
         int baseDamage = CalculateBaseDamage();
         int extraDamage = attacker.DamageEffectStat.ExtraDamageValue +
                           attacker.DamageEffectStat.ExtraDamageFirstAttackValue;
@@ -39,27 +38,19 @@ public  class DamageController
     
     public int CalculateDamageFirstAttackWithoutReduction(Unit attacker, Unit defender)
     {
-        InitializeCombatants(attacker, defender);
         int extraDamage = attacker.DamageEffectStat.ExtraDamageValue +
                           attacker.DamageEffectStat.ExtraDamageFirstAttackValue;
         return ApplyExtraDamage(CalculateBaseDamage(), extraDamage);
     }
 
-    public void InitializeCombatants(Unit attacker, Unit defender)
-    {
-        _attacker = attacker;
-        _defender = defender;
-        DetermineAdvantageFactor();
-    }
-
-    public int CalculateBaseDamage()
+    private int CalculateBaseDamage()
     {
         int defensePoints = DetermineDefensePoints();
         int attackPoints = (int)Math.Truncate(_attacker.Attack.Value * _advantageFactor);
         return Math.Max(attackPoints - defensePoints, 0);
     }
 
-    private static  int ApplyDamagePercentageReduction(int damage, double reductionFactor)
+    private static int ApplyDamagePercentageReduction(int damage, double reductionFactor)
     {
         double newDamage = damage * reductionFactor;
         newDamage = Math.Round(newDamage, 9);
@@ -97,10 +88,15 @@ public  class DamageController
         _advantageFactor = advantage?.DetermineAdvantageFactor(_defender) ?? 1;
     }
 
-    public void ShowAdvantageMessage(Unit attacker, Unit defender)
+    public double GetAdvantageFactor()
     {
-        InitializeCombatants(attacker, defender);
-        DamageView.ShowAdvantageMessage(_attacker, _defender, _advantageFactor);
-
+        return _advantageFactor;
+    }
+    
+    public void InitializeCombatants(Unit attacker, Unit defender)
+    {
+        _attacker = attacker;
+        _defender = defender;
+        DetermineAdvantageFactor();
     }
 }

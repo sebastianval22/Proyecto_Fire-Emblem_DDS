@@ -1,6 +1,5 @@
-﻿using Fire_Emblem;
-using Fire_Emblem_View;
-
+﻿using Fire_Emblem_View;
+using Fire_Emblem;
 /* 
  * Este código permite replicar un test case. Primero pregunta por el grupo de test
  * case a replicar. Luego pregunta por el test case específico que se quiere replicar.

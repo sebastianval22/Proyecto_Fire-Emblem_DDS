@@ -1,10 +1,10 @@
-using Fire_Emblem.Skills;
-using Fire_Emblem.Skills.Effects;
-using Fire_Emblem.Skills.Effects.Damage;
-using Fire_Emblem.Skills.Effects.BonusEffects;
-using Fire_Emblem.Skills.Effects.PenaltyEffects;
-using Fire_Emblem.Skills.Effects.NeutralizeEffects;
-using Fire_Emblem.Skills.Effects.CostEffects;
+using Fire_Emblem.Models;
+using Fire_Emblem.Controllers.Skills.Effects;
+using Fire_Emblem.Controllers.Skills.Effects.Damage;
+using Fire_Emblem.Controllers.Skills.Effects.BonusEffects;
+using Fire_Emblem.Controllers.Skills.Effects.PenaltyEffects;
+using Fire_Emblem.Controllers.Skills.Effects.NeutralizeEffects;
+using Fire_Emblem.Controllers.Skills.Effects.CostEffects;
 
 namespace Fire_Emblem.Controllers
 {

@@ -1,5 +1,6 @@
-using Fire_Emblem.Strategies;
+using Fire_Emblem.Controllers.Strategies;
 using Fire_Emblem.Views;
+using Fire_Emblem.Models;
 
 namespace Fire_Emblem.Controllers;
 
@@ -24,13 +25,16 @@ public class AttackController
     {
         _unitController.ApplyFollowUpAttackEffects(attackingUnit);
         _unitController.ApplyFollowUpAttackEffects(defendingUnit);
+        _damageController.InitializeCombatants(attackingUnit, defendingUnit);
         int damageAttack = _damageController.CalculateFollowUpDamage(attackingUnit, defendingUnit);
         ExecuteAttack(attackingUnit, defendingUnit, damageAttack);
     }
 
     public void ExecuteInitialAttack(Unit attackingUnit, Unit defendingUnit)
     {
-        _damageController.ShowAdvantageMessage(attackingUnit, defendingUnit);
+        _damageController.InitializeCombatants(attackingUnit, defendingUnit);
+        double advantage = _damageController.GetAdvantageFactor();
+        DamageView.ShowAdvantageMessage(attackingUnit, defendingUnit, advantage);
         InitializeSkills(attackingUnit, defendingUnit);
         int damageAttack = _damageController.CalculateDamageFirstAttack(attackingUnit, defendingUnit);
         ExecuteAttack(attackingUnit, defendingUnit, damageAttack);
@@ -45,6 +49,7 @@ public class AttackController
 
     public void ExecuteCounterAttack(Unit attackingUnit, Unit defendingUnit)
     {
+        _damageController.InitializeCombatants(attackingUnit, defendingUnit);
         int damageAttack = _damageController.CalculateDamageFirstAttack(attackingUnit, defendingUnit);
 
         ExecuteAttack(attackingUnit, defendingUnit, damageAttack);

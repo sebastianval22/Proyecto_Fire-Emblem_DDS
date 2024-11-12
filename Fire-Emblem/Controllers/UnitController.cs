@@ -1,3 +1,5 @@
+using Fire_Emblem.Models;
+
 namespace Fire_Emblem.Controllers;
 
 public class UnitController
@@ -61,12 +63,12 @@ public class UnitController
             _attributesService.RestoreBackupAttributes(unit);
         }
 
-        public Dictionary<string, int> ObtainAttributes(Unit unit)
+        public Attributes ObtainAttributes(Unit unit)
         {
             return _attributesService.ObtainAttributes(unit);
         }
 
-        public void RestoreSpecificAttributes(Dictionary<string, int> attributes, Unit unit)
+        public void RestoreSpecificAttributes(Attributes attributes, Unit unit)
         {
             _attributesService.RestoreSpecificAttributes(unit, attributes);
         }

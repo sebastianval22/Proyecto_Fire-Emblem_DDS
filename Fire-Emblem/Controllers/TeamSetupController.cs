@@ -1,6 +1,7 @@
-using Fire_Emblem.TeamSetup;
-using Fire_Emblem.TeamSetup.TeamChecks;
-using Fire_Emblem.Skills;
+using Fire_Emblem.Controllers.TeamSetup;
+using Fire_Emblem.Controllers.TeamSetup.TeamChecks;
+using Fire_Emblem.Controllers.Skills;
+using Fire_Emblem.Models;
 
 namespace Fire_Emblem.Controllers;
 
@@ -53,12 +54,12 @@ public class TeamSetupController
     {
         return !check.Check(ChosenTeamInfo);
     }
-    
+
     private void InitializeChosenTeamInfo()
     {
         string[] teamFileLines = File.ReadAllLines(_chosenTeamFile);
-        UnitList currentTeam = null;
-
+        teamFileLines = teamFileLines.Skip(1).ToArray();
+        UnitList currentTeam = new UnitList();
         foreach (string line in teamFileLines)
         {
             currentTeam = ProcessLine(line, currentTeam);
@@ -68,7 +69,7 @@ public class TeamSetupController
     
     private UnitList ProcessLine(string line, UnitList currentTeam)
     {
-        if (IsTeamHeader(line))
+        if (IsTeamTwoHeader(line))
         {
             AddCurrentTeamToList(currentTeam);
             return new UnitList();
@@ -77,23 +78,20 @@ public class TeamSetupController
         return currentTeam;
     }
 
-    private bool IsTeamHeader(string line)
+    private bool IsTeamTwoHeader(string line)
     {
-        return line.StartsWith("Player 1 Team") || line.StartsWith("Player 2 Team");
+        return line.StartsWith("Player 2 Team");
     }
 
     private void AddCurrentTeamToList(UnitList currentTeam)
     {
-        if (currentTeam != null)
-        {
-            ChosenTeamInfo.AddTeam(currentTeam);
-        }
+        ChosenTeamInfo.AddTeam(currentTeam);
     }
 
     private Unit CreateUnit(string unitInfo)
     {
         string unitName = ExtractUnitName(unitInfo);
-        List<string> skillNames = ExtractSkillNames(unitInfo);
+        NameList skillNames = ExtractSkillNames(unitInfo);
         if (MaxSkillsPerUnit.Check(skillNames))
         {
             _teamsValid = false;
@@ -110,15 +108,16 @@ public class TeamSetupController
         return parts[0].Trim();
     }
 
-    private  static List<string> ExtractSkillNames(string unitInfo)
+    private  static NameList ExtractSkillNames(string unitInfo)
     {
+        NameList skillNames = new NameList();
         string[] parts = unitInfo.Split('(', 2);
         if (parts.Length > 1)
         {
             string skillsPart = parts[1].TrimEnd(')');
-            return skillsPart.Split(',').Select(a => a.Trim()).ToList();
+            skillNames.ToList(skillsPart.Split(',').Select(a => a.Trim()));
         }
-        return new List<string>();
+        return skillNames;
     }
 
     public void SetupTeams()
