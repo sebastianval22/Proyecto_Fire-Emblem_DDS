@@ -9,8 +9,10 @@ using Fire_Emblem.Controllers.Skills.Effects.Damage.DamageAbsoluteReduction;
 using Fire_Emblem.Controllers.Skills.Effects.Damage.DamagePercentageReduction;
 using Fire_Emblem.Controllers.Skills.Effects.HybridEffects;
 using Fire_Emblem.Controllers.Skills.Effects.Damage.ExtraDamage;
+using Fire_Emblem.Controllers.Skills.Effects.HealEffects;
 using Fire_Emblem.Models;
 using System.Collections;
+using Fire_Emblem.Controllers.Skills.Effects.AttackDenialEffects;
 
 namespace Fire_Emblem.Controllers.Skills;
 
@@ -763,7 +765,7 @@ public static class SkillFactory
                 var dodgeSkill = new Skill("Dodge", "Damage")
                 {
                     Effects = new List<Effect> { new DamagePercentageReductionSpeedEffect() },
-                    Conditions = new List<Condition> { new SpeedDifferenceCondition() }
+                    Conditions = new List<Condition> { new SpeedDifferenceCondition(0) }
                 };
                 skills.AddSkill((dodgeSkill));
                 break;
@@ -895,7 +897,7 @@ public static class SkillFactory
                 var bushidoReduceDamageSkill = new Skill("Bushido Reduce Damage", "Damage")
                 {
                     Effects = new List<Effect> { new DamagePercentageReductionSpeedEffect() },
-                    Conditions =  new List<Condition> { new SpeedDifferenceCondition() }
+                    Conditions =  new List<Condition> { new SpeedDifferenceCondition(0) }
                 };
                 skills.AddSkill((bushidoExtraDamageSkill));
                 skills.AddSkill((bushidoReduceDamageSkill));
@@ -909,7 +911,7 @@ public static class SkillFactory
                 var moonTwinWingDamageSkill = new Skill("Moon-Twin Wing Damage", "Damage")
                 {
                     Effects = new List<Effect> { new DamagePercentageReductionSpeedEffect() },
-                    Conditions =  new List<Condition> { new SpeedDifferenceCondition() , new HealthAboveCondition(25)}
+                    Conditions =  new List<Condition> { new SpeedDifferenceCondition(0) , new HealthAboveCondition(25)}
                 };
                 skills.AddSkill((moonTwinWingDamageSkill));
                 skills.AddSkill((moonTwinWingPenaltySkill));
@@ -1226,11 +1228,83 @@ public static class SkillFactory
                 skills.AddSkill((divineRecreationPenaltySkill));
                 skills.AddSkill((divineRecreationDamageSkill));
                 break;
+            case "Sol":
+                var solSkill = new Skill("Sol", "Heal")
+                {
+                    Effects = new List<Effect> { new HealBasedOnDamageEffect(25) }
+                };
+                skills.AddSkill(solSkill);
+                break;
+            case "Nosferatu":
+                var nosferatuSkill = new Skill("Nosferatu", "Heal")
+                {
+                    Effects = new List<Effect> { new HealBasedOnDamageEffect(50) },
+                    Conditions = new List<Condition> { new WeaponUsedCondition("Magic") }
+                };
+                skills.AddSkill(nosferatuSkill);
+                break;
+            case "Solar Brace":
+                var solarBraceSkill = new Skill("Solar Brace", "Heal")
+                {
+                    Effects = new List<Effect> { new HealBasedOnDamageEffect(50) },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                skills.AddSkill(solarBraceSkill);
+                break;
+            case "Windsweep":
+                var windsweepSkill = new Skill("Windsweep", "Denial")
+                {
+                    Effects = new List<Effect> { new CounterAndFollowUpAttackDenialEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition(),
+                        new WeaponUsedCondition("Sword"),
+                        new OpponentWeaponUsedCondition("Sword") }
+                };
+                skills.AddSkill((windsweepSkill));
+                break;
+            case "Surprise Attack":
+                var surpriseAttackSkill = new Skill("Surprise Attack", "Denial")
+                {
+                    Effects = new List<Effect> { new CounterAndFollowUpAttackDenialEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition(),
+                        new WeaponUsedCondition("Bow"),
+                        new OpponentWeaponUsedCondition("Bow") }
+                };
+                skills.AddSkill((surpriseAttackSkill));
+                break;
+            case "Hliðskjálf":
+                var hlioskjalfSkill = new Skill("Hliðskjálf", "Denial")
+                {
+                    Effects = new List<Effect> { new CounterAndFollowUpAttackDenialEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition(),
+                        new WeaponUsedCondition("Magic"),
+                        new OpponentWeaponUsedCondition("Magic") }
+                };
+                skills.AddSkill(hlioskjalfSkill);
+                break;
+            case "Laws of Sacae":
+                var lawsOfSacaeSkillDenial = new Skill("Laws of Sacae Denial", "Denial")
+                {
+                    Effects = new List<Effect> { new CounterAndFollowUpAttackDenialEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition(),
+                        new OrCondition(new List<Condition>{new OpponentWeaponUsedCondition("Sword"),
+                        new OpponentWeaponUsedCondition("Axe"),
+                        new OpponentWeaponUsedCondition("Lance")}),
+                        new SpeedDifferenceCondition(5)
+                    }
+                };
+                var lawsOfSacaeSkillBonus = new Skill("Laws of Sacae Bonus", "Bonus")
+                {
+                    Effects = new List<Effect> { new SpeedBonusEffect(6), new AttackBonusEffect(6), 
+                        new DefenseBonusEffect(6), new ResistanceBonusEffect(6) },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition()}
+                };
+                skills.AddSkill(lawsOfSacaeSkillDenial);
+                skills.AddSkill(lawsOfSacaeSkillBonus);
+                break;
             default:
                 var unknownSkill = new Skill(skillName, "Unknown");
                 skills.AddSkill((unknownSkill));
                 break;
-                
             
         }
         return skills;

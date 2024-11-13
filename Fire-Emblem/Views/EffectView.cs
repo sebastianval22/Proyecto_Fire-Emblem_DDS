@@ -10,8 +10,12 @@ namespace Fire_Emblem.Views
         {
             ShowUnitEffects(attackingUnit);
             ShowDamageEffects(attackingUnit);
+            ShowHpEffect(attackingUnit);
+            ShowDenialEffects(attackingUnit);
             ShowUnitEffects(defendingUnit);
             ShowDamageEffects(defendingUnit);
+            ShowHpEffect(defendingUnit);
+            ShowDenialEffects(defendingUnit);
         }
 
         private static void ShowUnitEffects(Unit unit)
@@ -35,6 +39,15 @@ namespace Fire_Emblem.Views
             ShowFirstDamagePercentageReductionEffects(unit);
             ShowFollowUpDamagePercentageReductionEffects(unit);
             ShowDamageAbsoluteReductionEffects(unit);
+        }
+        private static void ShowHpEffect(Unit unit)
+        {
+            ShowHpDamageEffect(unit);
+        }
+        
+        private static void ShowDenialEffects(Unit unit)
+        {
+            ShowCounterAttackDenialEffects(unit);
         }
         
         private static void ShowExtraDamageEffects(Unit unit)
@@ -185,5 +198,29 @@ namespace Fire_Emblem.Views
                 BaseView.ShowMessage($"Los {neutralizationDetail.EffectName} de {neutralizationDetail.UnitName} fueron neutralizados");
             }
         }
+        private static void ShowHpDamageEffect(Unit attackingUnit)
+        {
+            if (attackingUnit.HpEffectStat.ExtraHpValueFromDamage > 0)
+            {
+                BaseView.ShowMessage($"{attackingUnit.Name} recuperará HP igual al {attackingUnit.HpEffectStat.ExtraHpValueFromDamage*100}% del daño realizado en cada ataque");
+            }
+        }
+        
+        private static void ShowCounterAttackDenialEffects(Unit unit)
+        {
+            if (!unit.CanCounterAttack)
+            {
+                BaseView.ShowMessage($"{unit.Name} no podrá contraatacar");
+            }
+
+        }
+        public static void ShowHpChange(Unit unit, int changeHp)
+        {
+            if (changeHp > 0 ) 
+            {
+                BaseView.ShowMessage($"{unit.Name} recupera {changeHp} HP luego de atacar y queda con {unit.CurrentHP} HP.");
+            }
+        }
+        
     }
 }

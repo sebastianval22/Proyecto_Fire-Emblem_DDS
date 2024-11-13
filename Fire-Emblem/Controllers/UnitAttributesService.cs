@@ -37,7 +37,7 @@ namespace Fire_Emblem.Controllers
 
         private void RestoreStatValue(Stat stat, Attributes attributes)
         {
-                stat.Value = attributes.GetAttributeValue(stat.GetType().Name);
+            stat.Value = attributes.GetAttributeValue(stat.GetType().Name);
         }
     }
 }

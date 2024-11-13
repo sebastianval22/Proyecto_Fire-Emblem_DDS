@@ -6,14 +6,14 @@ public class NameList : IEnumerable<string>
 {
     private List<string> _names = new List<string>();
     
-    public void AddName(string unitName)
+    public void Add(string name)
     {
-        _names.Add(unitName);
+        _names.Add(name);
     }
     
-    public bool Contains(string unitName)
+    public bool Contains(string name)
     {
-        return _names.Contains(unitName);
+        return _names.Contains(name);
     }
     public IEnumerator<string> GetEnumerator()
     {

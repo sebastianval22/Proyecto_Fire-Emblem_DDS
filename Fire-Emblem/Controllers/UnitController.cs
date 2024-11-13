@@ -30,6 +30,7 @@ public class UnitController
             unit.Speed = new Speed();
             unit.Resistance = new Resistance();
             unit.DamageEffectStat = new DamageEffectStat();
+            unit.HpEffectStat = new HpEffectStat();
         }
 
         private void InitializeStatList(Unit unit)
@@ -86,5 +87,12 @@ public class UnitController
         public void ResetActiveSkillsEffects(Unit unit)
         {
             _effectsService.ResetActiveSkillsEffects(unit);
+        }
+        public void ApplyHPEffects(Unit unit, int effectValue)
+        {
+            if (IsUnitAlive(unit))
+            {
+                _effectsService.ApplyHPEffects(unit, effectValue);
+            }
         }
     }

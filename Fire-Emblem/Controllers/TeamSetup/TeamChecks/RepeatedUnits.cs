@@ -32,7 +32,7 @@ public class RepeatedUnits : ITeamCheck
             _validTeam = false;
             return;
         }
-        team.AddName(unit.Name);
+        team.Add(unit.Name);
     }
 
     private bool UnitIsRepeated(NameList team, Unit unit)

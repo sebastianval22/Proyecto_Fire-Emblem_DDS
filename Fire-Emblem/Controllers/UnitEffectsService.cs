@@ -1,4 +1,5 @@
 using Fire_Emblem.Models;
+using Fire_Emblem.Views;
 
 namespace Fire_Emblem.Controllers
 {
@@ -42,6 +43,13 @@ namespace Fire_Emblem.Controllers
                 _statController.ApplyFollowUpAttackEffects(stat);
             }
         }
+        
+        public void ApplyHPEffects(Unit unit, int damage)
+        {
+            int extraHp = Convert.ToInt32(Math.Floor(unit.HpEffectStat.ExtraHpValueFromDamage * damage));
+            unit.CurrentHP = Math.Min(unit.MaxHP, unit.CurrentHP + extraHp);
+            EffectView.ShowHpChange(unit, extraHp);
+        }
 
         public void ResetActiveSkillsEffects(Unit unit)
         {
@@ -49,8 +57,12 @@ namespace Fire_Emblem.Controllers
             {
                 _statController.ResetEffects(stat);
             }
+
             unit.HasFirstAttackSkill = false;
+            unit.CanCounterAttack = true;
+            unit.CanFollowUpAttack = true;
             ResetDamageActiveSkillsEffects(unit);
+            ResetHPActiveSkillsEffects(unit);
         }
         
         private void ResetDamageActiveSkillsEffects(Unit unit)
@@ -63,6 +75,11 @@ namespace Fire_Emblem.Controllers
             unit.DamageEffectStat.ExtraDamageValue = 0;
             unit.DamageEffectStat.ExtraDamageFirstAttackValue = 0;
             unit.DamageEffectStat.ExtraDamageFollowUpAttackValue = 0;
+        }
+
+        private void ResetHPActiveSkillsEffects(Unit unit)
+        {
+            unit.HpEffectStat.ExtraHpValueFromDamage = 0;
         }
     }
 }

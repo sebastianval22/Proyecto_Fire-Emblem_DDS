@@ -18,37 +18,39 @@ namespace Fire_Emblem.Controllers.Strategies
 
         public void ApplySkills(Unit attackingUnit, Unit defendingUnit)
         {
-            ApplyNonDamageSkills(attackingUnit);
-            ApplyNonDamageSkills(defendingUnit);
-            ApplyEffectsNonDamageSkills(attackingUnit, defendingUnit);
-            ApplyDamageSkills(attackingUnit, defendingUnit);
+            ApplySkills(attackingUnit, SkillPriority.FirstPrioritySkillTypes);
+            ApplySkills(defendingUnit, SkillPriority.FirstPrioritySkillTypes);
+            ApplyEffectsFirstPrioritySkills(attackingUnit, defendingUnit);
+            ApplySecondPrioritySkills(attackingUnit, defendingUnit);
         }
-
-        private void ApplyEffectsNonDamageSkills(Unit attackingUnit, Unit defendingUnit)
+    
+        private void ApplySkills(Unit unit, NameList prioritySkillTypes)
+        {
+            foreach (Skill unitSkill in unit.Skills.Reverse())
+            {
+                UpdateActiveSkillEffects(unit, unitSkill, prioritySkillTypes);
+            }
+        }
+        
+        private void UpdateActiveSkillEffects(Unit unit, Skill unitSkill, NameList prioritySkillTypes)
+        {
+            if (prioritySkillTypes.Contains(unitSkill.SkillType))
+            {
+                _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
+            }
+        }
+        
+        private void ApplyEffectsFirstPrioritySkills(Unit attackingUnit, Unit defendingUnit)
         {
             _unitController.ApplyEffects(attackingUnit);
             _unitController.ApplyEffects(defendingUnit);
         }
 
-        private void ApplyNonDamageSkills(Unit unit)
-        {
-            foreach (Skill unitSkill in unit.Skills.Reverse())
-            {
-                UpdateActiveSkillEffects(unit, unitSkill);
-            }
-        }
-
-        private void UpdateActiveSkillEffects(Unit unit, Skill unitSkill)
-        {
-            if (!SkillPriority.FirstPrioritySkillTypes.Contains(unitSkill.SkillType))
-            {
-                _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
-            }
-        }
-
-        private void ApplyDamageSkills(Unit attackingUnit, Unit defendingUnit)
+        private void ApplySecondPrioritySkills(Unit attackingUnit, Unit defendingUnit)
         {
             _strategyApplyDamageEffectsPriority.ApplyDamageEffects(attackingUnit, defendingUnit);
+            ApplySkills(attackingUnit, SkillPriority.SecondPrioritySkillTypes);
+            ApplySkills(defendingUnit, SkillPriority.SecondPrioritySkillTypes);
         }
     }
 }

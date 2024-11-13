@@ -45,12 +45,55 @@ namespace Fire_Emblem.Controllers
             DefendingUnit = chosenDefendingUnit;
             SaveAttributesBeforeFight();
         }
-
+        
         private void SaveAttributesBeforeFight()
         {
             _attackingUnitAttributesBeforeFight = _unitController.ObtainAttributes(AttackingUnit);
             _defendingUnitAttributesBeforeFight = _unitController.ObtainAttributes(DefendingUnit);
         }
+        
+        private void Counter()
+        {
+            if (AreBothUnitsAlive() && DefendingUnit.CanCounterAttack)
+            {
+                _attackController.ExecuteCounterAttack(DefendingUnit, AttackingUnit);
+            }
+        }
+        
+        private void FollowUp()
+        {
+            var differenceSpeed = AttackingUnit.Speed.Value - DefendingUnit.Speed.Value;
+            if (AreBothUnitsAlive())
+            {
+                ExecuteFollowUpBasedOnSpeed(differenceSpeed);
+            }
+        }
+        
+        private void ExecuteFollowUpBasedOnSpeed(int differenceSpeed)
+        {
+            if (differenceSpeed >= 5)
+            {
+                _attackController.ExecuteFollowUpAttack(AttackingUnit, DefendingUnit);
+            }
+            else if (differenceSpeed <= -5 && DefendingUnit.CanFollowUpAttack)
+            {
+                _attackController.ExecuteFollowUpAttack(DefendingUnit, AttackingUnit);
+            }
+            else if (!DefendingUnit.CanFollowUpAttack)
+            {
+                RoundFightView.ShowAttackerInabilityToFollowUp(AttackingUnit.Name);
+            }
+            else
+            {
+                RoundFightView.ShowInabilityToFollowUp();
+            }
+        }
+        
+        private bool AreBothUnitsAlive()
+        {
+            return (_unitController.IsUnitAlive(AttackingUnit) && _unitController.IsUnitAlive(DefendingUnit));
+        }
+
 
         private void FinalizeFight()
         {
@@ -84,43 +127,7 @@ namespace Fire_Emblem.Controllers
             DefendingUnit.RecentOpponent = AttackingUnit;
         }
 
-        private void Counter()
-        {
-            if (AreBothUnitsAlive())
-            {
-                _attackController.ExecuteCounterAttack(DefendingUnit, AttackingUnit);
-            }
-        }
 
-        private bool AreBothUnitsAlive()
-        {
-            return (_unitController.IsUnitAlive(AttackingUnit) && _unitController.IsUnitAlive(DefendingUnit));
-        }
-
-        private void FollowUp()
-        {
-            var differenceSpeed = AttackingUnit.Speed.Value - DefendingUnit.Speed.Value;
-            if (AreBothUnitsAlive())
-            {
-                ExecuteFollowUpBasedOnSpeed(differenceSpeed);
-            }
-        }
-        
-        private void ExecuteFollowUpBasedOnSpeed(int differenceSpeed)
-        {
-            switch (differenceSpeed)
-            {
-                case >= 5:
-                    _attackController.ExecuteFollowUpAttack(AttackingUnit, DefendingUnit);
-                    break;
-                case <= -5:
-                    _attackController.ExecuteFollowUpAttack(DefendingUnit, AttackingUnit);
-                    break;
-                default:
-                    RoundFightView.ShowInabilityToFollowUp();
-                    break;
-            }
-        }
         
     }
 }

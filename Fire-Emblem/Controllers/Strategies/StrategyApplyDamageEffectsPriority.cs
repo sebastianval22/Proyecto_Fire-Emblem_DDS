@@ -32,7 +32,7 @@ namespace Fire_Emblem.Controllers.Strategies
 
         private void ApplyFirstDamageEffects(Unit unit, Skill unitSkill)
         {
-            if (IsFirstPrioritySkillType(unitSkill) && IsNotFirstPrioritySkill(unitSkill))
+            if (IsDamageSkillType(unitSkill) && IsNotFirstPrioritySkill(unitSkill))
             {
                 _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
             }
@@ -40,15 +40,15 @@ namespace Fire_Emblem.Controllers.Strategies
 
         private void ApplySecondDamageEffects(Unit unit, Skill unitSkill)
         {
-            if (IsFirstPrioritySkillType(unitSkill) && IsFirstPrioritySkill(unitSkill))
+            if (IsDamageSkillType(unitSkill) && IsFirstPrioritySkill(unitSkill))
             {
                 _skillsController.UpdateActiveSkillEffects(unitSkill, unit);
             }
         }
 
-        private bool IsFirstPrioritySkillType(Skill unitSkill)
+        private bool IsDamageSkillType(Skill unitSkill)
         {
-            return SkillPriority.FirstPrioritySkillTypes.Contains(unitSkill.SkillType);
+            return unitSkill.SkillType == "Damage";
         }
 
         private bool IsNotFirstPrioritySkill(Skill unitSkill)

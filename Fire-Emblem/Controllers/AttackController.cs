@@ -19,6 +19,7 @@ public class AttackController
     {
         AttackView.ShowAttack(attackingUnit, defendingUnit, damageAttack);
         _unitController.UpdateHPStatus(defendingUnit, damageAttack);
+        _unitController.ApplyHPEffects(attackingUnit, damageAttack);
     }
 
     public void ExecuteFollowUpAttack(Unit attackingUnit, Unit defendingUnit)

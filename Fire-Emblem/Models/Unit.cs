@@ -14,9 +14,12 @@ namespace Fire_Emblem.Models
         public Speed Speed { get; set; }
         public Resistance Resistance { get; set; }
         public DamageEffectStat DamageEffectStat { get; set; }
+        public HpEffectStat HpEffectStat { get; set; }
         public SkillsList Skills { get; set; }
         public Unit RecentOpponent { get; set; }
         public bool HasFirstAttackSkill { get; set; }
+        public bool CanCounterAttack { get; set; } = true;
+        public bool CanFollowUpAttack { get; set; } = true;
         public bool HasHadFirstCombatStarting { get; set; } = false;
         public bool HasHadFirstCombatNotStarting { get; set; } = false;
         public List<Stat> Stats { get; set; }

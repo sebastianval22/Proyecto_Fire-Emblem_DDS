@@ -40,7 +40,7 @@ public class RepeatedSkillsPerUnit : ITeamCheck
             _validTeam = false;
             return;
         }
-        skillNames.AddName(skill.Name);
+        skillNames.Add(skill.Name);
     }
 
     private bool SkillIsRepeated(NameList skillNames, Skill skill)

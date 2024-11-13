@@ -5,6 +5,8 @@ using Fire_Emblem.Controllers.Skills.Effects.BonusEffects;
 using Fire_Emblem.Controllers.Skills.Effects.PenaltyEffects;
 using Fire_Emblem.Controllers.Skills.Effects.NeutralizeEffects;
 using Fire_Emblem.Controllers.Skills.Effects.CostEffects;
+using Fire_Emblem.Controllers.Skills.Effects.HealEffects;
+using Fire_Emblem.Controllers.Skills.Effects.AttackDenialEffects;
 
 namespace Fire_Emblem.Controllers
 {
@@ -53,15 +55,11 @@ namespace Fire_Emblem.Controllers
         {
             Unit rival = GetRival(unit, _roundFightController);
 
-            if (effect is IPenaltyEffect or INeutralizeBonus)
+            if (effect is IPenaltyEffect or INeutralizeBonus or IAttackDenialEffect)
             {
                 effect.Apply(rival);
             }
-            else if (effect is IBonusEffect or ICostEffect or INeutralizePenalty or ISelfNeutralizeBonus)
-            {
-                effect.Apply(unit);
-            }
-            else if (effect is IDamageEffect)
+            else if (effect is IBonusEffect or ICostEffect or INeutralizePenalty or ISelfNeutralizeBonus or IDamageEffect or IHealEffect)
             {
                 effect.Apply(unit);
             }
