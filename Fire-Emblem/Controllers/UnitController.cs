@@ -95,4 +95,12 @@ public class UnitController
                 _effectsService.ApplyHPEffects(unit, effectValue);
             }
         }
+        
+        public void ApplyExtraHPAfterCombatEffects(Unit unit)
+        {
+            if (IsUnitAlive(unit))
+            {
+                _effectsService.ApplyExtraHPAfterCombatEffects(unit);
+            }
+        }
     }

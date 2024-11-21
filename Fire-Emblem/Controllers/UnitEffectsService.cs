@@ -50,6 +50,16 @@ namespace Fire_Emblem.Controllers
             unit.CurrentHP = Math.Min(unit.MaxHP, unit.CurrentHP + extraHp);
             EffectView.ShowHpChange(unit, extraHp);
         }
+        public void ApplyExtraHPAfterCombatEffects(Unit unit)
+        {
+            int extraHp = unit.HpEffectStat.ExtraHpAfterCombatValue;
+            unit.CurrentHP = Math.Min(unit.MaxHP, unit.CurrentHP + extraHp);
+            if (unit.CurrentHP <= 0)
+            {
+                unit.CurrentHP = 1;
+            }
+            EffectView.ShowHpChangeAfterCombat(unit);
+        }
 
         public void ResetActiveSkillsEffects(Unit unit)
         {
@@ -61,6 +71,9 @@ namespace Fire_Emblem.Controllers
             unit.HasFirstAttackSkill = false;
             unit.CanCounterAttack = true;
             unit.CanFollowUpAttack = true;
+            unit.HasDenialOfAttackDenialEffect = false;
+            unit.HasAttackedInRound = false;
+            unit.GuaranteedFollowUpEffects = 0;
             ResetDamageActiveSkillsEffects(unit);
             ResetHPActiveSkillsEffects(unit);
         }
@@ -75,11 +88,13 @@ namespace Fire_Emblem.Controllers
             unit.DamageEffectStat.ExtraDamageValue = 0;
             unit.DamageEffectStat.ExtraDamageFirstAttackValue = 0;
             unit.DamageEffectStat.ExtraDamageFollowUpAttackValue = 0;
+            unit.DamageEffectStat.ExtraDamageBeforeCombatValue = 0;
         }
 
         private void ResetHPActiveSkillsEffects(Unit unit)
         {
             unit.HpEffectStat.ExtraHpValueFromDamage = 0;
+            unit.HpEffectStat.ExtraHpAfterCombatValue = 0;
         }
     }
 }

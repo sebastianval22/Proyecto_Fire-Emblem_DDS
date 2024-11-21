@@ -52,5 +52,11 @@ namespace Fire_Emblem.Controllers.Strategies
             ApplySkills(attackingUnit, SkillPriority.SecondPrioritySkillTypes);
             ApplySkills(defendingUnit, SkillPriority.SecondPrioritySkillTypes);
         }
+        
+        public void ApplyAfterCombatSkills(Unit attackingUnit, Unit defendingUnit)
+        {
+            ApplySkills(attackingUnit, SkillPriority.AfterCombatSkillTypes);
+            ApplySkills(defendingUnit, SkillPriority.AfterCombatSkillTypes);
+        }
     }
 }

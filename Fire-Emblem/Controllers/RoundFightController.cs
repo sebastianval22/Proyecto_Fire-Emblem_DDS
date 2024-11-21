@@ -1,13 +1,16 @@
+using System.ComponentModel.Design;
 using Fire_Emblem.Views;
 using Fire_Emblem.Models;
+using Fire_Emblem.Controllers.Strategies;
 
 namespace Fire_Emblem.Controllers
 {
     public class RoundFightController
     {
-        
+
         private readonly AttackController _attackController;
         private readonly UnitController _unitController = new UnitController();
+        private readonly StrategyApplySkillsPriority _strategyApplySkillsPriority;
         private Unit _attackingUnit;
         private Unit _defendingUnit;
         private Attributes _attackingUnitAttributesBeforeFight;
@@ -25,9 +28,10 @@ namespace Fire_Emblem.Controllers
             private set => _defendingUnit = value;
         }
 
-        public RoundFightController()
+    public RoundFightController()
         {
             _attackController = new AttackController(this);
+            _strategyApplySkillsPriority = new StrategyApplySkillsPriority(this);
         }
 
         public void Fight(Unit chosenAttackingUnit, Unit chosenDefendingUnit)
@@ -58,6 +62,11 @@ namespace Fire_Emblem.Controllers
             {
                 _attackController.ExecuteCounterAttack(DefendingUnit, AttackingUnit);
             }
+            
+            if (!DefendingUnit.CanCounterAttack && DefendingUnit.HasDenialOfAttackDenialEffect)
+            {
+                _attackController.ExecuteCounterAttack(DefendingUnit, AttackingUnit);
+            }
         }
         
         private void FollowUp()
@@ -65,29 +74,69 @@ namespace Fire_Emblem.Controllers
             var differenceSpeed = AttackingUnit.Speed.Value - DefendingUnit.Speed.Value;
             if (AreBothUnitsAlive())
             {
+                ExecuteFollowUpBasedOnActiveEffects();
                 ExecuteFollowUpBasedOnSpeed(differenceSpeed);
             }
         }
         
+        private void ExecuteFollowUpBasedOnActiveEffects()
+        {
+
+        }
+        
         private void ExecuteFollowUpBasedOnSpeed(int differenceSpeed)
         {
+            
             if (differenceSpeed >= 5)
             {
                 _attackController.ExecuteFollowUpAttack(AttackingUnit, DefendingUnit);
+                if (DefendingUnit.GuaranteedFollowUpEffects > 0)
+                {
+                    _attackController.ExecuteFollowUpAttack(DefendingUnit, AttackingUnit);
+                }
             }
-            else if (differenceSpeed <= -5 && DefendingUnit.CanFollowUpAttack)
+            else if (differenceSpeed <= -5)
             {
-                _attackController.ExecuteFollowUpAttack(DefendingUnit, AttackingUnit);
-            }
-            else if (!DefendingUnit.CanFollowUpAttack)
-            {
-                RoundFightView.ShowAttackerInabilityToFollowUp(AttackingUnit.Name);
+                if (DefendingUnit.CanFollowUpAttack)
+                {
+                    _attackController.ExecuteFollowUpAttack(DefendingUnit, AttackingUnit);
+                }
+                else if (DefendingUnit.HasDenialOfAttackDenialEffect)
+                {
+                    _attackController.ExecuteFollowUpAttack(DefendingUnit, AttackingUnit);
+                }
+                else if (!DefendingUnit.CanFollowUpAttack)
+                {
+                    RoundFightView.ShowAttackerInabilityToFollowUp(AttackingUnit.Name);
+                }
+                if (AttackingUnit.GuaranteedFollowUpEffects > 0)
+                {
+                    _attackController.ExecuteFollowUpAttack(AttackingUnit, DefendingUnit);
+                }
+                
             }
             else
             {
-                RoundFightView.ShowInabilityToFollowUp();
+                if (AttackingUnit.GuaranteedFollowUpEffects > 0)
+                {
+                    _attackController.ExecuteFollowUpAttack(AttackingUnit, DefendingUnit);
+                }
+                else if (DefendingUnit.GuaranteedFollowUpEffects > 0)
+                {
+                    _attackController.ExecuteFollowUpAttack(DefendingUnit, AttackingUnit);
+                }
+                else if (!DefendingUnit.CanFollowUpAttack)
+                {
+                    RoundFightView.ShowAttackerInabilityToFollowUp(AttackingUnit.Name);
+                }
+                else
+                {
+                    RoundFightView.ShowInabilityToFollowUp();
+                }
             }
         }
+            
+        
         
         private bool AreBothUnitsAlive()
         {
@@ -97,16 +146,26 @@ namespace Fire_Emblem.Controllers
 
         private void FinalizeFight()
         {
+            _strategyApplySkillsPriority.ApplyAfterCombatSkills(AttackingUnit, DefendingUnit);
+            ApplyExtraHPAfterFightEffects();
             UpdateUnitAttributesAfterFight();
             RestoreAttributesAfterFight();
             ResetUnitsAfterFight();
             UpdateRecentOpponents();
+        }
+        
+        private void ApplyExtraHPAfterFightEffects()
+        {
+            _unitController.ApplyExtraHPAfterCombatEffects(AttackingUnit);
+            _unitController.ApplyExtraHPAfterCombatEffects(DefendingUnit);
         }
 
         private void UpdateUnitAttributesAfterFight()
         {
             AttackingUnit.HasHadFirstCombatStarting = true;
             DefendingUnit.HasHadFirstCombatNotStarting = true;
+            AttackingUnit.BeforeRoundHP = AttackingUnit.CurrentHP;
+            DefendingUnit.BeforeRoundHP = DefendingUnit.CurrentHP;
         }
         
         private void RestoreAttributesAfterFight()
@@ -126,8 +185,6 @@ namespace Fire_Emblem.Controllers
             AttackingUnit.RecentOpponent = DefendingUnit;
             DefendingUnit.RecentOpponent = AttackingUnit;
         }
-
-
         
     }
 }

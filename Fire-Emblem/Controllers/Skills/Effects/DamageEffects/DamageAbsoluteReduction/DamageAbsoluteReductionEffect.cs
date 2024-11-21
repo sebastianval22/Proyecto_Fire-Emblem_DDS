@@ -1,6 +1,6 @@
 using Fire_Emblem.Models;
 
-namespace Fire_Emblem.Controllers.Skills.Effects.Damage.DamageAbsoluteReduction;
+namespace Fire_Emblem.Controllers.Skills.Effects.DamageEffects.DamageAbsoluteReduction;
 
 public class DamageAbsoluteReductionEffect : Effect, IDamageEffect
 {

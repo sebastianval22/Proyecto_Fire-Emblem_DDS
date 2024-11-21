@@ -1,6 +1,6 @@
 using Fire_Emblem.Models;
 
-namespace Fire_Emblem.Controllers.Skills.Effects.Damage.ExtraDamage;
+namespace Fire_Emblem.Controllers.Skills.Effects.DamageEffects.ExtraDamage;
 
 public class ExtraDamageBasedOnOpponentAttackEffect : Effect
 {

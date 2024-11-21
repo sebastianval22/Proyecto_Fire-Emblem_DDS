@@ -49,12 +49,12 @@ public class TeamSetupController
             _teamsValid = false;
         }
     }
-    
+
     private bool IsTeamInvalidForSpecificCheck(ITeamCheck check)
     {
         return !check.Check(ChosenTeamInfo);
     }
-
+    
     private void InitializeChosenTeamInfo()
     {
         string[] teamFileLines = File.ReadAllLines(_chosenTeamFile);

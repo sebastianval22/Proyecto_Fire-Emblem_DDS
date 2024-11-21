@@ -2,7 +2,7 @@ using Fire_Emblem.Models;
 
 namespace Fire_Emblem.Controllers.Skills.Effects.AttackDenialEffects;
 
-public class CounterAndFollowUpAttackDenialEffect : Effect, IAttackDenialEffect
+public class CounterAttackDenialEffect : Effect, IAttackDenialEffect
 {
     public override void Apply(Unit unit)
     {

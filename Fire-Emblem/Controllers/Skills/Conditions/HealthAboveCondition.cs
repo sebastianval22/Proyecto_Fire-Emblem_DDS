@@ -14,6 +14,6 @@ public class HealthAboveCondition : Condition
 
     public override bool IsMet(Unit unit, RoundFightController roundFightController)
     {
-        return Math.Round((double)unit.CurrentHP / unit.MaxHP, 2) >= (_thresholdPercentage / 100);
+        return Math.Round((double)unit.BeforeRoundHP / unit.MaxHP, 2) >= (_thresholdPercentage / 100);
     }
 }

@@ -6,7 +6,7 @@ namespace Fire_Emblem.Controllers.Skills
     {
         public static readonly NameList FirstPrioritySkillTypes = new NameList
         {
-            "Bonus", "Penalty", "Hybrid", "Neutralization", "First Attack", "Heal"
+            "Bonus", "Penalty", "Hybrid", "Neutralization", "First Attack", "Heal", "Follow Up"
         };
 
         public static readonly NameList SecondPrioritySkillTypes = new NameList
@@ -17,6 +17,10 @@ namespace Fire_Emblem.Controllers.Skills
         public static readonly NameList FirstPrioritySkills = new NameList
         {
             "Divine Recreation Damage"
+        };
+        public static readonly NameList AfterCombatSkillTypes = new NameList
+        {
+            "After Combat"
         };
     }
 }

@@ -16,6 +16,10 @@ namespace Fire_Emblem.Views
             ShowDamageEffects(defendingUnit);
             ShowHpEffect(defendingUnit);
             ShowDenialEffects(defendingUnit);
+            ShowDamageBeforeCombatEffects(attackingUnit);
+            ShowDamageBeforeCombatEffects(defendingUnit);
+            ShowFollowUpEffects(attackingUnit);
+            ShowFollowUpEffects(defendingUnit);
         }
 
         private static void ShowUnitEffects(Unit unit)
@@ -98,6 +102,22 @@ namespace Fire_Emblem.Views
             {
                 int roundedReductionPercentage = CalculateReductionPercentage(unit.DamageEffectStat.DamagePercentageReductionFollowUpAttackValue);
                 BaseView.ShowMessage($"{unit.Name} reducirá el daño del Follow-Up del rival en un {roundedReductionPercentage}%");
+            }
+        }
+        
+        private static void ShowDamageBeforeCombatEffects(Unit unit)
+        {
+            if (unit.DamageEffectStat.ExtraDamageBeforeCombatValue > 0)
+            {
+                BaseView.ShowMessage($"{unit.Name} recibe {unit.DamageEffectStat.ExtraDamageBeforeCombatValue} de daño antes de iniciar el combate y queda con {unit.CurrentHP} HP");
+            }
+        }
+        
+        private static void ShowFollowUpEffects(Unit unit)
+        {
+            if (unit.GuaranteedFollowUpEffects > 0)
+            {
+                BaseView.ShowMessage($"{unit.Name} tiene {unit.GuaranteedFollowUpEffects} efecto(s) que garantiza(n) su follow up activo(s)");
             }
         }
 
@@ -208,7 +228,11 @@ namespace Fire_Emblem.Views
         
         private static void ShowCounterAttackDenialEffects(Unit unit)
         {
-            if (!unit.CanCounterAttack)
+            if (!unit.CanCounterAttack && unit.HasDenialOfAttackDenialEffect)
+            {
+                BaseView.ShowMessage($"{unit.Name} neutraliza los efectos que previenen sus contraataques");
+            }
+            else if (!unit.CanCounterAttack)
             {
                 BaseView.ShowMessage($"{unit.Name} no podrá contraatacar");
             }
@@ -222,5 +246,16 @@ namespace Fire_Emblem.Views
             }
         }
         
+        public static void ShowHpChangeAfterCombat(Unit unit)
+        {
+            if (unit.HpEffectStat.ExtraHpAfterCombatValue > 0 ) 
+            {
+                BaseView.ShowMessage($"{unit.Name} recupera {unit.HpEffectStat.ExtraHpAfterCombatValue} HP despues del combate");
+            }
+            else if (unit.HpEffectStat.ExtraHpAfterCombatValue < 0)
+            {
+                BaseView.ShowMessage($"{unit.Name} recibe {-1*unit.HpEffectStat.ExtraHpAfterCombatValue} de daño despues del combate");
+            }
+        }
     }
 }

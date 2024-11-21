@@ -1,6 +1,6 @@
 using Fire_Emblem.Models;
 
-namespace Fire_Emblem.Controllers.Skills.Effects.Damage.DamagePercentageReduction;
+namespace Fire_Emblem.Controllers.Skills.Effects.DamageEffects.DamagePercentageReduction;
 public class DamagePercentageReductionBasedOnOpponentHealthEffect : Effect
 {
     

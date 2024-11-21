@@ -74,11 +74,13 @@ public class BattleController
         UnitList team2 = _teams.GetTeam(2);
         return team1.CountUnits() > 0 && team2.CountUnits() > 0;
     }
-
+    
+    
     private void ExecuteRound()
     {
         _attackingUnit = ChooseUnit(_attackingPlayerNumber);
         _defendingUnit = ChooseUnit(_defendingPlayerNumber);
+        InitializeUnitAllies(_attackingUnit, _defendingUnit);
         BattleView.AnnounceRoundBeginning(_round, _attackingUnit, _attackingPlayerNumber);
         _roundFightControllerController.Fight(_attackingUnit, _defendingUnit);
     }
@@ -99,6 +101,23 @@ public class BattleController
         }
         throw new InvalidUnitChoiceException();
     }
+    
+    private void InitializeUnitAllies(Unit attackingUnit, Unit defendingUnit)
+    {
+        _attackingUnit.UnitAllies = GetUnitAllies(attackingUnit, _teams.GetTeam(_attackingPlayerNumber));
+        _defendingUnit.UnitAllies = GetUnitAllies(defendingUnit, _teams.GetTeam(_defendingPlayerNumber));
+    }
+    
+    private UnitList GetUnitAllies(Unit unit, UnitList team)
+    {
+        UnitList allies = new UnitList();
+        foreach (Unit teamUnit in team)
+        {
+            allies.AddUnit(teamUnit);
+        }
+        allies.RemoveAll(u => u == unit);
+        return allies;
+    }
 
     private void UpdateTeams()
     {
@@ -106,6 +125,7 @@ public class BattleController
         {
             _teams.GetTeam(i).RemoveAll(unit => !_unitController.IsUnitAlive(unit));
         }
+        
     }
 
     private void PrepareNextRound()

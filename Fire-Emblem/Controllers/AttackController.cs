@@ -17,6 +17,7 @@ public class AttackController
     
     private void ExecuteAttack(Unit attackingUnit, Unit defendingUnit, int damageAttack)
     {
+        attackingUnit.HasAttackedInRound = true;
         AttackView.ShowAttack(attackingUnit, defendingUnit, damageAttack);
         _unitController.UpdateHPStatus(defendingUnit, damageAttack);
         _unitController.ApplyHPEffects(attackingUnit, damageAttack);
@@ -33,13 +34,22 @@ public class AttackController
 
     public void ExecuteInitialAttack(Unit attackingUnit, Unit defendingUnit)
     {
+        InitializeCombat(attackingUnit, defendingUnit);
+        ExecuteFirstAttack(attackingUnit, defendingUnit);
+    }
+
+    private void InitializeCombat(Unit attackingUnit, Unit defendingUnit)
+    {
         _damageController.InitializeCombatants(attackingUnit, defendingUnit);
         double advantage = _damageController.GetAdvantageFactor();
         DamageView.ShowAdvantageMessage(attackingUnit, defendingUnit, advantage);
         InitializeSkills(attackingUnit, defendingUnit);
+    }
+
+    private void ExecuteFirstAttack(Unit attackingUnit, Unit defendingUnit)
+    {
         int damageAttack = _damageController.CalculateDamageFirstAttack(attackingUnit, defendingUnit);
         ExecuteAttack(attackingUnit, defendingUnit, damageAttack);
-        
     }
 
     private void InitializeSkills(Unit attackingUnit, Unit defendingUnit)

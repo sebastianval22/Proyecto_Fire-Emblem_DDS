@@ -47,6 +47,7 @@ public class UnitData
         unit.DeathQuote = unitData.DeathQuote.Trim();
         unit.MaxHP = int.Parse(unitData.HP.Trim());
         unit.CurrentHP = unit.MaxHP;
+        unit.BeforeRoundHP = unit.MaxHP;
         unit.Attack.Value = int.Parse(unitData.Atk.Trim());
         unit.Speed.Value = int.Parse(unitData.Spd.Trim());
         unit.Defense.Value = int.Parse(unitData.Def.Trim());

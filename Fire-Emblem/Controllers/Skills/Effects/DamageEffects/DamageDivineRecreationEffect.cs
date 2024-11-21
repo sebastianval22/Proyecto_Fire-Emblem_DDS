@@ -1,6 +1,6 @@
 using Fire_Emblem.Models;
 
-namespace Fire_Emblem.Controllers.Skills.Effects.Damage;
+namespace Fire_Emblem.Controllers.Skills.Effects.DamageEffects;
 
 public class DamageDivineRecreationEffect : Effect
 {

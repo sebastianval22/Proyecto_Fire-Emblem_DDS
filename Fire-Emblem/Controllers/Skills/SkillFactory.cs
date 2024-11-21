@@ -3,16 +3,17 @@ using Fire_Emblem.Controllers.Skills.Effects;
 using Fire_Emblem.Controllers.Skills.Effects.PenaltyEffects;
 using Fire_Emblem.Controllers.Skills.Effects.BonusEffects;
 using Fire_Emblem.Controllers.Skills.Effects.NeutralizeEffects;
-using Fire_Emblem.Controllers.Skills.Effects.Damage;
+using Fire_Emblem.Controllers.Skills.Effects.DamageEffects;
 using Fire_Emblem.Controllers.Skills.Effects.CostEffects;
-using Fire_Emblem.Controllers.Skills.Effects.Damage.DamageAbsoluteReduction;
-using Fire_Emblem.Controllers.Skills.Effects.Damage.DamagePercentageReduction;
+using Fire_Emblem.Controllers.Skills.Effects.DamageEffects.DamageAbsoluteReduction;
+using Fire_Emblem.Controllers.Skills.Effects.DamageEffects.DamagePercentageReduction;
 using Fire_Emblem.Controllers.Skills.Effects.HybridEffects;
-using Fire_Emblem.Controllers.Skills.Effects.Damage.ExtraDamage;
+using Fire_Emblem.Controllers.Skills.Effects.DamageEffects.ExtraDamage;
 using Fire_Emblem.Controllers.Skills.Effects.HealEffects;
 using Fire_Emblem.Models;
 using System.Collections;
 using Fire_Emblem.Controllers.Skills.Effects.AttackDenialEffects;
+using Fire_Emblem.Controllers.Skills.Effects.FollowUpEffects;
 
 namespace Fire_Emblem.Controllers.Skills;
 
@@ -22,7 +23,7 @@ public static class SkillFactory
     {
         SkillsList skills = new();
         switch (skillName)
-        { 
+        {
             case "Fair Fight":
                 var fairFightSkill = new Skill("Fair Fight", "Bonus")
                 {
@@ -37,7 +38,7 @@ public static class SkillFactory
                     }
                 };
                 skills.AddSkill((fairFightSkill));
-                break; 
+                break;
             case "HP +15":
                 var hp15Skill = new Skill("HP +15", "Base Stats")
                 {
@@ -150,10 +151,10 @@ public static class SkillFactory
                 };
                 var wrathSkill = new Skill("Wrath", "Bonus")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new AttackBonusPerHPLostEffect(0, AdditionalAttackBonusPerHPLost, 30), 
-                        new SpeedBonusPerHPLostEffect(0, AdditionalSpeedBonusPerHP, 30) 
+                    Effects = new List<Effect>
+                    {
+                        new AttackBonusPerHPLostEffect(0, AdditionalAttackBonusPerHPLost, 30),
+                        new SpeedBonusPerHPLostEffect(0, AdditionalSpeedBonusPerHP, 30)
                     }
                 };
                 skills.AddSkill((wrathSkill));
@@ -195,7 +196,8 @@ public static class SkillFactory
                 var deadlyBladeSkill = new Skill("Deadly Blade", "Bonus")
                 {
                     Effects = new List<Effect> { new AttackBonusEffect(8), new SpeedBonusEffect(8) },
-                    Conditions = new List<Condition> { new WeaponUsedCondition("Sword"), new InitiatesCombatCondition() }
+                    Conditions = new List<Condition>
+                        { new WeaponUsedCondition("Sword"), new InitiatesCombatCondition() }
                 };
                 skills.AddSkill((deadlyBladeSkill));
                 break;
@@ -428,7 +430,8 @@ public static class SkillFactory
             case "Luna":
                 var lunaSkill = new Skill("Luna", "First Attack")
                 {
-                    Effects = new List<Effect> { new FirstDefensePenaltyMinusHalfEffect(0), new FirstResistancePenaltyMinusHalfEffect(0) }
+                    Effects = new List<Effect>
+                        { new FirstDefensePenaltyMinusHalfEffect(0), new FirstResistancePenaltyMinusHalfEffect(0) }
                 };
                 skills.AddSkill((lunaSkill));
                 break;
@@ -437,7 +440,11 @@ public static class SkillFactory
                 var beliefInLoveSkill = new Skill("Belief in Love", "Penalty")
                 {
                     Effects = new List<Effect> { new AttackPenaltyEffect(5), new DefensePenaltyEffect(5) },
-                    Conditions = new List<Condition> { new OrCondition(new List<Condition> { new OpponentInitiatesCombatCondition(), new OpponentFullHealthCondition() }) }
+                    Conditions = new List<Condition>
+                    {
+                        new OrCondition(new List<Condition>
+                            { new OpponentInitiatesCombatCondition(), new OpponentFullHealthCondition() })
+                    }
                 };
                 skills.AddSkill((beliefInLoveSkill));
                 break;
@@ -445,7 +452,11 @@ public static class SkillFactory
             case "Beorc's Blessing":
                 var beorcsBlessingSkill = new Skill("Beorc's Blessing", "Neutralization")
                 {
-                    Effects = new List<Effect> { new NeutralizeAttackBonusEffect(), new NeutralizeDefenseBonusEffect(), new NeutralizeSpeedBonusEffect(), new NeutralizeResistanceBonusEffect() }
+                    Effects = new List<Effect>
+                    {
+                        new NeutralizeAttackBonusEffect(), new NeutralizeDefenseBonusEffect(),
+                        new NeutralizeSpeedBonusEffect(), new NeutralizeResistanceBonusEffect()
+                    }
                 };
                 skills.AddSkill((beorcsBlessingSkill));
                 break;
@@ -454,7 +465,11 @@ public static class SkillFactory
             case "Agnea's Arrow":
                 var agneasArrowSkill = new Skill("Agnea's Arrow", "Neutralization")
                 {
-                    Effects = new List<Effect> { new NeutralizeDefensePenaltyEffect(), new NeutralizeAttackPenaltyEffect(), new NeutralizeResistancePenaltyEffect(), new NeutralizeSpeedPenaltyEffect() }
+                    Effects = new List<Effect>
+                    {
+                        new NeutralizeDefensePenaltyEffect(), new NeutralizeAttackPenaltyEffect(),
+                        new NeutralizeResistancePenaltyEffect(), new NeutralizeSpeedPenaltyEffect()
+                    }
                 };
                 skills.AddSkill((agneasArrowSkill));
                 break;
@@ -484,7 +499,7 @@ public static class SkillFactory
                 };
                 skills.AddSkill((swordAgilitySkill));
                 break;
-            
+
             case "Lance Power":
                 var lancePowerSkill = new Skill("Lance Power", "Hybrid")
                 {
@@ -551,21 +566,21 @@ public static class SkillFactory
             case "Close Def":
                 var closeDefSkill = new Skill("Close Def", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
+                    Effects = new List<Effect>
+                    {
                         new DefenseBonusEffect(8), new ResistanceBonusEffect(8),
                         new NeutralizeAttackBonusEffect(), new NeutralizeSpeedBonusEffect(),
                         new NeutralizeDefenseBonusEffect(), new NeutralizeResistanceBonusEffect()
                     },
-                    Conditions = new List<Condition> 
-                    { 
-                        new OpponentInitiatesCombatCondition(), 
-                        new OrCondition(new List<Condition> 
-                        { 
-                            new OpponentWeaponUsedCondition("Sword"), 
-                            new OpponentWeaponUsedCondition("Lance"), 
-                            new OpponentWeaponUsedCondition("Axe") 
-                        }) 
+                    Conditions = new List<Condition>
+                    {
+                        new OpponentInitiatesCombatCondition(),
+                        new OrCondition(new List<Condition>
+                        {
+                            new OpponentWeaponUsedCondition("Sword"),
+                            new OpponentWeaponUsedCondition("Lance"),
+                            new OpponentWeaponUsedCondition("Axe")
+                        })
                     }
                 };
                 skills.AddSkill((closeDefSkill));
@@ -574,33 +589,33 @@ public static class SkillFactory
             case "Distant Def":
                 var distantDefSkill = new Skill("Distant Def", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new DefenseBonusEffect(8), new ResistanceBonusEffect(8), 
+                    Effects = new List<Effect>
+                    {
+                        new DefenseBonusEffect(8), new ResistanceBonusEffect(8),
                         new NeutralizeAttackBonusEffect(), new NeutralizeSpeedBonusEffect(),
                         new NeutralizeDefenseBonusEffect(), new NeutralizeResistanceBonusEffect()
                     },
-                    Conditions = new List<Condition> 
-                    { 
-                        new OpponentInitiatesCombatCondition(), 
-                        new OrCondition(new List<Condition> 
-                        { 
-                            new OpponentWeaponUsedCondition("Magic"), 
-                            new OpponentWeaponUsedCondition("Bow") 
-                        }) 
+                    Conditions = new List<Condition>
+                    {
+                        new OpponentInitiatesCombatCondition(),
+                        new OrCondition(new List<Condition>
+                        {
+                            new OpponentWeaponUsedCondition("Magic"),
+                            new OpponentWeaponUsedCondition("Bow")
+                        })
                     }
                 };
                 skills.AddSkill((distantDefSkill));
                 break;
 
 
-           case "Lull Atk/Spd":
+            case "Lull Atk/Spd":
                 var lullAtkSpdSkill = new Skill("Lull Atk/Spd", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new AttackPenaltyEffect(3), new SpeedPenaltyEffect(3), 
-                        new NeutralizeAttackBonusEffect(), new NeutralizeSpeedBonusEffect() 
+                    Effects = new List<Effect>
+                    {
+                        new AttackPenaltyEffect(3), new SpeedPenaltyEffect(3),
+                        new NeutralizeAttackBonusEffect(), new NeutralizeSpeedBonusEffect()
                     }
                 };
                 skills.AddSkill((lullAtkSpdSkill));
@@ -609,10 +624,10 @@ public static class SkillFactory
             case "Lull Atk/Def":
                 var lullAtkDefSkill = new Skill("Lull Atk/Def", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new AttackPenaltyEffect(3), new DefensePenaltyEffect(3), 
-                        new NeutralizeAttackBonusEffect(), new NeutralizeDefenseBonusEffect() 
+                    Effects = new List<Effect>
+                    {
+                        new AttackPenaltyEffect(3), new DefensePenaltyEffect(3),
+                        new NeutralizeAttackBonusEffect(), new NeutralizeDefenseBonusEffect()
                     }
                 };
                 skills.AddSkill((lullAtkDefSkill));
@@ -621,10 +636,10 @@ public static class SkillFactory
             case "Lull Atk/Res":
                 var lullAtkResSkill = new Skill("Lull Atk/Res", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new AttackPenaltyEffect(3), new ResistancePenaltyEffect(3), 
-                        new NeutralizeAttackBonusEffect(), new NeutralizeResistanceBonusEffect() 
+                    Effects = new List<Effect>
+                    {
+                        new AttackPenaltyEffect(3), new ResistancePenaltyEffect(3),
+                        new NeutralizeAttackBonusEffect(), new NeutralizeResistanceBonusEffect()
                     }
                 };
                 skills.AddSkill((lullAtkResSkill));
@@ -633,10 +648,10 @@ public static class SkillFactory
             case "Lull Spd/Def":
                 var lullSpdDefSkill = new Skill("Lull Spd/Def", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new SpeedPenaltyEffect(3), new DefensePenaltyEffect(3), 
-                        new NeutralizeSpeedBonusEffect(), new NeutralizeDefenseBonusEffect() 
+                    Effects = new List<Effect>
+                    {
+                        new SpeedPenaltyEffect(3), new DefensePenaltyEffect(3),
+                        new NeutralizeSpeedBonusEffect(), new NeutralizeDefenseBonusEffect()
                     }
                 };
                 skills.AddSkill((lullSpdDefSkill));
@@ -645,10 +660,10 @@ public static class SkillFactory
             case "Lull Spd/Res":
                 var lullSpdResSkill = new Skill("Lull Spd/Res", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new SpeedPenaltyEffect(3), new ResistancePenaltyEffect(3), 
-                        new NeutralizeSpeedBonusEffect(), new NeutralizeResistanceBonusEffect() 
+                    Effects = new List<Effect>
+                    {
+                        new SpeedPenaltyEffect(3), new ResistancePenaltyEffect(3),
+                        new NeutralizeSpeedBonusEffect(), new NeutralizeResistanceBonusEffect()
                     }
                 };
                 skills.AddSkill((lullSpdResSkill));
@@ -657,10 +672,10 @@ public static class SkillFactory
             case "Lull Def/Res":
                 var lullDefResSkill = new Skill("Lull Def/Res", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new DefensePenaltyEffect(3), new ResistancePenaltyEffect(3), 
-                        new NeutralizeDefenseBonusEffect(), new NeutralizeResistanceBonusEffect() 
+                    Effects = new List<Effect>
+                    {
+                        new DefensePenaltyEffect(3), new ResistancePenaltyEffect(3),
+                        new NeutralizeDefenseBonusEffect(), new NeutralizeResistanceBonusEffect()
                     }
                 };
                 skills.AddSkill((lullDefResSkill));
@@ -669,10 +684,10 @@ public static class SkillFactory
             case "Fort. Def/Res":
                 var fortDefResSkill = new Skill("Fort. Def/Res", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new DefenseBonusEffect(6), new ResistanceBonusEffect(6), 
-                        new AttackCostEffect(2) 
+                    Effects = new List<Effect>
+                    {
+                        new DefenseBonusEffect(6), new ResistanceBonusEffect(6),
+                        new AttackCostEffect(2)
                     }
                 };
                 skills.AddSkill((fortDefResSkill));
@@ -681,10 +696,10 @@ public static class SkillFactory
             case "Life and Death":
                 var lifeAndDeathSkill = new Skill("Life and Death", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new AttackBonusEffect(6), new DefenseCostEffect(5), 
-                        new ResistanceCostEffect(5), new SpeedBonusEffect(6) 
+                    Effects = new List<Effect>
+                    {
+                        new AttackBonusEffect(6), new DefenseCostEffect(5),
+                        new ResistanceCostEffect(5), new SpeedBonusEffect(6)
                     }
                 };
                 skills.AddSkill((lifeAndDeathSkill));
@@ -693,10 +708,10 @@ public static class SkillFactory
             case "Solid Ground":
                 var solidGroundSkill = new Skill("Solid Ground", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new DefenseBonusEffect(6), new AttackBonusEffect(6), 
-                        new ResistanceCostEffect(5) 
+                    Effects = new List<Effect>
+                    {
+                        new DefenseBonusEffect(6), new AttackBonusEffect(6),
+                        new ResistanceCostEffect(5)
                     }
                 };
                 skills.AddSkill((solidGroundSkill));
@@ -705,10 +720,10 @@ public static class SkillFactory
             case "Still Water":
                 var stillWaterSkill = new Skill("Still Water", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new ResistanceBonusEffect(6), new AttackBonusEffect(6), 
-                        new DefenseCostEffect(5) 
+                    Effects = new List<Effect>
+                    {
+                        new ResistanceBonusEffect(6), new AttackBonusEffect(6),
+                        new DefenseCostEffect(5)
                     }
                 };
                 skills.AddSkill((stillWaterSkill));
@@ -717,20 +732,20 @@ public static class SkillFactory
             case "Dragonskin":
                 var dragonskinSkill = new Skill("Dragonskin", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new AttackBonusEffect(6), new SpeedBonusEffect(6), 
-                        new DefenseBonusEffect(6), new ResistanceBonusEffect(6), 
-                        new NeutralizeAttackBonusEffect(), new NeutralizeDefenseBonusEffect(), 
-                        new NeutralizeResistanceBonusEffect(), new NeutralizeSpeedBonusEffect() 
+                    Effects = new List<Effect>
+                    {
+                        new AttackBonusEffect(6), new SpeedBonusEffect(6),
+                        new DefenseBonusEffect(6), new ResistanceBonusEffect(6),
+                        new NeutralizeAttackBonusEffect(), new NeutralizeDefenseBonusEffect(),
+                        new NeutralizeResistanceBonusEffect(), new NeutralizeSpeedBonusEffect()
                     },
-                    Conditions = new List<Condition> 
-                    { 
-                        new OrCondition(new List<Condition> 
-                        { 
-                            new OpponentInitiatesCombatCondition(), 
-                            new OpponentHealthAboveCondition(75) 
-                        }) 
+                    Conditions = new List<Condition>
+                    {
+                        new OrCondition(new List<Condition>
+                        {
+                            new OpponentInitiatesCombatCondition(),
+                            new OpponentHealthAboveCondition(75)
+                        })
                     }
                 };
                 skills.AddSkill((dragonskinSkill));
@@ -739,14 +754,14 @@ public static class SkillFactory
             case "Light and Dark":
                 var lightAndDarkSkill = new Skill("Light and Dark", "Hybrid")
                 {
-                    Effects = new List<Effect> 
-                    { 
-                        new AttackPenaltyEffect(5), new SpeedPenaltyEffect(5), 
-                        new DefensePenaltyEffect(5), new ResistancePenaltyEffect(5), 
-                        new NeutralizeAttackBonusEffect(), new NeutralizeDefenseBonusEffect(), 
-                        new NeutralizeResistanceBonusEffect(), new NeutralizeSpeedBonusEffect(), 
-                        new NeutralizeAttackPenaltyEffect(), new NeutralizeDefensePenaltyEffect(), 
-                        new NeutralizeResistancePenaltyEffect(), new NeutralizeSpeedPenaltyEffect() 
+                    Effects = new List<Effect>
+                    {
+                        new AttackPenaltyEffect(5), new SpeedPenaltyEffect(5),
+                        new DefensePenaltyEffect(5), new ResistancePenaltyEffect(5),
+                        new NeutralizeAttackBonusEffect(), new NeutralizeDefenseBonusEffect(),
+                        new NeutralizeResistanceBonusEffect(), new NeutralizeSpeedBonusEffect(),
+                        new NeutralizeAttackPenaltyEffect(), new NeutralizeDefensePenaltyEffect(),
+                        new NeutralizeResistancePenaltyEffect(), new NeutralizeSpeedPenaltyEffect()
                     }
                 };
                 skills.AddSkill((lightAndDarkSkill));
@@ -774,15 +789,15 @@ public static class SkillFactory
                 var goldenLotusSkill = new Skill("Golden Lotus", "Damage")
                 {
                     Effects = new List<Effect> { new FirstAttackDamagePercentageReductionEffect(50) },
-                    Conditions = new List<Condition> 
-                    { 
-                        new OrCondition(new List<Condition> 
-                        { 
-                            new OpponentWeaponUsedCondition("Sword"), 
-                            new OpponentWeaponUsedCondition("Lance"), 
-                            new OpponentWeaponUsedCondition("Axe"), 
-                            new OpponentWeaponUsedCondition("Bow") 
-                        }) 
+                    Conditions = new List<Condition>
+                    {
+                        new OrCondition(new List<Condition>
+                        {
+                            new OpponentWeaponUsedCondition("Sword"),
+                            new OpponentWeaponUsedCondition("Lance"),
+                            new OpponentWeaponUsedCondition("Axe"),
+                            new OpponentWeaponUsedCondition("Bow")
+                        })
                     }
                 };
                 skills.AddSkill((goldenLotusSkill));
@@ -845,10 +860,10 @@ public static class SkillFactory
                 var sympatheticSkill = new Skill("Sympathetic", "Damage")
                 {
                     Effects = new List<Effect> { new DamageAbsoluteReductionEffect(5) },
-                    Conditions = new List<Condition> 
-                    { 
-                        new OpponentInitiatesCombatCondition(), 
-                        new HealthBelowCondition(50) 
+                    Conditions = new List<Condition>
+                    {
+                        new OpponentInitiatesCombatCondition(),
+                        new HealthBelowCondition(50)
                     }
                 };
                 skills.AddSkill((sympatheticSkill));
@@ -867,16 +882,16 @@ public static class SkillFactory
                 var lunarBraceSkill = new Skill("Lunar Brace", "Damage")
                 {
                     Effects = new List<Effect> { new ExtraDamageBasedOnOpponentDefenseEffect(30) },
-                    Conditions = new List<Condition> 
-                    { 
-                        new InitiatesCombatCondition(), 
-                        new OrCondition(new List<Condition> 
-                        { 
-                            new WeaponUsedCondition("Sword"), 
-                            new WeaponUsedCondition("Lance"), 
-                            new WeaponUsedCondition("Axe"), 
-                            new WeaponUsedCondition("Bow") 
-                        }) 
+                    Conditions = new List<Condition>
+                    {
+                        new InitiatesCombatCondition(),
+                        new OrCondition(new List<Condition>
+                        {
+                            new WeaponUsedCondition("Sword"),
+                            new WeaponUsedCondition("Lance"),
+                            new WeaponUsedCondition("Axe"),
+                            new WeaponUsedCondition("Bow")
+                        })
                     }
                 };
                 skills.AddSkill((lunarBraceSkill));
@@ -897,7 +912,7 @@ public static class SkillFactory
                 var bushidoReduceDamageSkill = new Skill("Bushido Reduce Damage", "Damage")
                 {
                     Effects = new List<Effect> { new DamagePercentageReductionSpeedEffect() },
-                    Conditions =  new List<Condition> { new SpeedDifferenceCondition(0) }
+                    Conditions = new List<Condition> { new SpeedDifferenceCondition(0) }
                 };
                 skills.AddSkill((bushidoExtraDamageSkill));
                 skills.AddSkill((bushidoReduceDamageSkill));
@@ -905,13 +920,13 @@ public static class SkillFactory
             case "Moon-Twin Wing":
                 var moonTwinWingPenaltySkill = new Skill("Moon-Twin Wing Penalty", "Penalty")
                 {
-                    Effects = new List<Effect> { new AttackPenaltyEffect(5), new SpeedPenaltyEffect(5)},
-                    Conditions = new List<Condition> { new HealthAboveCondition(25)}
+                    Effects = new List<Effect> { new AttackPenaltyEffect(5), new SpeedPenaltyEffect(5) },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25) }
                 };
                 var moonTwinWingDamageSkill = new Skill("Moon-Twin Wing Damage", "Damage")
                 {
                     Effects = new List<Effect> { new DamagePercentageReductionSpeedEffect() },
-                    Conditions =  new List<Condition> { new SpeedDifferenceCondition(0) , new HealthAboveCondition(25)}
+                    Conditions = new List<Condition> { new SpeedDifferenceCondition(0), new HealthAboveCondition(25) }
                 };
                 skills.AddSkill((moonTwinWingDamageSkill));
                 skills.AddSkill((moonTwinWingPenaltySkill));
@@ -926,11 +941,11 @@ public static class SkillFactory
             case "Aegis Shield":
                 var aegisShieldBonusSkill = new Skill("Aegis Shield Bonus", "Bonus")
                 {
-                    Effects = new List<Effect> { new DefenseBonusEffect(6), new ResistanceBonusEffect(3)},
+                    Effects = new List<Effect> { new DefenseBonusEffect(6), new ResistanceBonusEffect(3) },
                 };
                 var aegisShieldDamageSkill = new Skill("Aegis Shield Damage", "Damage")
                 {
-                    Effects = new List<Effect> {new FirstAttackDamagePercentageReductionEffect(50)},
+                    Effects = new List<Effect> { new FirstAttackDamagePercentageReductionEffect(50) },
 
                 };
                 skills.AddSkill((aegisShieldBonusSkill));
@@ -944,7 +959,7 @@ public static class SkillFactory
                 };
                 var remoteSparrowDamageSkill = new Skill("  Remote Sparrow Damage", "Damage")
                 {
-                    Effects = new List<Effect> { new FirstAttackDamagePercentageReductionEffect(30)},
+                    Effects = new List<Effect> { new FirstAttackDamagePercentageReductionEffect(30) },
                     Conditions = new List<Condition> { new InitiatesCombatCondition() }
                 };
                 skills.AddSkill((remoteSparrowBonusSkill));
@@ -958,7 +973,7 @@ public static class SkillFactory
                 };
                 var remoteMirrorDamageSkill = new Skill("Remote Mirror Damage", "Damage")
                 {
-                    Effects = new List<Effect> { new FirstAttackDamagePercentageReductionEffect(30)},
+                    Effects = new List<Effect> { new FirstAttackDamagePercentageReductionEffect(30) },
                     Conditions = new List<Condition> { new InitiatesCombatCondition() }
                 };
                 skills.AddSkill((remoteMirrorBonusSkill));
@@ -972,7 +987,7 @@ public static class SkillFactory
                 };
                 var remoteSturdyDamageSkill = new Skill("Remote Sturdy Damage", "Damage")
                 {
-                    Effects = new List<Effect> { new FirstAttackDamagePercentageReductionEffect(30)},
+                    Effects = new List<Effect> { new FirstAttackDamagePercentageReductionEffect(30) },
                     Conditions = new List<Condition> { new InitiatesCombatCondition() }
                 };
                 skills.AddSkill((remoteSturdyBonusSkill));
@@ -1121,7 +1136,7 @@ public static class SkillFactory
             case "Poetic Justice":
                 var poeticJusticePenaltySkill = new Skill("Poetic Justice Penalty", "Penalty")
                 {
-                    Effects = new List<Effect> { new SpeedPenaltyEffect(4)}
+                    Effects = new List<Effect> { new SpeedPenaltyEffect(4) }
                 };
                 var poeticJusticeDamageSkill = new Skill("Poetic Justice Damage", "Damage")
                 {
@@ -1133,7 +1148,11 @@ public static class SkillFactory
             case "Laguz Friend":
                 var laguzFriendCostSkill = new Skill("Laguz Friend Cost", "Hybrid")
                 {
-                    Effects = new List<Effect> { new DefenseCostPercentageEffect(50), new ResistanceCostPercentageEffect(50), new SelfNeutralizeResistanceEffect(), new SelfNeutralizeDefenseBonusEffect() }
+                    Effects = new List<Effect>
+                    {
+                        new DefenseCostPercentageEffect(50), new ResistanceCostPercentageEffect(50),
+                        new SelfNeutralizeResistanceEffect(), new SelfNeutralizeDefenseBonusEffect()
+                    }
                 };
                 var laguzFriendDamageSkill = new Skill("Laguz Friend Bonus", "Damage")
                 {
@@ -1158,7 +1177,8 @@ public static class SkillFactory
                 };
                 var dragonsWrathExtraDamageSkill = new Skill("Dragon's Wrath Extra Damage", "Damage")
                 {
-                    Effects = new List<Effect> { new FirstAttackExtraDamageBasedOnAttackAndOpponentResistanceDifferenceEffect(25) },
+                    Effects = new List<Effect>
+                        { new FirstAttackExtraDamageBasedOnAttackAndOpponentResistanceDifferenceEffect(25) },
                     Conditions = new List<Condition> { new AttackAndOpponentResistanceCondition() }
                 };
                 skills.AddSkill((dragonsWrathDamageReductionSkill));
@@ -1191,7 +1211,8 @@ public static class SkillFactory
             case "Extra Chivalry":
                 var extraChivalryPenaltySkill = new Skill("Extra Chivalry Penalty", "Penalty")
                 {
-                    Effects = new List<Effect> { new AttackPenaltyEffect(5), new DefensePenaltyEffect(5), new SpeedPenaltyEffect(5)},
+                    Effects = new List<Effect>
+                        { new AttackPenaltyEffect(5), new DefensePenaltyEffect(5), new SpeedPenaltyEffect(5) },
                     Conditions = new List<Condition> { new OpponentHealthAboveCondition(50) }
                 };
                 var extraChivalryDamageSkill = new Skill("Extra Chivalry Damage", "Damage")
@@ -1200,11 +1221,11 @@ public static class SkillFactory
                 };
                 skills.AddSkill((extraChivalryPenaltySkill));
                 skills.AddSkill((extraChivalryDamageSkill));
-                break;            
+                break;
             case "Guard Bearing":
                 var guardBearingPenaltySkill = new Skill("Guard Bearing Penalty", "Penalty")
                 {
-                    Effects = new List<Effect> { new DefensePenaltyEffect(4), new SpeedPenaltyEffect(4)},
+                    Effects = new List<Effect> { new DefensePenaltyEffect(4), new SpeedPenaltyEffect(4) },
                 };
                 var guardBearingDamageSkill = new Skill("Guard Bearing Damage", "Damage")
                 {
@@ -1217,13 +1238,17 @@ public static class SkillFactory
             case "Divine Recreation":
                 var divineRecreationPenaltySkill = new Skill("Divine Recreation Penalty", "Penalty")
                 {
-                    Effects = new List<Effect> { new AttackPenaltyEffect(4), new SpeedPenaltyEffect(4), new DefensePenaltyEffect(4), new ResistancePenaltyEffect(4)},
+                    Effects = new List<Effect>
+                    {
+                        new AttackPenaltyEffect(4), new SpeedPenaltyEffect(4), new DefensePenaltyEffect(4),
+                        new ResistancePenaltyEffect(4)
+                    },
                     Conditions = new List<Condition> { new OpponentHealthAboveCondition(50) }
                 };
                 var divineRecreationDamageSkill = new Skill("Divine Recreation Damage", "Damage")
                 {
                     Effects = new List<Effect> { new DamageDivineRecreationEffect() },
-                    Conditions = new List<Condition>  { new OpponentHealthAboveCondition(50) }
+                    Conditions = new List<Condition> { new OpponentHealthAboveCondition(50) }
                 };
                 skills.AddSkill((divineRecreationPenaltySkill));
                 skills.AddSkill((divineRecreationDamageSkill));
@@ -1254,54 +1279,353 @@ public static class SkillFactory
             case "Windsweep":
                 var windsweepSkill = new Skill("Windsweep", "Denial")
                 {
-                    Effects = new List<Effect> { new CounterAndFollowUpAttackDenialEffect() },
-                    Conditions = new List<Condition> { new InitiatesCombatCondition(),
+                    Effects = new List<Effect> { new CounterAttackDenialEffect() },
+                    Conditions = new List<Condition>
+                    {
+                        new InitiatesCombatCondition(),
                         new WeaponUsedCondition("Sword"),
-                        new OpponentWeaponUsedCondition("Sword") }
+                        new OpponentWeaponUsedCondition("Sword")
+                    }
                 };
                 skills.AddSkill((windsweepSkill));
                 break;
             case "Surprise Attack":
                 var surpriseAttackSkill = new Skill("Surprise Attack", "Denial")
                 {
-                    Effects = new List<Effect> { new CounterAndFollowUpAttackDenialEffect() },
-                    Conditions = new List<Condition> { new InitiatesCombatCondition(),
+                    Effects = new List<Effect> { new CounterAttackDenialEffect() },
+                    Conditions = new List<Condition>
+                    {
+                        new InitiatesCombatCondition(),
                         new WeaponUsedCondition("Bow"),
-                        new OpponentWeaponUsedCondition("Bow") }
+                        new OpponentWeaponUsedCondition("Bow")
+                    }
                 };
                 skills.AddSkill((surpriseAttackSkill));
                 break;
             case "Hliðskjálf":
                 var hlioskjalfSkill = new Skill("Hliðskjálf", "Denial")
                 {
-                    Effects = new List<Effect> { new CounterAndFollowUpAttackDenialEffect() },
-                    Conditions = new List<Condition> { new InitiatesCombatCondition(),
+                    Effects = new List<Effect> { new CounterAttackDenialEffect() },
+                    Conditions = new List<Condition>
+                    {
+                        new InitiatesCombatCondition(),
                         new WeaponUsedCondition("Magic"),
-                        new OpponentWeaponUsedCondition("Magic") }
+                        new OpponentWeaponUsedCondition("Magic")
+                    }
                 };
                 skills.AddSkill(hlioskjalfSkill);
                 break;
             case "Laws of Sacae":
                 var lawsOfSacaeSkillDenial = new Skill("Laws of Sacae Denial", "Denial")
                 {
-                    Effects = new List<Effect> { new CounterAndFollowUpAttackDenialEffect() },
-                    Conditions = new List<Condition> { new InitiatesCombatCondition(),
-                        new OrCondition(new List<Condition>{new OpponentWeaponUsedCondition("Sword"),
-                        new OpponentWeaponUsedCondition("Axe"),
-                        new OpponentWeaponUsedCondition("Lance")}),
+                    Effects = new List<Effect> { new CounterAttackDenialEffect() },
+                    Conditions = new List<Condition>
+                    {
+                        new InitiatesCombatCondition(),
+                        new OrCondition(new List<Condition>
+                        {
+                            new OpponentWeaponUsedCondition("Sword"),
+                            new OpponentWeaponUsedCondition("Axe"),
+                            new OpponentWeaponUsedCondition("Lance")
+                        }),
                         new SpeedDifferenceCondition(5)
                     }
                 };
                 var lawsOfSacaeSkillBonus = new Skill("Laws of Sacae Bonus", "Bonus")
                 {
-                    Effects = new List<Effect> { new SpeedBonusEffect(6), new AttackBonusEffect(6), 
-                        new DefenseBonusEffect(6), new ResistanceBonusEffect(6) },
-                    Conditions = new List<Condition> { new InitiatesCombatCondition()}
+                    Effects = new List<Effect>
+                    {
+                        new SpeedBonusEffect(6), new AttackBonusEffect(6),
+                        new DefenseBonusEffect(6), new ResistanceBonusEffect(6)
+                    },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
                 };
                 skills.AddSkill(lawsOfSacaeSkillDenial);
                 skills.AddSkill(lawsOfSacaeSkillBonus);
                 break;
-            default:
+            case "Null C-Disrupt":
+                var nullCDisruptSkill = new Skill("Null C-Disrupt", "Denial")
+                {
+                    Effects = new List<Effect> { new DenialCounterAttackDenialEffect() }
+                };
+                skills.AddSkill(nullCDisruptSkill);
+                break;
+            case "Eclipse Brace":
+                var eclipseBraceSkillDamage = new Skill("Eclipse Brace Damage", "Damage")
+                {
+                    Effects = new List<Effect> { new ExtraDamageBasedOnOpponentDefenseEffect(30) },
+                    Conditions = new List<Condition>
+                    {
+                        new InitiatesCombatCondition(), new OrCondition(new List<Condition>
+                        {
+                            new WeaponUsedCondition("Sword"),
+                            new WeaponUsedCondition("Lance"),
+                            new WeaponUsedCondition("Axe"),
+                            new WeaponUsedCondition("Bow")
+                        })
+                    }
+                };
+                var eclipseBraceSkillHeal = new Skill("Eclipse Brace Heal", "Heal")
+                {
+                    Effects = new List<Effect> { new HealBasedOnDamageEffect(50) },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                skills.AddSkill(eclipseBraceSkillDamage);
+                skills.AddSkill(eclipseBraceSkillHeal);
+                break;
+            case "Resonance":
+                var resonanceSkill = new Skill("Resonance", "Damage")
+                {
+                    Effects = new List<Effect>
+                        { new ExtraDamageEffect(3), new SelfExtraDamageBeforeCombatStartEffect(1) },
+                    Conditions = new List<Condition>
+                    {
+                        new WeaponUsedCondition("Magic"),
+                        new HealthAboveSpecificHPCondition(2)
+                    }
+                };
+                skills.AddSkill(resonanceSkill);
+                break;
+            case "Flare":
+                var flareSkill = new Skill("Flare", "Hybrid")
+                {
+                    Effects = new List<Effect>
+                        { new ResistancePercentagePenaltyEffect(20), new HealBasedOnDamageEffect(50) },
+                    Conditions = new List<Condition> { new WeaponUsedCondition("Magic") }
+                };
+                skills.AddSkill(flareSkill);
+                break;
+            case "Fury":
+                var furySkill = new Skill("Fury", "Hybrid")
+                {
+                    Effects = new List<Effect>
+                    {
+                        new AttackBonusEffect(4), new SpeedBonusEffect(4), new DefenseBonusEffect(4),
+                        new ResistanceBonusEffect(4), new SelfExtraDamageAfterCombatEffect(8)
+                    }
+                };
+                skills.AddSkill(furySkill);
+                break;
+            case "Mystic Boost":
+                var mysticBoostSkill = new Skill("Mystic Boost", "Hybrid")
+                {
+                    Effects = new List<Effect> { new HealAfterCombatEffect(10), new AttackPenaltyEffect(5) }
+                };
+                skills.AddSkill(mysticBoostSkill);
+                break;
+            case "Atk/Spd Push":
+                var atkSpdPushSkillBonus = new Skill("Atk/Spd Push Bonus", "Bonus")
+                {
+                    Effects = new List<Effect> { new AttackBonusEffect(7), new SpeedBonusEffect(7) },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25) }
+                };
+                var atkSpdPushSkillDamage = new Skill("Atk/Spd Push After Combar", "After Combat")
+                {
+                    Effects = new List<Effect> { new SelfExtraDamageAfterCombatEffect(5) },
+                    Conditions = new List<Condition>
+                        { new HealthAboveCondition(25), new UnitHasAttackedInRoundCondition() }
+                };
+                skills.AddSkill(atkSpdPushSkillBonus);
+                skills.AddSkill(atkSpdPushSkillDamage);
+                break;
+            case "Atk/Def Push":
+                var atkDefPushSkillBonus = new Skill("Atk/Def Push Bonus", "Bonus")
+                {
+                    Effects = new List<Effect> { new AttackBonusEffect(7), new DefenseBonusEffect(7) },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25) }
+                };
+                var atkDefPushSkillDamage = new Skill("Atk/Def Push After Combar", "After Combat")
+                {
+                    Effects = new List<Effect> { new SelfExtraDamageAfterCombatEffect(5) },
+                    Conditions = new List<Condition>
+                        { new HealthAboveCondition(25), new UnitHasAttackedInRoundCondition() }
+                };
+                skills.AddSkill(atkDefPushSkillBonus);
+                skills.AddSkill(atkDefPushSkillDamage);
+                break;
+            case "Atk/Res Push":
+                var atkResPushSkillBonus = new Skill("Atk/Res Push Bonus", "Bonus")
+                {
+                    Effects = new List<Effect> { new AttackBonusEffect(7), new ResistanceBonusEffect(7) },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25) }
+                };
+                var atkResPushSkillDamage = new Skill("Atk/Res Push After Combar", "After Combat")
+                {
+                    Effects = new List<Effect> { new SelfExtraDamageAfterCombatEffect(5) },
+                    Conditions = new List<Condition>
+                        { new HealthAboveCondition(25), new UnitHasAttackedInRoundCondition() }
+                };
+                skills.AddSkill(atkResPushSkillBonus);
+                skills.AddSkill(atkResPushSkillDamage);
+                break;
+            case "Spd/Def Push":
+                var spdDefPushSkillBonus = new Skill("Spd/Def Push Bonus", "Bonus")
+                {
+                    Effects = new List<Effect> { new SpeedBonusEffect(7), new DefenseBonusEffect(7) },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25) }
+                };
+                var spdDefPushSkillDamage = new Skill("Spd/Def Push After Combar", "After Combat")
+                {
+                    Effects = new List<Effect> { new SelfExtraDamageAfterCombatEffect(5) },
+                    Conditions = new List<Condition>
+                        { new HealthAboveCondition(25), new UnitHasAttackedInRoundCondition() }
+                };
+                skills.AddSkill(spdDefPushSkillBonus);
+                skills.AddSkill(spdDefPushSkillDamage);
+                break;
+            case "Spd/Res Push":
+                var spdResPushSkillBonus = new Skill("Spd/Res Push Bonus", "Bonus")
+                {
+                    Effects = new List<Effect> { new SpeedBonusEffect(7), new ResistanceBonusEffect(7) },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25) }
+                };
+                var spdResPushSkillDamage = new Skill("Spd/Res Push After Combar", "After Combat")
+                {
+                    Effects = new List<Effect> { new SelfExtraDamageAfterCombatEffect(5) },
+                    Conditions = new List<Condition>
+                        { new HealthAboveCondition(25), new UnitHasAttackedInRoundCondition() }
+                };
+                skills.AddSkill(spdResPushSkillBonus);
+                skills.AddSkill(spdResPushSkillDamage);
+                break;
+            case "Def/Res Push":
+                var defResPushSkillBonus = new Skill("Def/Res Push Bonus", "Bonus")
+                {
+                    Effects = new List<Effect> { new DefenseBonusEffect(7), new ResistanceBonusEffect(7) },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25) }
+                };
+                var defResPushSkillDamage = new Skill("Def/Res Push After Combar", "After Combat")
+                {
+                    Effects = new List<Effect> { new SelfExtraDamageAfterCombatEffect(5) },
+                    Conditions = new List<Condition>
+                        { new HealthAboveCondition(25), new UnitHasAttackedInRoundCondition() }
+                };
+                skills.AddSkill(defResPushSkillBonus);
+                skills.AddSkill(defResPushSkillDamage);
+                break;
+            case "True Dragon Wall":
+                var trueDragonWallSkillDamage = new Skill("True Dragon Wall Damage", "Damage")
+                {
+                    Effects = new List<Effect>
+                    {
+                        new FirstAttackDamagePercentageReductionResistanceEffect(60),
+                        new FollowUpDamagePercentageReductionResistanceEffect(40)
+                    },
+                    Conditions = new List<Condition> { new ResistanceDifferenceCondition() }
+                };
+                var trueDragonWallSkillHeal = new Skill("True Dragon Wall Heal", "Heal")
+                {
+                    Effects = new List<Effect> { new HealAfterCombatEffect(7) },
+                    Conditions = new List<Condition>
+                    {
+                        new AlliesWeaponUsedCondition("Magic")
+                    }
+                };
+                skills.AddSkill((trueDragonWallSkillDamage));
+                skills.AddSkill(trueDragonWallSkillHeal);
+                break;
+            case "Scendscale":
+                var scendscaleSkillDamage = new Skill("Scendscale Damage", "Damage")
+                {
+                    Effects = new List<Effect> { new ExtraDamageBasedOnAttackEffect(25) }
+                };
+                var scendscaleSkillAfterCombat = new Skill("Scendscale After Combat", "After Combat")
+                {
+                    Effects = new List<Effect> { new SelfExtraDamageAfterCombatEffect(7) },
+                    Conditions = new List<Condition> { new UnitHasAttackedInRoundCondition() }
+                };
+                skills.AddSkill((scendscaleSkillDamage));
+                skills.AddSkill(scendscaleSkillAfterCombat);
+                break;
+            case "Mastermind":
+                var mastermindSkillSelfDamage = new Skill("Mastermind Self Damage", "Damage")
+                {
+                    Effects = new List<Effect> { new SelfExtraDamageBeforeCombatStartEffect(1) },
+                    Conditions = new List<Condition> { new HealthAboveSpecificHPCondition(2) }
+                };
+                var mastermindSkillDamage = new Skill("Mastermind Damage", "Damage")
+                {
+                    Effects = new List<Effect>
+                    {
+                        new ExtraDamageBasedOnOpponentPenaltyEffect(80),
+                        new ExtraDamageBasedOnBonusEffect(80)
+                    },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                var mastermindSkillBonus = new Skill("Mastermind Bonus", "Bonus")
+                {
+                    Effects = new List<Effect> { new AttackBonusEffect(9), new SpeedBonusEffect(9) },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                skills.AddSkill(mastermindSkillDamage);
+                skills.AddSkill(mastermindSkillSelfDamage);
+                skills.AddSkill(mastermindSkillBonus);
+                break;
+            case "Bewitching Tome":
+                var bewitchingTomeSkillDamage = new Skill("Bewitching Tome Damage", "Damage")
+                {
+                    Effects = new List<Effect>
+                    {
+                        new FirstAttackDamagePercentageReductionEffect(30),
+                        new BewitchingTomeExtraDamageBeforeCombatStartEffect()
+                    },
+                    Conditions = new List<Condition>
+                    {
+                        new OrCondition(new List<Condition>
+                        {
+                            new InitiatesCombatCondition(),
+                            new OrCondition(new List<Condition>
+                            {
+                                new OpponentWeaponUsedCondition("Magic"),
+                                new OpponentWeaponUsedCondition("Bow")
+                            })
+                        })
+                    }
+                };
+                var bewitchingTomeSkillHybrid = new Skill("Bewitching Tome Hybrid", "Hybrid")
+                {
+                    Effects = new List<Effect>
+                    {
+                        new ResistanceBonusEffect(5), new SpeedBonusEffect(5), new DefenseBonusEffect(5),
+                        new AttackBonusEffect(5), new AttackPercentageBonusBasedOnSpeedEffect(20),
+                        new SpeedPercentageBonusEffect(20), new HealAfterCombatEffect(7)
+                    },
+                    Conditions = new List<Condition>
+                    {
+                        new OrCondition(new List<Condition>
+                        {
+                            new InitiatesCombatCondition(),
+                            new OrCondition(new List<Condition>
+                            {
+                                new OpponentWeaponUsedCondition("Magic"), new OpponentWeaponUsedCondition("Bow")
+                            })
+                        })
+                    }
+                };
+                skills.AddSkill(bewitchingTomeSkillDamage);
+                skills.AddSkill(bewitchingTomeSkillHybrid);
+                break;
+            case "Quick Riposte":
+                var quickRiposteSkill = new Skill("Quick Riposte", "Follow Up")
+                {
+                    Effects = new List<Effect> { new GuaranteedFollowUpEffect() },
+                    Conditions = new List<Condition>
+                        { new HealthAboveCondition(60), new OpponentInitiatesCombatCondition() }
+                };
+                skills.AddSkill(quickRiposteSkill);
+                break;
+            case "Follow-Up Ring":
+                var followUpRingSkill = new Skill("Follow-Up Ring", "Follow Up")
+                {
+                    Effects = new List<Effect> { new GuaranteedFollowUpEffect() },
+                    Conditions = new List<Condition>
+                        { new HealthAboveCondition(50), new OpponentInitiatesCombatCondition() }
+                };
+                skills.AddSkill(followUpRingSkill);
+                break;
+            case "Wary Fighter":
+                
+        default:
                 var unknownSkill = new Skill(skillName, "Unknown");
                 skills.AddSkill((unknownSkill));
                 break;
@@ -1326,4 +1650,4 @@ public static class SkillFactory
         SkillsList createdSkills = CreateSkill(skillName);
         skills.AddRangeSkills(createdSkills.AsEnumerable());
     }
-    }
+}

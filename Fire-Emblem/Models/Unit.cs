@@ -9,6 +9,7 @@ namespace Fire_Emblem.Models
         public string DeathQuote { get; set; }
         public int MaxHP { get; set; }
         public int CurrentHP { get; set; }
+        public int BeforeRoundHP { get; set; }
         public Attack Attack { get; set; }
         public Defense Defense { get; set; }
         public Speed Speed { get; set; }
@@ -20,9 +21,13 @@ namespace Fire_Emblem.Models
         public bool HasFirstAttackSkill { get; set; }
         public bool CanCounterAttack { get; set; } = true;
         public bool CanFollowUpAttack { get; set; } = true;
+        public bool HasDenialOfAttackDenialEffect { get; set; } = false;
         public bool HasHadFirstCombatStarting { get; set; } = false;
         public bool HasHadFirstCombatNotStarting { get; set; } = false;
+        public bool HasAttackedInRound { get; set; } = false;
+        public int GuaranteedFollowUpEffects { get; set; } = 0;
         public List<Stat> Stats { get; set; }
+        public UnitList UnitAllies { get; set; }
     
         public Unit(string name, SkillsList skills)
         {
