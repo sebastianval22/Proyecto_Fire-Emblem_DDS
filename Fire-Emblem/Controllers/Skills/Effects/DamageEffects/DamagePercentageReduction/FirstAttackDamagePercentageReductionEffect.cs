@@ -14,6 +14,8 @@ public class FirstAttackDamagePercentageReductionEffect : Effect, IDamageEffect
     
     public override void Apply(Unit unit)
     {
-        unit.DamageEffectStat.DamagePercentageReductionFirstAttackValue *= (1 - _reductionPercentage / 100.0);
+        double reductionFactor = (1 - (_reductionPercentage / 100.0) * unit.DamageEffectStat.DamagePercentageReductionReductionValue);
+        unit.DamageEffectStat.DamagePercentageReductionFirstAttackValue *= reductionFactor;
     }
+
 }

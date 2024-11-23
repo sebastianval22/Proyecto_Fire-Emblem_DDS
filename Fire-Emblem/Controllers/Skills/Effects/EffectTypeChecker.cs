@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Fire_Emblem.Controllers.Skills.Effects.AttackDenialEffects;
 using Fire_Emblem.Controllers.Skills.Effects.BonusEffects;
 using Fire_Emblem.Controllers.Skills.Effects.CostEffects;
@@ -15,13 +13,14 @@ namespace Fire_Emblem.Controllers.Skills.Effects
     {
         public static bool IsApplyToRivalEffect(Effect effect)
         {
-            return (effect is IPenaltyEffect or INeutralizeBonus or IAttackDenialEffect);
+            return (effect is IPenaltyEffect or INeutralizeBonus or IAttackDenialEffect or INeutralizeFollowUpEffect);
         }
         
         public static bool IsApplyToUnitEffect(Effect effect)
         {
             return (effect is IBonusEffect or ICostEffect or INeutralizePenalty or ISelfNeutralizeBonus
-                or IDenialOfAttackDenialEffect or IDamageEffect or IHealEffect or ISelfDamageEffect or IGuaranteeFollowUpEffect);
+                or IDenialOfAttackDenialEffect or IDamageEffect or IHealEffect or ISelfDamageEffect
+                or IGuaranteedFollowUpEffect or ISelfNeutralizeFollowUpEffect);
         }
     }
 }

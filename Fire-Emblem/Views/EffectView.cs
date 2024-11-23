@@ -12,14 +12,14 @@ namespace Fire_Emblem.Views
             ShowDamageEffects(attackingUnit);
             ShowHpEffect(attackingUnit);
             ShowDenialEffects(attackingUnit);
+            ShowFollowUpEffects(attackingUnit);
             ShowUnitEffects(defendingUnit);
             ShowDamageEffects(defendingUnit);
             ShowHpEffect(defendingUnit);
             ShowDenialEffects(defendingUnit);
+            ShowFollowUpEffects(defendingUnit);
             ShowDamageBeforeCombatEffects(attackingUnit);
             ShowDamageBeforeCombatEffects(defendingUnit);
-            ShowFollowUpEffects(attackingUnit);
-            ShowFollowUpEffects(defendingUnit);
         }
 
         private static void ShowUnitEffects(Unit unit)
@@ -118,6 +118,18 @@ namespace Fire_Emblem.Views
             if (unit.GuaranteedFollowUpEffects > 0)
             {
                 BaseView.ShowMessage($"{unit.Name} tiene {unit.GuaranteedFollowUpEffects} efecto(s) que garantiza(n) su follow up activo(s)");
+            }
+            if (unit.NeutralizeFollowUpEffects > 0)
+            {
+                BaseView.ShowMessage($"{unit.Name} tiene {unit.NeutralizeFollowUpEffects} efecto(s) que neutraliza(n) su follow up activo(s)");
+            }
+            if (unit.IsImmuneToNeutralizeFollowUpEffects)
+            {
+                BaseView.ShowMessage($"{unit.Name} es inmune a los efectos que neutralizan su follow up");
+            }
+            if (unit.IsImmuneToGuaranteedFollowUpEffects)
+            {
+                BaseView.ShowMessage($"{unit.Name} es inmune a los efectos que garantizan su follow up");
             }
         }
 

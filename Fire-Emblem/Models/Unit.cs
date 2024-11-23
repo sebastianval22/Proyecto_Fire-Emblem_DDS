@@ -25,7 +25,11 @@ namespace Fire_Emblem.Models
         public bool HasHadFirstCombatStarting { get; set; } = false;
         public bool HasHadFirstCombatNotStarting { get; set; } = false;
         public bool HasAttackedInRound { get; set; } = false;
+        public bool HasFollowedUpInRound { get; set; } = false;
         public int GuaranteedFollowUpEffects { get; set; } = 0;
+        public int NeutralizeFollowUpEffects { get; set; } = 0;
+        public bool IsImmuneToGuaranteedFollowUpEffects { get; set; } = false;
+        public bool IsImmuneToNeutralizeFollowUpEffects { get; set; } = false;
         public List<Stat> Stats { get; set; }
         public UnitList UnitAllies { get; set; }
     

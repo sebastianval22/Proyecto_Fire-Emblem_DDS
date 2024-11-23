@@ -11,5 +11,5 @@ public class DamageEffectStat
     public int DamageAbsoluteReductionFirstAttackValue { get; set; }
     public double DamagePercentageReductionFollowUpAttackValue { get; set; }
     public double DamagePercentageReductionFirstAttackValue { get; set; }
-    
+    public double DamagePercentageReductionReductionValue { get; set; }
 }

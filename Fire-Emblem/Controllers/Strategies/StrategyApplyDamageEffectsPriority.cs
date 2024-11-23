@@ -15,9 +15,9 @@ namespace Fire_Emblem.Controllers.Strategies
         }
 
         public void ApplyDamageEffects(Unit attackingUnit, Unit defendingUnit)
-        {
-            ApplyEffects(attackingUnit, ApplyFirstDamageEffects);
+        {            
             ApplyEffects(defendingUnit, ApplyFirstDamageEffects);
+            ApplyEffects(attackingUnit, ApplyFirstDamageEffects);
             ApplyEffects(defendingUnit, ApplySecondDamageEffects);
             ApplyEffects(attackingUnit, ApplySecondDamageEffects);
         }

@@ -1619,17 +1619,394 @@ public static class SkillFactory
                 {
                     Effects = new List<Effect> { new GuaranteedFollowUpEffect() },
                     Conditions = new List<Condition>
-                        { new HealthAboveCondition(50), new OpponentInitiatesCombatCondition() }
+                        { new HealthAboveCondition(50)}
                 };
                 skills.AddSkill(followUpRingSkill);
                 break;
             case "Wary Fighter":
-                
+                var waryFighterSkill = new Skill("Wary Fighter", "Follow Up")
+                {
+                    Effects = new List<Effect> { new NeutralizeFollowUpEffect(), new SelfNeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition>
+                        { new HealthAboveCondition(50) }
+                };
+                skills.AddSkill(waryFighterSkill);
+                break;
+            case "Piercing Tribute":
+                var piercingTributeSkill = new Skill("Piercing Tribute", "Follow Up")
+                {
+                    Effects = new List<Effect> { new ImmuneToGuaranteedFollowUpEffect() }
+                };
+                skills.AddSkill(piercingTributeSkill);
+                break;
+            case "Mjölnir":
+                var mjolnirSkill = new Skill("Mjölnir", "Follow Up")
+                {
+                    Effects = new List<Effect> { new ImmuneToNeutralizeFollowUpEffect() }
+                };
+                skills.AddSkill(mjolnirSkill);
+                break;
+            case "Brash Assault":
+                var brashAssaultSkillDamage = new Skill("Brash Assault Damage", "Damage")
+                {
+                    Effects = new List<Effect> { new FirstAttackDamagePercentageReductionEffect(30),
+                        new ExtraDamageBasedOnOpponentFirstAttackEffect(30) },
+                    Conditions = new List<Condition>
+                    {
+                        new OrCondition(new List<Condition>
+                        {
+                            new AndCondition(
+                                new List<Condition> { new HealthBelowCondition(99), new InitiatesCombatCondition() }),
+                            new AndCondition(new List<Condition>
+                                { new OpponentFullHealthCondition(), new InitiatesCombatCondition() })
+                        })
+                    }
+                };
+                var brashAssaultSkillHybrid = new Skill("Brash Assault Hybrid", "Hybrid")
+                {
+                    Effects = new List<Effect>
+                    {
+                        new DefensePenaltyEffect(4), new ResistancePenaltyEffect(4), new GuaranteedFollowUpEffect()
+                    },
+                    Conditions = new List<Condition>
+                    {
+                        new OrCondition(new List<Condition>
+                        {
+                            new AndCondition(
+                                new List<Condition> { new HealthBelowCondition(99), new InitiatesCombatCondition() }),
+                            new AndCondition(new List<Condition>
+                                { new OpponentFullHealthCondition(), new InitiatesCombatCondition() })
+                        })
+                    }
+                };
+                skills.AddSkill(brashAssaultSkillDamage);
+                skills.AddSkill(brashAssaultSkillHybrid);
+                break;
+            case "Melee Breaker":
+                var meleeBreakerSkill = new Skill("Melee Breaker", "Follow Up")
+                {
+                    Effects = new List<Effect> { new NeutralizeFollowUpEffect(), new GuaranteedFollowUpEffect() },
+                    Conditions = new List<Condition>
+                    {
+                        new OrCondition(new List<Condition>
+                        {
+                            new OpponentWeaponUsedCondition("Sword"),
+                            new OpponentWeaponUsedCondition("Axe"),
+                            new OpponentWeaponUsedCondition("Lance")
+                        }),
+                        new HealthAboveCondition(50)
+                    }
+                };
+                skills.AddSkill(meleeBreakerSkill);
+                break;
+            case "Range Breaker":
+                var rangeBreakerSkill = new Skill("Range Breaker", "Follow Up")
+                {
+                    Effects = new List<Effect> { new NeutralizeFollowUpEffect(), new GuaranteedFollowUpEffect() },
+                    Conditions = new List<Condition>
+                    {
+                        new OrCondition(new List<Condition>
+                        {
+                            new OpponentWeaponUsedCondition("Magic"),
+                            new OpponentWeaponUsedCondition("Bow")
+                        }),
+                        new HealthAboveCondition(50)
+                    }
+                };
+                skills.AddSkill(rangeBreakerSkill);
+                break;
+            case "Pegasus Flight":
+                var pegasusFlightSkillPenalty = new Skill("Pegasus Flight Penalty", "Penalty")
+                {
+                    Effects = new List<Effect> { new DefensePenaltyEffect(4), new AttackPenaltyEffect(4) }
+                };
+                var pegasusFlightSkillSecondPenalty = new Skill("Pegasus Flight Second Penalty", "Penalty")
+                {
+                    Effects = new List<Effect>
+                    {
+                        new AttackPenaltyBasedOnResistanceDifferenceEffect(80),
+                        new DefensePenaltyBasedOnResistanceDifferenceEffect(80)
+                    },
+                    Conditions = new List<Condition> { new SpeedDifferenceCondition(-10) }
+                };
+                var pegasusFlightSkillFollowUp = new Skill("Pegasus Flight Follow Up", "Denial")
+                {
+                    Effects = new List<Effect> { new NeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new SpeedDifferenceCondition(-10), new SpeedAndResistanceDifferenceCondition() }
+                };
+                skills.AddSkill(pegasusFlightSkillPenalty);
+                skills.AddSkill(pegasusFlightSkillSecondPenalty);
+                skills.AddSkill(pegasusFlightSkillFollowUp);
+                break;
+            case "Wyvern Flight":
+                var wyvernFlightSkillPenalty = new Skill("Wyvern Flight Penalty", "Penalty")
+                {
+                    Effects = new List<Effect> { new DefensePenaltyEffect(4), new AttackPenaltyEffect(4) }
+                };
+                var wyvernFlightSkillSecondPenalty = new Skill("Wyvern Flight Second Penalty", "Penalty")
+                {
+                    Effects = new List<Effect>
+                    {
+                        new AttackPenaltyBasedOnDefenseDifferenceEffect(80),
+                        new DefensePenaltyBasedOnDefenseDifferenceEffect(80)
+                    },
+                    Conditions = new List<Condition> { new SpeedDifferenceCondition(-10) }
+                };
+                var wyvernFlightSkillFollowUp = new Skill("Wyvern Flight Follow Up", "Denial")
+                {
+                    Effects = new List<Effect> { new NeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new SpeedDifferenceCondition(-10), new SpeedAndDefenseDifferenceCondition() }
+                };
+                skills.AddSkill(wyvernFlightSkillPenalty);
+                skills.AddSkill(wyvernFlightSkillFollowUp);
+                skills.AddSkill(wyvernFlightSkillSecondPenalty);
+                break;
+            case "Null Follow-Up":
+                var nullFollowUpSkill = new Skill("Null Follow-Up", "Follow Up")
+                {
+                    Effects = new List<Effect> { new ImmuneToGuaranteedFollowUpEffect(), new ImmuneToNeutralizeFollowUpEffect() }
+                };
+                skills.AddSkill(nullFollowUpSkill);
+                break;
+            case "Sturdy Impact":
+                var sturdyImpactSkill = new Skill("Sturdy Impact", "Hybrid")
+                {
+                    Effects = new List<Effect> { new DefenseBonusEffect(10), new AttackBonusEffect(6), new NeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                skills.AddSkill(sturdyImpactSkill);
+                break;
+            case "Mirror Impact":
+                var mirrorImpactSkill = new Skill("Mirror Impact", "Hybrid")
+                {
+                    Effects = new List<Effect> { new ResistanceBonusEffect(10), new AttackBonusEffect(6), new NeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                skills.AddSkill(mirrorImpactSkill);
+                break;
+            case "Swift Impact":
+                var swiftImpactSkill = new Skill("Swift Impact", "Hybrid")
+                {
+                    Effects = new List<Effect> { new ResistanceBonusEffect(10), new SpeedBonusEffect(6), new NeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                skills.AddSkill(swiftImpactSkill);
+                break;
+            case "Steady Impact":
+                var steadyImpactSkill = new Skill("Steady Impact", "Hybrid")
+                {
+                    Effects = new List<Effect> { new DefenseBonusEffect(10), new SpeedBonusEffect(6), new NeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                skills.AddSkill(steadyImpactSkill);
+                break;
+            case "Slick Fighter":
+                var slickFighterSkill = new Skill("Slick Fighter", "Hybrid")
+                {
+                    Effects = new List<Effect> { new NeutralizeAttackPenaltyEffect(), new NeutralizeDefensePenaltyEffect(),
+                        new NeutralizeSpeedPenaltyEffect(), new NeutralizeResistancePenaltyEffect(), new GuaranteedFollowUpEffect() },
+                    Conditions = new List<Condition>
+                    {
+                        new HealthAboveCondition(25), new OpponentInitiatesCombatCondition()
+                    }
+                };
+                skills.AddSkill(slickFighterSkill);
+                break;
+            case "Wily Fighter":
+                var wilyFighterSkill = new Skill("Wily Fighter", "Hybrid")
+                {
+                    Effects = new List<Effect> { new NeutralizeAttackBonusEffect(), new NeutralizeDefenseBonusEffect(),
+                        new NeutralizeSpeedBonusEffect(), new NeutralizeResistanceBonusEffect(), new GuaranteedFollowUpEffect() },
+                    Conditions = new List<Condition>
+                    {
+                        new HealthAboveCondition(25), new OpponentInitiatesCombatCondition()
+                    }
+                };
+                skills.AddSkill(wilyFighterSkill);
+                break;
+            case "Savvy Fighter":
+                var savvyFighterSkillFollowUp = new Skill("Savvy Fighter Follow Up", "Follow Up")
+                {
+                    Effects = new List<Effect> { new ImmuneToGuaranteedFollowUpEffect(), new ImmuneToNeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new OpponentInitiatesCombatCondition() }
+                };
+                var savvyFighterSkillDamage = new Skill("Savvy Fighter Damage", "Damage")
+                {
+                    Effects = new List<Effect> { new FirstAttackDamagePercentageReductionEffect(30) },
+                    Conditions = new List<Condition> { new OpponentInitiatesCombatCondition(), new SpeedDifferenceCondition(-4) }
+                };
+                skills.AddSkill(savvyFighterSkillFollowUp);
+                skills.AddSkill(savvyFighterSkillDamage);
+                break;
+            case "Flow Force":
+                var flowForceHybrid = new Skill("Flow Force Hybrid", "Hybrid")
+                {
+                    Effects = new List<Effect> { new NeutralizeSpeedPenaltyEffect(), new NeutralizeAttackPenaltyEffect(),
+                        new ImmuneToNeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                skills.AddSkill(flowForceHybrid);
+                break;
+            case "Flow Refresh":
+                var flowRefreshHybrid = new Skill("Flow Refresh Hybrid", "Hybrid")
+                {
+                    Effects = new List<Effect> { new ImmuneToNeutralizeFollowUpEffect(),
+                        new HealAfterCombatEffect(10) },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                skills.AddSkill(flowRefreshHybrid);
+                break;
+            case "Flow Feather":
+                var flowFeatherFollowUp = new Skill("Flow Feather Follow Up", "Follow Up")
+                {
+                    Effects = new List<Effect> { new ImmuneToNeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                var flowFeatherDamage = new Skill("Flow Feather Damage", "Damage")
+                {
+                    Effects = new List<Effect> { new ExtraAndAbsoluteReductionDamageBasedOnResistanceEffect(70) },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition(), new SpeedDifferenceCondition(-10)}     
+                };
+                skills.AddSkill(flowFeatherFollowUp);
+                skills.AddSkill(flowFeatherDamage);
+                break;
+            case "Flow Flight":
+                var flowFlightFollowUp = new Skill("Flow Flight Follow Up", "Follow Up")
+                {
+                    Effects = new List<Effect> { new ImmuneToNeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition() }
+                };
+                var flowFlightDamage = new Skill("Flow Flight Damage", "Damage")
+                {
+                    Effects = new List<Effect> { new ExtraAndAbsoluteReductionDamageBasedOnDefenseEffect(70) },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition(), new SpeedDifferenceCondition(-10) }
+                };
+                skills.AddSkill(flowFlightFollowUp);
+                skills.AddSkill(flowFlightDamage);
+                break;
+            case "Binding Shield":
+                var bindingShieldSkillDenial = new Skill("Binding Shield Denial", "Denial")
+                {
+                    Effects = new List<Effect> { new CounterAttackDenialEffect() },
+                    Conditions = new List<Condition> { new InitiatesCombatCondition(), new SpeedDifferenceCondition(5) }
+                };
+                var bindingShieldSkillFollowUp = new Skill("Binding Shield Follow Up", "Denial")
+                {
+                    Effects = new List<Effect> { new GuaranteedFollowUpEffect(), new NeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new SpeedDifferenceCondition(5) }
+                };
+                skills.AddSkill(bindingShieldSkillDenial);
+                skills.AddSkill(bindingShieldSkillFollowUp);
+                break;
+            case "Sun-Twin Wing":
+                var sunTwinWingSkilll = new Skill("Sun-Twin Wing", "Hybrid")
+                {
+                    Effects = new List<Effect> { new SpeedPenaltyEffect(5), new DefensePenaltyEffect(5),
+                        new ImmuneToGuaranteedFollowUpEffect(), new ImmuneToNeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25)}
+                };
+                skills.AddSkill(sunTwinWingSkilll);
+                break;
+            case "Dragon's Ire":
+                var dragonsIreSkillHybrid = new Skill("Dragon's Ire Hybrid", "Hybrid")
+                {
+                    Effects = new List<Effect> { new AttackPenaltyEffect(4), new ResistancePenaltyEffect(4),
+                        new GuaranteedFollowUpEffect() },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25) }
+                };
+                var dragonsIreSkillFollowUp= new Skill("Dragon's Ire Follow Up", "Follow Up")
+                {
+                    Effects = new List<Effect> { new ImmuneToNeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition>
+                    {
+                        new HealthAboveCondition(25),
+                        new OpponentInitiatesCombatCondition()
+                    }
+                };
+                skills.AddSkill(dragonsIreSkillHybrid);
+                skills.AddSkill(dragonsIreSkillFollowUp);
+                break;
+            case "Black Eagle Rule":
+                var blackEagleRuleSkillFollowUp = new Skill("Black Eagle Rule Follow Up", "Follow Up")
+                {
+                    Effects = new List<Effect> { new GuaranteedFollowUpEffect() },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25) }
+                };
+                var blackEagleRuleSkillDamage = new Skill("Black Eagle Rule Damage", "Damage")
+                {
+                    Effects = new List<Effect> { new FollowUpDamagePercentageReductionEffect(80) },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25),
+                        new OpponentInitiatesCombatCondition() }
+                };
+                skills.AddSkill(blackEagleRuleSkillFollowUp);
+                skills.AddSkill(blackEagleRuleSkillDamage);
+                break;
+            case "Blue Lion Rule":
+                var blueLionRuleSkillDamage = new Skill("Blue Lion Rule Damage", "Damage")
+                {
+                    Effects = new List<Effect> { new DamagePercentageReductionDefenseEffect() },
+                    Conditions = new List<Condition> { new DefenseDifferenceCondition() }
+                };
+                var blueLionRuleSkillFollowUp = new Skill("Blue Lion Rule Follow Up", "Follow Up")
+                {
+                    Effects = new List<Effect> { new GuaranteedFollowUpEffect() },
+                    Conditions = new List<Condition> { new OpponentInitiatesCombatCondition() }
+                };
+                skills.AddSkill(blueLionRuleSkillFollowUp);
+                skills.AddSkill(blueLionRuleSkillDamage);
+                break;
+            case "New Divinity":
+                var newDivinitySkillFollowUp = new Skill("New Divinity Follow Up", "Follow Up")
+                {
+                    Effects = new List<Effect> { new NeutralizeFollowUpEffect() },
+                    Conditions = new List<Condition> { new HealthAboveCondition(40)}
+                };
+                var newDivinitySkillDamage = new Skill("New Divinity Damage", "Damage")
+                {
+                    Effects = new List<Effect> { new DamagePercentageReductionResistanceEffect() },
+                    Conditions = new List<Condition>
+                    {
+                        new HealthAboveCondition(25),
+                        new ResistanceDifferenceCondition()
+                    }
+                };
+                var newDivinitySkillPenalty = new Skill("New Divinity Penalty", "Penalty")
+                {
+                    Effects = new List<Effect> { new ResistancePenaltyEffect(5), new AttackPenaltyEffect(5) },
+                    Conditions = new List<Condition> { new HealthAboveCondition(25) }
+                };
+                skills.AddSkill(newDivinitySkillPenalty);
+                skills.AddSkill(newDivinitySkillDamage);
+                skills.AddSkill(newDivinitySkillFollowUp);
+                break;
+            case "Phys. Null Follow":
+                var physNullFollowSkill = new Skill("Phys. Null Follow", "Hybrid")
+                {
+                    Effects = new List<Effect>
+                    {
+                        new SpeedPenaltyEffect(4), new DefensePenaltyEffect(4),
+                        new ImmuneToNeutralizeFollowUpEffect(), new ImmuneToGuaranteedFollowUpEffect(),
+                        new DamagePercentageReductionReductionEffect(50)
+                    }
+                };
+                skills.AddSkill(physNullFollowSkill);
+                break;
+            case "Mag. Null Follow":
+                var magNullFollowSkill = new Skill("Mag. Null Follow", "Hybrid")
+                {
+                    Effects = new List<Effect>
+                    {
+                        new SpeedPenaltyEffect(4), new ResistancePenaltyEffect(4),
+                        new ImmuneToNeutralizeFollowUpEffect(), new ImmuneToGuaranteedFollowUpEffect(),
+                        new DamagePercentageReductionReductionEffect(50)
+                    }
+                };
+                skills.AddSkill(magNullFollowSkill);
+                break;
         default:
                 var unknownSkill = new Skill(skillName, "Unknown");
                 skills.AddSkill((unknownSkill));
                 break;
-            
         }
         return skills;
     }

@@ -14,15 +14,18 @@ public class DamagePercentageReductionBasedOnFirstCombatsEffect : Effect
         
         if (unit.HasHadFirstCombatStarting == false && unit == roundFightController.AttackingUnit ) 
         {
-            unit.DamageEffectStat.DamagePercentageReductionValue *= 0.4;
+            unit.DamageEffectStat.DamagePercentageReductionValue *=
+                1- (0.6 * unit.DamageEffectStat.DamagePercentageReductionReductionValue);
         }
         else if  (unit.HasHadFirstCombatNotStarting == false && unit == roundFightController.DefendingUnit)
         {
-            unit.DamageEffectStat.DamagePercentageReductionValue *= 0.4;
+            unit.DamageEffectStat.DamagePercentageReductionValue *=
+                1- (0.6 * unit.DamageEffectStat.DamagePercentageReductionReductionValue);
         }
         else
         {
-            unit.DamageEffectStat.DamagePercentageReductionValue *= 0.7;
+            unit.DamageEffectStat.DamagePercentageReductionValue *=
+                1- (0.3 * unit.DamageEffectStat.DamagePercentageReductionReductionValue);
         }
     }
 }

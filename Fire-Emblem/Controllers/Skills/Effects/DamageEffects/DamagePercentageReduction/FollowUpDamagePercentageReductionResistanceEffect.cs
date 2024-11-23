@@ -26,6 +26,7 @@ public class FollowUpDamagePercentageReductionResistanceEffect : Effect
         var resistanceDifference = unitResistance - rivalResistance;
         var reduction = resistanceDifference * (_reductionPercentage / 1000.00);
         reduction = Math.Min(reduction, (_reductionPercentage / 100.00));
-        unit.DamageEffectStat.DamagePercentageReductionFollowUpAttackValue *= (1 - reduction);
+        unit.DamageEffectStat.DamagePercentageReductionFollowUpAttackValue *=
+            (1 - (reduction*unit.DamageEffectStat.DamagePercentageReductionReductionValue));
     }
 }

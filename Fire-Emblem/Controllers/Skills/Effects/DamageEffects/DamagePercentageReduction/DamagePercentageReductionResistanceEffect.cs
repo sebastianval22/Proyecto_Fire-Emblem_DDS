@@ -20,7 +20,8 @@ public class DamagePercentageReductionResistanceEffect :  Effect
         var resistanceDifference = unitResistance - rivalResistance;
         var reduction = resistanceDifference * 0.04;
         reduction = Math.Min(reduction, 0.4);
-        unit.DamageEffectStat.DamagePercentageReductionValue *= (1 - reduction);
+        unit.DamageEffectStat.DamagePercentageReductionValue *=
+            (1 - (reduction)*unit.DamageEffectStat.DamagePercentageReductionReductionValue);
     }
 }
 

@@ -11,11 +11,10 @@ public class SpeedDifferenceCondition : Condition
     }
     public override bool IsMet(Unit unit, RoundFightController roundFightController)
     {
-        Unit rival = GetRival(unit, roundFightController); 
-        int unitSpeed = unit.Speed.Value - (unit.Speed.FirstAttackPenalty + unit.Speed.FirstAttackBonus);
-        int rivalSpeed = rival.Speed.Value - (rival.Speed.FirstAttackPenalty + rival.Speed.FirstAttackBonus);
+        Unit rival = GetRival(unit, roundFightController);
+        int unitSpeed = unit.Speed.Value;
+        int rivalSpeed = rival.Speed.Value;
         var speedDifference = unitSpeed - (rivalSpeed + _speedDifference);
-        Console.WriteLine($"unit speed {unitSpeed} - rival speed {rivalSpeed} - speed difference {_speedDifference} = {speedDifference}");
         return speedDifference >= 0;
     }
 }

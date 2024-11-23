@@ -21,6 +21,7 @@ public class DamagePercentageReductionBasedOnOpponentHealthEffect : Effect
         double rivalHealthPercentage = (double)rival.CurrentHP / rival.MaxHP * 100;
         double reductionFactor = _reductionPercentageValue / 100.0;
         int reductionPercentage = Convert.ToInt32(Math.Floor(rivalHealthPercentage * reductionFactor));
-        unit.DamageEffectStat.DamagePercentageReductionValue *= (1- reductionPercentage/100.0);
+        unit.DamageEffectStat.DamagePercentageReductionValue *=
+            (1- (reductionPercentage/100.0)*unit.DamageEffectStat.DamagePercentageReductionReductionValue);
     }
 }

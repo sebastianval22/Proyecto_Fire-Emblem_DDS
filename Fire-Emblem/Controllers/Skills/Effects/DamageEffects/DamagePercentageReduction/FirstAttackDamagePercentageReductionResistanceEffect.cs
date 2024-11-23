@@ -27,6 +27,7 @@ public class FirstAttackDamagePercentageReductionResistanceEffect : Effect
         var resistanceDifference = unitResistance - rivalResistance;
         var reduction = resistanceDifference * (_reductionPercentageValue / 1000.00);
         reduction = Math.Min(reduction, (_reductionPercentageValue / 100.00));
-        unit.DamageEffectStat.DamagePercentageReductionFirstAttackValue *= (1 - reduction);
+        unit.DamageEffectStat.DamagePercentageReductionFirstAttackValue *=
+            (1 - (reduction)*unit.DamageEffectStat.DamagePercentageReductionReductionValue);
     }
 }

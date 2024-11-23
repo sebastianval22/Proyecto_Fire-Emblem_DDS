@@ -1,6 +1,6 @@
 namespace Fire_Emblem.Controllers.Skills.Effects.FollowUpEffects;
 
-public interface IGuaranteeFollowUpEffect
+public interface IGuaranteedFollowUpEffect
 {
     
 }

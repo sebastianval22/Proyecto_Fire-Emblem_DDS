@@ -16,6 +16,7 @@ public class DamagePercentageReductionSpeedEffect : Effect
         var speedDifference = unitSpeed - rivalSpeed;
         var reduction = speedDifference * 0.04;
         reduction = Math.Min(reduction, 0.4);
-        unit.DamageEffectStat.DamagePercentageReductionValue *= (1 - reduction);
+        unit.DamageEffectStat.DamagePercentageReductionValue *=
+            (1 - (reduction)*unit.DamageEffectStat.DamagePercentageReductionReductionValue);
     }
 }

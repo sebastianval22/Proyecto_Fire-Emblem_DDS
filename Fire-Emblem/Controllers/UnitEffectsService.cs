@@ -63,21 +63,39 @@ namespace Fire_Emblem.Controllers
 
         public void ResetActiveSkillsEffects(Unit unit)
         {
+            ResetStatEffects(unit);
+            ResetUnitFlags(unit);
+            ResetFollowUpEffects(unit);
+            ResetDamageActiveSkillsEffects(unit);
+            ResetHPActiveSkillsEffects(unit);
+        }
+
+        private void ResetStatEffects(Unit unit)
+        {
             foreach (var stat in unit.Stats)
             {
                 _statController.ResetEffects(stat);
             }
+        }
 
+        private void ResetUnitFlags(Unit unit)
+        {
             unit.HasFirstAttackSkill = false;
             unit.CanCounterAttack = true;
             unit.CanFollowUpAttack = true;
             unit.HasDenialOfAttackDenialEffect = false;
             unit.HasAttackedInRound = false;
-            unit.GuaranteedFollowUpEffects = 0;
-            ResetDamageActiveSkillsEffects(unit);
-            ResetHPActiveSkillsEffects(unit);
+            unit.HasFollowedUpInRound = false;
         }
-        
+
+        private void ResetFollowUpEffects(Unit unit)
+        {
+            unit.GuaranteedFollowUpEffects = 0;
+            unit.NeutralizeFollowUpEffects = 0;
+            unit.IsImmuneToNeutralizeFollowUpEffects = false;
+            unit.IsImmuneToGuaranteedFollowUpEffects = false;
+        }
+
         private void ResetDamageActiveSkillsEffects(Unit unit)
         {
             unit.DamageEffectStat.DamagePercentageReductionValue = 1;
@@ -89,6 +107,7 @@ namespace Fire_Emblem.Controllers
             unit.DamageEffectStat.ExtraDamageFirstAttackValue = 0;
             unit.DamageEffectStat.ExtraDamageFollowUpAttackValue = 0;
             unit.DamageEffectStat.ExtraDamageBeforeCombatValue = 0;
+            unit.DamageEffectStat.DamagePercentageReductionReductionValue = 1;
         }
 
         private void ResetHPActiveSkillsEffects(Unit unit)
